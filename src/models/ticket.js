@@ -11,7 +11,7 @@ export function ticket(sequelize, DataTypes){
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       showId: {
         type: DataTypes.INTEGER,
@@ -28,6 +28,27 @@ export function ticket(sequelize, DataTypes){
       voucherId: {
         type: DataTypes.INTEGER,
       },
+      isPay: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        default: false
+      },
+      clientName: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      email: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      }
     },
     {
       sequelize,
