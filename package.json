@@ -5,6 +5,7 @@
   "main": "app.js",
   "private": true,
   "scripts": {
+    "build": "node ./app.js",
     "start": "node ./bin/www"
   },
   "dependencies": {
