@@ -1,10 +1,12 @@
-import express from 'express';
 import cinemaRoute from './src/routes/cinema.js';
 import provinceRoute from './src/routes/provinceCity.js';
 import screenRoute from './src/routes/screen.js';
 import showRoute from './src/routes/show.js';
 import filmRoute from './src/routes/film.js';
+import adminRoute from './src/routes/admin.js';
+
 import cors from 'cors';
+import express from 'express';
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -20,6 +22,7 @@ app.use('/film', filmRoute);
 app.use('/cinema', cinemaRoute);
 app.use('/provinceCity', provinceRoute);
 app.use('/screen', screenRoute);
+app.use('/admin', adminRoute);
 
 app.listen(PORT, (error) => {
   if (error) console.log("Error occurred, server can't start", error);
