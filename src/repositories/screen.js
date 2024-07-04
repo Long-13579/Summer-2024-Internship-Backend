@@ -1,9 +1,10 @@
 import { db } from '../models/index.js';
 
-export async function add(seatMatrix, cinemaId) {
+export async function add(seatMatrix, cinemaId, name) {
   await db.screen.create({
     seatMatrix: seatMatrix,
     cinemaId: cinemaId,
+    name: name,
   });
 }
 
@@ -15,9 +16,9 @@ export async function drop(id) {
   });
 }
 
-export async function update(id, seatMatrix, cinemaId) {
+export async function update(id, seatMatrix, cinemaId, name) {
   await db.screen.update(
-    { seatMatrix: seatMatrix, cinemaId: cinemaId },
+    { seatMatrix: seatMatrix, cinemaId: cinemaId, name: name },
     {
       where: {
         id: id,
@@ -49,3 +50,13 @@ export async function getById(id) {
   return screenByIdInfor;
 }
 
+export async function updateSeatMatrix(id, seatMatrixData) {
+  await db.screen.update(
+    { seatMatrix: seatMatrixData },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
+}

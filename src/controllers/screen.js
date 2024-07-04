@@ -4,7 +4,11 @@ import { ERROR, OK } from '../models/apiStatus.js';
 
 export async function add(req, res) {
   try {
-    await screenServices.add(req.body.seatMatrix, req.body.cinemaId);
+    await screenServices.add(
+      req.body.seatMatrix,
+      req.body.cinemaId,
+      req.body.name
+    );
     res.status(StatusCodes.OK);
     res.send(OK);
   } catch (error) {
@@ -88,7 +92,8 @@ export async function update(req, res) {
     await screenServices.update(
       req.body.id,
       req.body.seatMatrix,
-      req.body.cinemaId
+      req.body.cinemaId,
+      req.body.name
     );
     res.status(StatusCodes.OK);
     res.send(OK);

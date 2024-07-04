@@ -1,6 +1,9 @@
 import moment from 'moment';
 import * as seatMatrix from '../repositories/seatMatrix.js';
+import * as screenServices from '../services/screen.js';
 import * as show from '../repositories/show.js';
+import { seat } from '../constants/seatMetrics.js';
+import { ROW_NAME } from '../constants/enumSeatRowName.js';
 
 export async function setIsOffStatus(
   screenId,
@@ -95,4 +98,30 @@ export async function setOnHoldStatus(
   await show.updateSeatMatrix(showId, seatMatrixDataChanged);
 }
 
-//273
+export async function add(cinemaId, name, screenWidth, screenLength) {
+  const seatCols = Math.floor(screenWidth / seat.width);
+  const seatRows = Math.floor(screenLength / seat.len);
+  const seatMatrix = {
+    data: [],
+  };
+  for (let rowIndex = 0; rowIndex < seatRows; rowIndex++) {
+    seatMatrix.data[rowIndex] = {
+      rowName: ROW_NAME[rowIndex],
+      rowSeats: [],
+    };
+    for (let colIndex = 0; colIndex < seatCols; colIndex++) {
+      seatMatrix.data[rowIndex].rowSeats[colIndex] = {
+        price: 65000,
+        isSeat: true,
+        name: seatMatrix.data[rowIndex].rowName + (colIndex + 1),
+        isOff: false,
+        isSold: false,
+        onHold: '',
+        colId: colIndex,
+        seatId: colIndex,
+      };
+    }
+  }
+  const seatMatrixStringified = JSON.stringify(seatMatrix);
+  await screenServices.add(seatMatrixStringified, cinemaId, name);
+}

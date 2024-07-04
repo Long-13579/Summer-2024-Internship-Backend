@@ -9,5 +9,3 @@ export async function getByScreenId(screenId) {
   });
   return seatMatrixByScreenId.seatMatrix;
 }
-
-
