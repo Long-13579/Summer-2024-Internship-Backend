@@ -1,12 +1,14 @@
 import moment from 'moment';
 import * as seatMatrix from '../repositories/seatMatrix.js';
+import * as show from '../repositories/show.js';
 
 export async function setIsOffStatus(
   screenId,
+  showId,
   seatsBookedCount,
   seatsBookedData
 ) {
-  const seatMatrixDataById = await seatMatrix.getSeatMatrixByScreenId(screenId);
+  const seatMatrixDataById = await seatMatrix.getByScreenId(screenId);
   const seatMatrixDataByIdParsed = JSON.parse(seatMatrixDataById);
 
   //take index of each Row Name
@@ -28,15 +30,16 @@ export async function setIsOffStatus(
   }
 
   const seatMatrixDataChanged = JSON.stringify(seatMatrixDataByIdParsed);
-  await seatMatrix.updateSeatMatrix(screenId, seatMatrixDataChanged);
+  await show.updateSeatMatrix(showId, seatMatrixDataChanged);
 }
 
 export async function setIsSoldStatus(
   screenId,
+  showId,
   seatsBookedCount,
   seatsBookedData
 ) {
-  const seatMatrixDataById = await seatMatrix.getSeatMatrixByScreenId(screenId);
+  const seatMatrixDataById = await seatMatrix.getByScreenId(screenId);
   const seatMatrixDataByIdParsed = JSON.parse(seatMatrixDataById);
 
   //take index of each Row Name
@@ -58,15 +61,16 @@ export async function setIsSoldStatus(
   }
 
   const seatMatrixDataChanged = JSON.stringify(seatMatrixDataByIdParsed);
-  await seatMatrix.updateSeatMatrix(screenId, seatMatrixDataChanged);
+  await show.updateSeatMatrix(showId, seatMatrixDataChanged);
 }
 
 export async function setOnHoldStatus(
   screenId,
+  showId,
   seatsBookedCount,
   seatsBookedData
 ) {
-  const seatMatrixDataById = await seatMatrix.getSeatMatrixByScreenId(screenId);
+  const seatMatrixDataById = await seatMatrix.getByScreenId(screenId);
   const seatMatrixDataByIdParsed = JSON.parse(seatMatrixDataById);
 
   //take index of each Row Name
@@ -88,7 +92,7 @@ export async function setOnHoldStatus(
   }
 
   const seatMatrixDataChanged = JSON.stringify(seatMatrixDataByIdParsed);
-  await seatMatrix.updateSeatMatrix(screenId, seatMatrixDataChanged);
+  await show.updateSeatMatrix(showId, seatMatrixDataChanged);
 }
 
 //273

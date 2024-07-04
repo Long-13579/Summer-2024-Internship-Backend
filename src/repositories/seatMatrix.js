@@ -1,6 +1,6 @@
 import { db } from '../models/index.js';
 
-export async function getSeatMatrixByScreenId(screenId) {
+export async function getByScreenId(screenId) {
   const seatMatrixByScreenId = await db.screen.findOne({
     where: {
       id: screenId,
@@ -10,13 +10,4 @@ export async function getSeatMatrixByScreenId(screenId) {
   return seatMatrixByScreenId.seatMatrix;
 }
 
-export async function updateSeatMatrix(screenId, seatMatrix) {
-  await db.screen.update(
-    { seatMatrix: seatMatrix },
-    {
-      where: {
-        id: screenId,
-      },
-    }
-  );
-}
+

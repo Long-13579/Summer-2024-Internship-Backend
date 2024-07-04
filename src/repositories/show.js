@@ -106,3 +106,14 @@ export async function getByMutipleScreenId(screenIdArr) {
   });
   return showByMutipleScreenIdInfor;
 }
+
+export async function updateSeatMatrix(showId, seatMatrix) {
+  await db.show.update(
+    { seatMatrix: seatMatrix },
+    {
+      where: {
+        id: showId,
+      },
+    }
+  );
+}
