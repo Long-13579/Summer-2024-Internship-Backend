@@ -15,6 +15,7 @@ export async function drop(id) {
     },
   });
 }
+
 export async function update(id, name, address, provinceCityId) {
   await db.cinema.update(
     { name: name, address: address, provinceCityId: provinceCityId },

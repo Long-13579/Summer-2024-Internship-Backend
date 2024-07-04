@@ -18,3 +18,8 @@ export const ERROR = {
     return error;
   },
 };
+
+export const OK = {
+  status: StatusCodes.OK,
+  message: 'Action Completed',
+};

@@ -17,7 +17,7 @@ export async function getById(provinceCityId) {
   return provinceCityByIdInfor;
 }
 
-export async function getAllHaveCinema(cinemaId) {
+export async function getAllHaveCinema() {
   const allProvinceHaveCinema = provinceCity.getAllHaveCinema();
   return allProvinceHaveCinema;
 }

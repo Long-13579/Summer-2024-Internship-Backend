@@ -68,7 +68,7 @@ export async function getByFilmIdAdmin(filmId) {
   return showByFilmIdInfor;
 }
 
-export async function getByFilmIdFilmDetail(filmId) {
+export async function getByFilmIdFilmDetail(filmId, date, provinceCityId) {
   const showByFilmIdInfor = await db.cinema.findAll({
     include: {
       model: db.screen,
@@ -76,8 +76,12 @@ export async function getByFilmIdFilmDetail(filmId) {
         model: db.show,
         where: {
           filmId: filmId,
+          dateStart: date,
         },
       },
+    },
+    where: {
+      provinceCityId: provinceCityId,
     },
   });
   return showByFilmIdInfor;

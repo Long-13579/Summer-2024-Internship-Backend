@@ -10,10 +10,6 @@ router.get('/', [
   showController.getAll,
 ]);
 
-router.put('/', showController.update);
-
-router.post('/', showController.add);
-
 router.get('/filmDetail', showController.getByFilmIdFilmDetail);
 
 router.get('/:showId', showController.getById);

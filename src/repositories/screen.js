@@ -48,3 +48,4 @@ export async function getById(id) {
   });
   return screenByIdInfor;
 }
+

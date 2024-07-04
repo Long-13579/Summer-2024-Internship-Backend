@@ -7,10 +7,4 @@ router.get('/', provinceCityController.getAllHaveCinema);
 
 router.get('/:provinceCityId', provinceCityController.getById);
 
-router.post('/', provinceCityController.add);
-
-router.delete('/', provinceCityController.drop);
-
-router.put('/', provinceCityController.update);
-
 export default router;

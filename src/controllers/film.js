@@ -1,7 +1,7 @@
 import * as filmServices from '../services/film.js';
 import * as cinemaService from '../services/cinema.js';
 import { StatusCodes } from 'http-status-codes';
-import { ERROR } from '../models/apiStatus.js';
+import { ERROR, OK } from '../models/apiStatus.js';
 
 export async function add(req, res) {
   try {
@@ -23,7 +23,7 @@ export async function add(req, res) {
       req.body.category
     );
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
     return;
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -85,6 +85,23 @@ export async function getByIdAdmin(req, res) {
     res.status(StatusCodes.OK);
     res.send(filmByIdInfor);
     return;
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    res.send(ERROR[500]);
+  }
+}
+
+export async function getAllAdmin(req, res) {
+  try {
+    const allFilmInfor = await filmServices.getAllAdmin();
+    const unableToGet = allFilmInfor?.length === 0;
+    if (unableToGet) {
+      res.status(StatusCodes.NOT_FOUND);
+      res.send(ERROR[404]('films', '', ''));
+      return;
+    }
+    res.status(StatusCodes.OK);
+    res.send(allFilmInfor);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     res.send(ERROR[500]);

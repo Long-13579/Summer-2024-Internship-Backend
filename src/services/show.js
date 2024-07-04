@@ -53,8 +53,12 @@ export async function getByScreenId(screenId) {
   return showByScreenIdInfor;
 }
 
-export async function getByFilmIdFilmDetail(filmId) {
-  const showByFilmIdInfor = await show.getByFilmIdFilmDetail(filmId);
+export async function getByFilmIdFilmDetail(filmId, date, provinceCityId) {
+  const showByFilmIdInfor = await show.getByFilmIdFilmDetail(
+    filmId,
+    date,
+    provinceCityId
+  );
   const showByFilmIdDTO = changeCinemasToListShowDto(showByFilmIdInfor);
   return showByFilmIdDTO;
 }

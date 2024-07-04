@@ -48,15 +48,19 @@ export async function getByIdFilmDetail(filmId) {
   return filmByIdDTO;
 }
 
-export async function getByIdAdmin(filmId){
+export async function getByIdAdmin(filmId) {
   const filmByIdInfor = await film.getByIdAdmin(filmId);
   return filmByIdInfor;
+}
+
+export async function getAllAdmin() {
+  const allFilmInfor = await film.getAllAdmin();
+  return allFilmInfor;
 }
 
 export async function getUpComing() {
   const upComingFilmInfor = await film.getUpComing();
   const upComingFilmDTO = changeFilmListToDTO(upComingFilmInfor);
-
   return upComingFilmDTO;
 }
 
@@ -70,4 +74,3 @@ export async function getByCinemaId(cinemaId) {
   const filmByCinemaIdInfor = await film.getByCinemaId(cinemaId);
   return filmByCinemaIdInfor;
 }
-

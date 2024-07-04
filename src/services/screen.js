@@ -26,3 +26,4 @@ export async function getById(id) {
   const screenByIdInfor = await screen.getById(id);
   return screenByIdInfor;
 }
+

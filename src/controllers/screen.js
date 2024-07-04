@@ -1,12 +1,12 @@
 import * as screenServices from '../services/screen.js';
 import { StatusCodes } from 'http-status-codes';
-import { ERROR } from '../models/apiStatus.js';
+import { ERROR, OK } from '../models/apiStatus.js';
 
 export async function add(req, res) {
   try {
     await screenServices.add(req.body.seatMatrix, req.body.cinemaId);
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     res.send(ERROR[500]);
@@ -20,7 +20,9 @@ export async function getByCinemaId(req, res, next) {
       next();
       return;
     }
-    const screenByCinemaIdInfor = await screenServices.getByCinemaId(queryCinemaId);
+    const screenByCinemaIdInfor = await screenServices.getByCinemaId(
+      queryCinemaId
+    );
     const invalidCinemaId = screenByCinemaIdInfor?.length === 0;
     if (invalidCinemaId) {
       res.status(StatusCodes.NOT_FOUND);
@@ -83,9 +85,13 @@ export async function update(req, res) {
       res.send(ERROR[400]);
       return;
     }
-    await screenServices.update(req.body.id, req.body.seatMatrix, req.body.cinemaId);
+    await screenServices.update(
+      req.body.id,
+      req.body.seatMatrix,
+      req.body.cinemaId
+    );
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
     return;
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -105,7 +111,7 @@ export async function drop(req, res) {
     }
     await screenServices.drop(paramsScreenId);
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
     return;
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);

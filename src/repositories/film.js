@@ -75,6 +75,11 @@ export async function getByIdAdmin(filmId) {
   return filmByIdInfor;
 }
 
+export async function getAllAdmin() {
+  const filmByIdInfor = await db.film.findAll();
+  return filmByIdInfor;
+}
+
 export async function getUpComing() {
   const upcomingFilmInfor = await db.film.findAll({
     where: {

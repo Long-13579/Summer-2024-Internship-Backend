@@ -13,6 +13,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "moment": "^2.30.1",
     "mysql": "^2.18.1",
     "mysql2": "^3.10.1",
     "sequelize": "^6.37.3"

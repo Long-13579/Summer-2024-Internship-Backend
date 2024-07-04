@@ -1,6 +1,6 @@
 import * as cinemaServices from '../services/cinema.js';
 import { StatusCodes } from 'http-status-codes';
-import { ERROR } from '../models/apiStatus.js';
+import { ERROR, OK } from '../models/apiStatus.js';
 
 export async function getAll(req, res) {
   try {
@@ -24,9 +24,7 @@ export async function getById(req, res) {
   try {
     const paramsCinemaId = req.params.cinemaId;
     const cinemaByIdInfor = await cinemaServices.getById(paramsCinemaId);
-    const invalidCinemaId = cinemaByIdInfor?.length === 0;
-
-    if (invalidCinemaId) {
+    if (cinemaByIdInfor == null) {
       res.status(StatusCodes.NOT_FOUND);
       res.send(ERROR[404]('cinema', 'cinema', paramsCinemaId));
       return;
@@ -73,7 +71,7 @@ export async function add(req, res) {
       req.body.provinceCityId
     );
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
     return;
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -85,8 +83,7 @@ export async function update(req, res) {
   try {
     const cinemaId = req.body.id;
     const cinemaByIdInfor = await cinemaServices.getById(cinemaId);
-    const invalidId = cinemaByIdInfor?.length === 0;
-    if (invalidId) {
+    if (cinemaByIdInfor == null) {
       res.status(StatusCodes.NOT_FOUND);
       res.send(ERROR[404]('cinema', 'cinema', cinemaId));
       return;
@@ -98,7 +95,7 @@ export async function update(req, res) {
       req.body.provinceCity
     );
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     res.send(ERROR[500]);
@@ -108,16 +105,15 @@ export async function update(req, res) {
 export async function drop(req, res) {
   try {
     const paramsCinemaId = req.params.cinemaId;
-    const cinemaById = await cinemaServices.getById(paramsCinemaId);
-    const invalidId = cinemaById?.length === 0;
-    if (invalidId) {
+    const cinemaByIdInfor = await cinemaServices.getById(paramsCinemaId);
+    if (cinemaByIdInfor == null) {
       res.status(StatusCodes.BAD_REQUEST);
-      res.send(ERROR[400]);
+      res.send(ERROR[404]('cinema', 'cinema', paramsCinemaId));
       return;
     }
     await cinemaServices.drop(paramsCinemaId);
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
     return;
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);

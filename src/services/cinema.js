@@ -1,4 +1,5 @@
 import * as cinema from '../repositories/cinema.js';
+
 import {
   changeCinemaToDTO,
   changeCinemaListToDTO,
@@ -18,6 +19,9 @@ export async function update(id, name, address, provinceCityId) {
 
 export async function getById(id) {
   const cinemaByIdInfor = await cinema.getById(id);
+  if (cinemaByIdInfor == null) {
+    return ;
+  }
   const cinemaDTO = changeCinemaToDTO(cinemaByIdInfor);
   return cinemaDTO;
 }

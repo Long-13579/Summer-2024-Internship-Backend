@@ -1,6 +1,6 @@
 import * as showServices from '../services/show.js';
 import { StatusCodes } from 'http-status-codes';
-import { ERROR } from '../models/apiStatus.js';
+import { ERROR, OK } from '../models/apiStatus.js';
 
 export async function add(req, res) {
   try {
@@ -13,7 +13,7 @@ export async function add(req, res) {
       req.body.seatMatrix
     );
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
     return;
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -42,7 +42,7 @@ export async function update(req, res) {
       req.body.seatMatrix
     );
     res.status(StatusCodes.OK);
-    res.send();
+    res.send(OK);
     return;
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -119,13 +119,18 @@ export async function getByFilmIdAdmin(req, res, next) {
 export async function getByFilmIdFilmDetail(req, res, next) {
   try {
     const queryFilmId = req.query.filmId;
-    if (!queryFilmId) {
-      next();
+    const queryProvinceCityId = req.query.provinceId;
+    const queryDateStart = req.query.date;
+    if (!(queryFilmId && queryProvinceCityId && queryDateStart)) {
+      res.status(StatusCodes.BAD_REQUEST);
+      res.send(ERROR[400]);
       return;
     }
 
     const showByFilmIdInfor = await showServices.getByFilmIdFilmDetail(
-      queryFilmId
+      queryFilmId,
+      queryDateStart,
+      queryProvinceCityId
     );
     const invalidFilmId = showByFilmIdInfor?.length === 0;
     if (invalidFilmId) {
