@@ -40,6 +40,10 @@ export async function getById(id) {
   return getCinemaByIdInfor; //return that cinema's infor
 }
 
+export async function getByIdAdmin(id){
+  
+}
+
 export async function getByProvinceCityId(provinceCityId) {
   const getCinemaByProvinceIdInfor = await db.cinema.findAll({
     where: {

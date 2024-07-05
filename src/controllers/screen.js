@@ -5,9 +5,10 @@ import { ERROR, OK } from '../models/apiStatus.js';
 export async function add(req, res) {
   try {
     await screenServices.add(
-      req.body.seatMatrix,
       req.body.cinemaId,
-      req.body.name
+      req.body.name,
+      req.body.width,
+      req.body.len
     );
     res.status(StatusCodes.OK);
     res.send(OK);
@@ -91,9 +92,10 @@ export async function update(req, res) {
     }
     await screenServices.update(
       req.body.id,
-      req.body.seatMatrix,
       req.body.cinemaId,
-      req.body.name
+      req.body.name,
+      req.body.width,
+      req.body.len
     );
     res.status(StatusCodes.OK);
     res.send(OK);

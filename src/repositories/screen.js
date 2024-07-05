@@ -60,3 +60,14 @@ export async function updateSeatMatrix(id, seatMatrixData) {
     }
   );
 }
+
+export async function getSeatMatrixById(id) {
+  const seatMatrixData = await db.screen.findOne({
+    attributes: ['seatMatrix'],
+    where: {
+      id: id,
+    },
+  });
+
+  return seatMatrixData.seatMatrix;
+}

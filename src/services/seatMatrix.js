@@ -1,16 +1,16 @@
 import moment from 'moment';
 import * as seatMatrix from '../repositories/seatMatrix.js';
-import * as screenServices from '../services/screen.js';
 import * as show from '../repositories/show.js';
+import * as screenServices from '../services/screen.js'
 import { seat } from '../constants/seatMetrics.js';
 import { ROW_NAME } from '../constants/enumSeatRowName.js';
 
 export async function setIsOffStatus(
-  screenId,
   showId,
   seatsBookedCount,
   seatsBookedData
 ) {
+  
   const seatMatrixDataById = await seatMatrix.getByScreenId(screenId);
   const seatMatrixDataByIdParsed = JSON.parse(seatMatrixDataById);
 
@@ -98,7 +98,7 @@ export async function setOnHoldStatus(
   await show.updateSeatMatrix(showId, seatMatrixDataChanged);
 }
 
-export async function add(cinemaId, name, screenWidth, screenLength) {
+export function add(screenWidth, screenLength) {
   const seatCols = Math.floor(screenWidth / seat.width);
   const seatRows = Math.floor(screenLength / seat.len);
   const seatMatrix = {
@@ -123,5 +123,5 @@ export async function add(cinemaId, name, screenWidth, screenLength) {
     }
   }
   const seatMatrixStringified = JSON.stringify(seatMatrix);
-  await screenServices.add(seatMatrixStringified, cinemaId, name);
+  return seatMatrixStringified;
 }

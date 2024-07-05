@@ -92,7 +92,7 @@ export async function update(req, res) {
       req.body.id,
       req.body.name,
       req.body.address,
-      req.body.provinceCity
+      req.body.provinceCityId
     );
     res.status(StatusCodes.OK);
     res.send(OK);
