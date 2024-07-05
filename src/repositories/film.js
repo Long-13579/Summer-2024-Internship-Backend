@@ -1,6 +1,7 @@
 import { db } from '../models/index.js';
 import { Op, Sequelize } from 'sequelize';
 import { eliminateNoShowFilm, DTO } from '../utils/filmByCinemaSiteDTO.js';
+import { changeListFilmPosterUrl } from '../utils//changePosterUrl.js'
 
 //add films
 export async function add(
@@ -119,6 +120,8 @@ export async function getByCinemaId(cinemaId) {
       [db.show, 'timeStart', 'ASC'],
     ],
   });
+
+  changeListFilmPosterUrl(filmByCinemaIdInfor);
   const filmByCinemaIdDTO = DTO(eliminateNoShowFilm(filmByCinemaIdInfor));
   return filmByCinemaIdDTO;
 }

@@ -1,10 +1,15 @@
 {
   "development": {
-    "username": "sqluser",
-    "password": "dat20112011",
-    "database": "testorm",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "root",
+    "password": "13579",
+    "database": "interndatabase",
+    "host": "localhost",
+    "dialect": "mysql",
+    "cloudinary": {
+      "cloud_name": "deknjnluw",
+      "api_key": "195917521197871",
+      "api_secret": "aKPAA1KcOI4D82p7bSuI7Az2NBY"
+    }
   },
   "test": {
     "username": "root",
