@@ -1,6 +1,6 @@
 import { db } from '../models/index.js';
 import { Op } from 'sequelize';
-import { show } from '../models/show.js';
+import moment from 'moment';
 
 export async function add(
   filmId,
@@ -47,7 +47,13 @@ export async function update(
 }
 
 export async function getAll() {
-  const allShowInfor = await db.show.findAll();
+  const allShowInfor = await db.show.findAll({
+    where: {
+      dateStart: {
+        [Op.gt]: moment(),
+      },
+    },
+  });
   return allShowInfor;
 }
 
@@ -61,7 +67,7 @@ export async function getById(id) {
 }
 
 export async function getByFilmIdAdmin(filmId) {
-  const showByFilmIdInfor = await db.cinema.findAll({
+  const showByFilmIdInfor = await db.show.findAll({
     where: {
       filmId: filmId,
     },
@@ -97,17 +103,6 @@ export async function getByScreenId(screenId) {
   return showByScreenIdInfor;
 }
 
-export async function getByMutipleScreenId(screenIdArr) {
-  const showByMutipleScreenIdInfor = await db.show.findAll({
-    where: {
-      screenId: {
-        [Op.in]: screenIdArr,
-      },
-    },
-  });
-  return showByMutipleScreenIdInfor;
-}
-
 export async function updateSeatMatrix(showId, seatMatrix) {
   await db.show.update(
     { seatMatrix: seatMatrix },
@@ -117,4 +112,29 @@ export async function updateSeatMatrix(showId, seatMatrix) {
       },
     }
   );
+}
+
+export async function getByDate(dateStart) {
+  const showByDateInfor = await db.show.findAll({
+    where: {
+      dateStart: dateStart,
+    },
+  });
+  return showByDateInfor;
+}
+
+export async function getByCinemaId(cinemaId) {
+  const showByCinemaIdInfor = await db.cinema.findAll({
+    where: {
+      id: cinemaId,
+    },
+    include: {
+      model: db.screen,
+      attributes: ['id'],
+      include: {
+        model: db.show,
+      },
+    },
+  });
+  return showByCinemaIdInfor;
 }

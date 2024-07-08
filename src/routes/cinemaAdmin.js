@@ -1,4 +1,5 @@
 import * as cinemaController from '../controllers/cinema.js';
+import { validateCinemaId } from '../middlewares/cinema.js';
 import express from 'express';
 
 var router = express.Router();
@@ -7,9 +8,9 @@ var router = express.Router();
 router.post('/', cinemaController.add);
 
 //update
-router.put('/', cinemaController.update);
+router.put('/', validateCinemaId, cinemaController.update);
 
 //delete
-router.delete('/:cinemaId', cinemaController.drop);
+router.delete('/:cinemaId', validateCinemaId, cinemaController.drop);
 
 export default router;

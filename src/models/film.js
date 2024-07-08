@@ -1,7 +1,7 @@
 import {
-  LANGUAGUES_LIST,
+  LANGUAGES_LIST,
   FORMATS_LIST,
-  AGE_RATE_LIST,
+  AGE_RATES_LIST,
   CATEGORIES_LIST,
 } from '../constants/enumFilm.js';
 
@@ -50,7 +50,7 @@ export function film(sequelize, DataTypes) {
       },
       language: {
         type: DataTypes.ENUM({
-          values: LANGUAGUES_LIST,
+          values: LANGUAGES_LIST,
         }),
         allowNull: false,
       },
@@ -74,7 +74,7 @@ export function film(sequelize, DataTypes) {
       },
       ageRate: {
         type: DataTypes.ENUM({
-          values: AGE_RATE_LIST,
+          values: AGE_RATES_LIST,
         }),
         allowNull: false,
       },

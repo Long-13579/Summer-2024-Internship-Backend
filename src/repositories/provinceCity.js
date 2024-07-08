@@ -2,7 +2,7 @@ import { db } from '../models/index.js';
 
 //add provinceCity
 export async function add(name) {
-  const newProvinceCity = await db.provinceCity.create({ name: name });
+  await db.provinceCity.create({ name: name });
 }
 //delete
 export async function drop(id) {
@@ -26,7 +26,7 @@ export async function update(id, name) {
 
 //get By id
 export async function getById(id) {
-  const provinceCityByIdInfor = db.provinceCity.findOne({
+  const provinceCityByIdInfor = await db.provinceCity.findOne({
     where: {
       id: id,
     },

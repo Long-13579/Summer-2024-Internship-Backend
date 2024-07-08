@@ -15,7 +15,6 @@ export async function drop(id) {
     },
   });
 }
-
 export async function update(id, name, address, provinceCityId) {
   await db.cinema.update(
     { name: name, address: address, provinceCityId: provinceCityId },
@@ -40,9 +39,7 @@ export async function getById(id) {
   return getCinemaByIdInfor; //return that cinema's infor
 }
 
-export async function getByIdAdmin(id){
-  
-}
+export async function getByIdAdmin(id) {}
 
 export async function getByProvinceCityId(provinceCityId) {
   const getCinemaByProvinceIdInfor = await db.cinema.findAll({

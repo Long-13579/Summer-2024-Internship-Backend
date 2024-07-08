@@ -109,11 +109,11 @@
 //   await screenServices.add(5, 'HIHI', 700, 800);
 // })();
 
-import * as showServices from './show.js';
+// import * as showServices from './src/services/show.js';
 
-(async function test() {
-  await showServices.add(1, 16, '18:00:00', '2024-07-01', 50000);
-})();
+// (async function test() {
+//   await showServices.add(1, 16, '18:00:00', '2024-07-01', 50000);
+// })();
 
 // import * as screen from '../repositories/screen.js';
 
@@ -129,3 +129,9 @@ import * as showServices from './show.js';
 //   const rs = await seatMatrix.applyShowSeatPrice(1);
 //   console.log(rs.price);
 // })();
+
+import * as showServices from './src/services/show.js';
+(async function test() {
+  const rs = await showServices.getAll();
+  console.log(JSON.stringify(rs, null, 2));
+})();

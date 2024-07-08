@@ -1,45 +1,44 @@
 import * as screenServices from '../services/screen.js';
-import { StatusCodes } from 'http-status-codes';
-import { ERROR, OK } from '../models/apiStatus.js';
+import { API_STATUS } from '../models/apiStatus.js';
 
 export async function add(req, res) {
   try {
     await screenServices.add(
+      req.body.seatMatrix,
       req.body.cinemaId,
-      req.body.name,
       req.body.width,
       req.body.len
     );
-    res.status(StatusCodes.OK);
-    res.send(OK);
+    res.status(API_STATUS.OK.status);
+    res.send(API_STATUS.OK);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function getByCinemaId(req, res, next) {
   try {
-    const queryCinemaId = req.query.cinemaId;
-    if (!queryCinemaId) {
+    if (req.noCinemaId) {
       next();
       return;
     }
     const screenByCinemaIdInfor = await screenServices.getByCinemaId(
-      queryCinemaId
+      req.query.cinemaId
     );
-    const invalidCinemaId = screenByCinemaIdInfor?.length === 0;
-    if (invalidCinemaId) {
-      res.status(StatusCodes.NOT_FOUND);
-      res.send(ERROR[404]('screen', 'cinema', queryCinemaId));
+    if (screenByCinemaIdInfor == null) {
+      res.status(API_STATUS.NOT_FOUND.status);
+      res.send(
+        API_STATUS.NOT_FOUND.getErrorMessage('screen', 'cinema', queryCinemaId)
+      );
       return;
     }
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(screenByCinemaIdInfor);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -48,16 +47,16 @@ export async function getAll(req, res) {
     const allScreenInfor = await screenServices.getAll();
     const unableToGet = allScreenInfor?.length === 0;
     if (unableToGet) {
-      res.status(StatusCodes.BAD_REQUEST);
-      res.send(ERROR[400]);
+      res.status(API_STATUS.BAD_REQUEST.status);
+      res.send(API_STATUS.BAD_REQUEST);
       return;
     }
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(allScreenInfor);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -65,63 +64,43 @@ export async function getById(req, res) {
   try {
     const paramsScreenId = req.params.screenId;
     const screenByIdInfor = await screenServices.getById(paramsScreenId);
-    const invalidId = screenByIdInfor?.length === 0;
-    if (invalidId) {
-      res.status(StatusCodes.NOT_FOUND);
-      res.send(ERROR[404]('screen', 'screen', paramsScreenId));
-      return;
-    }
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(screenByIdInfor);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function update(req, res) {
   try {
     const screenId = req.body.id;
-    const screenByIdInfor = await screenServices.getById(screenId);
-    const invalidId = screenByIdInfor?.length === 0;
-    if (invalidId) {
-      res.status(StatusCodes.BAD_REQUEST);
-      res.send(ERROR[400]);
-      return;
-    }
     await screenServices.update(
-      req.body.id,
+      screenId,
+      req.body.seatMatrix,
       req.body.cinemaId,
-      req.body.name,
       req.body.width,
       req.body.len
     );
-    res.status(StatusCodes.OK);
-    res.send(OK);
+    res.status(API_STATUS.OK.status);
+    res.send(API_STATUS.OK);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function drop(req, res) {
   try {
     const paramsScreenId = req.params.screenId;
-    const screenByIdInfor = await screenServices.getById(paramsScreenId);
-    const invalidId = screenByIdInfor?.length === 0;
-    if (invalidId) {
-      res.status(StatusCodes.BAD_REQUEST);
-      res.send(ERROR[400]);
-      return;
-    }
     await screenServices.drop(paramsScreenId);
-    res.status(StatusCodes.OK);
-    res.send(OK);
+    res.status(API_STATUS.OK.status);
+    res.send(API_STATUS.OK);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }

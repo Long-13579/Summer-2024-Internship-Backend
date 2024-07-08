@@ -58,7 +58,12 @@ export async function getByFilmIdFilmDetail(filmId, date, provinceCityId) {
   return showByFilmIdDTO;
 }
 
+export async function getByCinemaId(cinemaId) {
+  const showByCinemaIdInfor = await show.getByCinemaId(cinemaId);
+  return showByCinemaIdInfor;
+}
+
 export async function applyShowSeatPrice(showId) {
   const showByIdInfor = await show.getById(showId);
-  const seatMatrixData = showByIdInfor.seatMatrix
+  const seatMatrixData = showByIdInfor.seatMatrix;
 }

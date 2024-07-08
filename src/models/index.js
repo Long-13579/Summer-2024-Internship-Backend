@@ -1,5 +1,5 @@
 'use strict';
-
+import 'dotenv/config';
 import { Sequelize, DataTypes } from 'sequelize';
 import { cinema } from './cinema.js';
 import { screen } from './screen.js';
@@ -9,12 +9,12 @@ import { film } from './film.js';
 import { ticket } from './ticket.js';
 import { user } from './user.js';
 import { voucher } from './voucher.js';
-import configPathEnv from '../config/config.json' assert { type: 'json' };
+import { env } from '../config/config.js';
+import { configPathEnv } from '../config/config.js';
 import provinceCity from './provinceCity.js';
 
-const env = process.env.NODE_ENV || 'development';
 const config = configPathEnv[env];
-const db = {};
+
 const modelArr = [
   provinceCity,
   cinema,
@@ -40,22 +40,18 @@ if (config.use_env_variable) {
   );
 }
 
-const modelNum = modelArr.length;
-
-//get all model
-for (let i = 0; i < modelNum; i++) {
-  let modelFunction = modelArr[i];
-  let model = modelFunction(sequelize, DataTypes);
-  db[model.name] = model;
-}
+const modules = modelArr.reduce((accumulator, model) => {
+  const dbModule = model(sequelize, DataTypes);
+  return { ...accumulator, [dbModule.name]: dbModule };
+}, {});
 
 //associate key
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+Object.values(modules).forEach((model) => {
+  if (model.associate) {
+    model.associate(modules);
   }
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-export { db };
+modules.sequelize = sequelize;
+modules.Sequelize = Sequelize;
+export { modules as db };

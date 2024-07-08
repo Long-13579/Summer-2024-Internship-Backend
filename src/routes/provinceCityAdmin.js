@@ -1,16 +1,21 @@
 import * as provinceCityController from '../controllers/provinceCity.js';
+import { validateProvinceCityId } from '../middlewares/provinceCity.js';
 import express from 'express';
 
 var router = express.Router();
 
-router.use('/:provinceId', provinceCityController.getById);
+router.get('/:provinceId', validateProvinceCityId, provinceCityController.getById);
 
-router.use('/', provinceCityController.getAll);
+router.get('/', provinceCityController.getAll);
 
 router.post('/', provinceCityController.add);
 
-router.delete('/', provinceCityController.drop);
+router.delete(
+  '/:provinceCityId',
+  validateProvinceCityId,
+  provinceCityController.drop
+);
 
-router.put('/', provinceCityController.update);
+router.put('/', validateProvinceCityId, provinceCityController.update);
 
 export default router;

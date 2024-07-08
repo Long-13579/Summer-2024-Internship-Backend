@@ -13,12 +13,14 @@ export async function update(provinceCityId, name) {
 }
 
 export async function getById(provinceCityId) {
-  const provinceCityByIdInfor = await provinceCity.getById(provinceCityId);
+  const provinceCityByIdInfor = await provinceCity.getById(
+    provinceCityId
+  );
   return provinceCityByIdInfor;
 }
 
-export async function getAllHaveCinema() {
-  const allProvinceHaveCinema = provinceCity.getAllHaveCinema();
+export async function getAllHaveCinema(cinemaId) {
+  const allProvinceHaveCinema = await provinceCity.getAllHaveCinema();
   return allProvinceHaveCinema;
 }
 

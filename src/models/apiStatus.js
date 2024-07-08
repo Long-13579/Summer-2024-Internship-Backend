@@ -1,25 +1,27 @@
 import { StatusCodes } from 'http-status-codes';
 
-export const ERROR = {
-  400: {
+export const API_STATUS = {
+  BAD_REQUEST: {
     status: StatusCodes.BAD_REQUEST,
     message: 'Bad Request',
   },
-  500: {
+  INTERNAL_SERVER_ERROR: {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     message: 'Server Error',
   },
-  404: (model, modelQuery, modelQueryId) => {
-    const error = {
-      status: StatusCodes.NOT_FOUND,
-      message:
-        model + ' with ' + modelQuery + ' id ' + modelQueryId + ' not found',
-    };
-    return error;
+  OK: {
+    status: StatusCodes.OK,
+    message: 'Action Completed',
   },
-};
-
-export const OK = {
-  status: StatusCodes.OK,
-  message: 'Action Completed',
+  NOT_FOUND: {
+    status: StatusCodes.NOT_FOUND,
+    getErrorMessage(model, modelQuery, modelQueryId) {
+      const error = {
+        status: StatusCodes.NOT_FOUND,
+        message:
+          model + ' with ' + modelQuery + ' id ' + modelQueryId + ' not found',
+      };
+      return error;
+    },
+  },
 };

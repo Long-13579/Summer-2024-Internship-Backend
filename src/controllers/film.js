@@ -1,7 +1,5 @@
 import * as filmServices from '../services/film.js';
-import * as cinemaService from '../services/cinema.js';
-import { StatusCodes } from 'http-status-codes';
-import { ERROR, OK } from '../models/apiStatus.js';
+import { API_STATUS } from '../models/apiStatus.js';
 
 export async function add(req, res) {
   try {
@@ -22,30 +20,24 @@ export async function add(req, res) {
       req.body.ageRate,
       req.body.category
     );
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(OK);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function getAll(req, res) {
   try {
     const allFilmInfor = await filmServices.getAll();
-    const unableToGet = allFilmInfor?.length === 0;
-    if (unableToGet) {
-      res.status(StatusCodes.BAD_REQUEST);
-      res.send(ERROR[400]);
-      return;
-    }
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(allFilmInfor);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -53,20 +45,12 @@ export async function getByIdFilmDetail(req, res) {
   try {
     const paramsFilmId = req.params.filmId;
     const filmByIdInfor = await filmServices.getByIdFilmDetail(paramsFilmId);
-    const invalidFilmId = filmByIdInfor?.length === 0;
-
-    if (invalidFilmId) {
-      res.status(StatusCodes.NOT_FOUND);
-      res.send(ERROR[404]('film', 'film', paramsFilmId));
-      return;
-    }
-
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(filmByIdInfor);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -74,98 +58,75 @@ export async function getByIdAdmin(req, res) {
   try {
     const paramsFilmId = req.params.filmId;
     const filmByIdInfor = await filmServices.getByIdAdmin(paramsFilmId);
-    const invalidFilmId = filmByIdInfor?.length === 0;
-
-    if (invalidFilmId) {
-      res.status(StatusCodes.NOT_FOUND);
-      res.send(ERROR[404]('film', 'film', paramsFilmId));
+    if (filmByIdInfor == null) {
+      res.status(API_STATUS.NOT_FOUND.status);
+      res.send(
+        API_STATUS.NOT_FOUND.getErrorMessage('film', 'film', paramsFilmId)
+      );
       return;
     }
 
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(filmByIdInfor);
     return;
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function getAllAdmin(req, res) {
   try {
     const allFilmInfor = await filmServices.getAllAdmin();
-    const unableToGet = allFilmInfor?.length === 0;
-    if (unableToGet) {
-      res.status(StatusCodes.NOT_FOUND);
-      res.send(ERROR[404]('films', '', ''));
-      return;
-    }
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(allFilmInfor);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function getUpComing(req, res) {
   try {
     const upComingFilm = await filmServices.getUpComing();
-    const unableToGet = upComingFilm?.length === 0;
-    if (unableToGet) {
-      res.status(StatusCodes.BAD_REQUEST);
-      res.send(ERROR[400]);
-      return;
-    }
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(upComingFilm);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function getOnCasting(req, res) {
   try {
     const onCastingFilm = await filmServices.getOnCasting();
-    const unableToGet = onCastingFilm?.length === 0;
-    if (unableToGet) {
-      res.status(StatusCodes.BAD_REQUEST);
-      res.send(ERROR[400]);
-      return;
-    }
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(onCastingFilm);
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
 
 export async function getByCinemaId(req, res, next) {
   try {
     const queryCinemaId = req.query.cinemaId;
-    if (!queryCinemaId) {
+    if (req.noCinemaId) {
       next();
-      return;
-    }
-    const cinemaInfor = await cinemaService.getById(queryCinemaId);
-    const invalidCinemaId = cinemaInfor?.length === 0;
-    if (invalidCinemaId) {
-      res.status(StatusCodes.NOT_FOUND);
-      res.send(ERROR[404]('cinema', 'cinema', queryCinemaId));
       return;
     }
     const filmByCinemaIdInfor = await filmServices.getByCinemaId(queryCinemaId);
     const noFilmByCinemaId = filmByCinemaIdInfor?.length === 0;
     if (noFilmByCinemaId) {
-      res.status(StatusCodes.NOT_FOUND);
-      res.send(ERROR[404]('film', 'cinema', queryCinemaId));
+      res.status(API_STATUS.NOT_FOUND.status);
+      res.send(
+        API_STATUS.NOT_FOUND.getErrorMessage('film', 'cinema', queryCinemaId)
+      );
     }
-    res.status(StatusCodes.OK);
+    res.status(API_STATUS.OK.status);
     res.send(filmByCinemaIdInfor);
   } catch {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    res.send(ERROR[500]);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
