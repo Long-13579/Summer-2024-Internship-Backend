@@ -7,6 +7,12 @@ export const configPathEnv = {
     database: process.env.DEVELOPMENT_DATABASE,
     host: process.env.DEVELOPMENT_HOST,
     dialect: process.env.DEVELOPMENT_DIALECT,
+    vnp: {
+      vnp_TmnCode: process.env.VNP_TMNCODE,
+      vnp_HashSecret: process.env.VNP_HASHSECRET,
+      vnp_Url: process.env.VNP_URL,
+      vnp_Api: process.env.VNP_API,
+    }
   },
   test: {
     username: process.env.TEST_USERNAME,
