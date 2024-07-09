@@ -1,27 +1,48 @@
 import * as seatMatrixServices from './src/services/seatMatrix.js';
 
-const objTest = {
+// const testOnHoldObj = {
+//   showId: 12,
+//   data: [
+//     {
+//       rowName: 'A',
+//       colId: 1,
+//       onHold: '2024-07-04T14:50:51+07:00',
+//     },
+//     {
+//       rowName: 'B',
+//       colId: 1,
+//       onHold: '2024-07-04T14:50:51+07:00',
+//     },
+//     {
+//       rowName: 'B',
+//       colId: 2,
+//       onHold: '2024-07-04T14:50:51+07:00',
+//     },
+//   ],
+// };
+
+const testIsSoldObj = {
   showId: 12,
   data: [
     {
       rowName: 'A',
       colId: 1,
-      onHold: '2024-07-04T14:50:51+07:00',
+      status: true,
     },
     {
       rowName: 'B',
       colId: 1,
-      onHold: '2024-07-04T14:50:51+07:00',
+      status: true,
     },
     {
       rowName: 'B',
       colId: 2,
-      onHold: '2024-07-04T14:50:51+07:00',
+      status: true,
     },
   ],
 };
 (async function test() {
-  await seatMatrixServices.setOnHoldStatus(216, objTest);
+  await seatMatrixServices.setIsSoldStatus(216, testIsSoldObj);
 })();
 
 // import * as showServices from './src/services/show.js';

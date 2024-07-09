@@ -52,7 +52,6 @@ export async function setIsSoldStatus(showId, seatsBookedData) {
       })
     );
   }
-
   //change status depend on seatsBookData
   for (let i = 0; i < seatsBookedCount; i++) {
     const rowNameIndex = rowNameIndexArr[i];
