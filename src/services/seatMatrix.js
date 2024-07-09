@@ -4,13 +4,8 @@ import * as showServices from '../services/show.js';
 import * as screenServices from '../services/screen.js';
 import { seat } from '../constants/seatMetrics.js';
 import { ROW_NAME } from '../constants/enumSeatRowName.js';
-import { show } from '../models/show.js';
 
-export async function setIsOffStatus(
-  showId,
-  seatsBookedCount,
-  seatsBookedData
-) {
+export async function setIsOffStatus(showId, seatsBookedData) {
   const showByIdInfor = await showServices.getById(showId);
   const screenIdReq = showByIdInfor.screenId;
   const screenByIdInfor = await screenServices.getById(screenIdReq);
@@ -19,6 +14,7 @@ export async function setIsOffStatus(
 
   //take index of each Row Name
   const rowNameIndexArr = [];
+  const seatsBookedCount = seatsBookedData.data.length;
   for (var i = 0; i < seatsBookedCount; i++) {
     rowNameIndexArr.push(
       seatMatrixDataByIdParsed.data.findIndex((obj) => {
@@ -39,20 +35,16 @@ export async function setIsOffStatus(
   await show.updateSeatMatrix(showId, seatMatrixDataChanged);
 }
 
-export async function setIsSoldStatus(
-  screenId,
-  showId,
-  seatsBookedCount,
-  seatsBookedData
-) {
-    const showByIdInfor = await showServices.getById(showId);
-    const screenIdReq = showByIdInfor.screenId;
-    const screenByIdInfor = await screenServices.getById(screenIdReq);
-    const seatMatrixByScreenId = screenByIdInfor.seatMatrix;
-    const seatMatrixDataByIdParsed = JSON.parse(seatMatrixByScreenId);
-  
+export async function setIsSoldStatus(showId, seatsBookedData) {
+  const showByIdInfor = await showServices.getById(showId);
+  const screenIdReq = showByIdInfor.screenId;
+  const screenByIdInfor = await screenServices.getById(screenIdReq);
+  const seatMatrixByScreenId = screenByIdInfor.seatMatrix;
+  const seatMatrixDataByIdParsed = JSON.parse(seatMatrixByScreenId);
+
   //take index of each Row Name
   const rowNameIndexArr = [];
+  const seatsBookedCount = seatsBookedData.data.length;
   for (var i = 0; i < seatsBookedCount; i++) {
     rowNameIndexArr.push(
       seatMatrixDataByIdParsed.data.findIndex((obj) => {
@@ -73,19 +65,15 @@ export async function setIsSoldStatus(
   await show.updateSeatMatrix(showId, seatMatrixDataChanged);
 }
 
-export async function setOnHoldStatus(
-  screenId,
-  showId,
-  seatsBookedCount,
-  seatsBookedData
-) {
-    const showByIdInfor = await showServices.getById(showId);
-    const screenIdReq = showByIdInfor.screenId;
-    const screenByIdInfor = await screenServices.getById(screenIdReq);
-    const seatMatrixByScreenId = screenByIdInfor.seatMatrix;
-    const seatMatrixDataByIdParsed = JSON.parse(seatMatrixByScreenId);
-  
+export async function setOnHoldStatus(showId, seatsBookedData) {
+  const showByIdInfor = await showServices.getById(showId);
+  const screenIdReq = showByIdInfor.screenId;
+  const screenByIdInfor = await screenServices.getById(screenIdReq);
+  const seatMatrixByScreenId = screenByIdInfor.seatMatrix;
+  const seatMatrixDataByIdParsed = JSON.parse(seatMatrixByScreenId);
+
   //take index of each Row Name
+  const seatsBookedCount = seatsBookedData.data.length;
   const rowNameIndexArr = [];
   for (var i = 0; i < seatsBookedCount; i++) {
     rowNameIndexArr.push(
@@ -94,7 +82,6 @@ export async function setOnHoldStatus(
       })
     );
   }
-
   //change status depend on seatsBookData
   for (let i = 0; i < seatsBookedCount; i++) {
     const rowNameIndex = rowNameIndexArr[i];
