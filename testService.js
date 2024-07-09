@@ -1,5 +1,5 @@
-import * as cinemaServices from './src/services/cinema.js';
+import * as showServices from './src/services/seatMatrix.js';
 
 (async function test() {
-  await cinemaServices.getByIdAdmin(3);
+  await showServices.add()
 })();
