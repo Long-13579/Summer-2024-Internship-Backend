@@ -14,18 +14,9 @@ export async function update(
   screenId,
   timeStart,
   dateStart,
-  price,
-  seatMatrix
+  price
 ) {
-  await show.update(
-    id,
-    filmId,
-    screenId,
-    timeStart,
-    dateStart,
-    price,
-    seatMatrix
-  );
+  await show.update(id, filmId, screenId, timeStart, dateStart, price);
 }
 
 export async function getAll() {

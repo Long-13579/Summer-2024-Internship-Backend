@@ -26,8 +26,7 @@ export async function update(
   screenId,
   timeStart,
   dateStart,
-  price,
-  seatMatrix
+  price
 ) {
   await db.show.update(
     {
@@ -36,7 +35,6 @@ export async function update(
       timeStart: timeStart,
       dateStart: dateStart,
       price: price,
-      seatMatrix: seatMatrix,
     },
     {
       where: {

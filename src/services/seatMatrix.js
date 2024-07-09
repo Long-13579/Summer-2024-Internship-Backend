@@ -14,11 +14,11 @@ export async function setIsOffStatus(showId, seatsBookedData) {
 
   //take index of each Row Name
   const rowNameIndexArr = [];
-  const seatsBookedCount = seatsBookedData.data.length;
+  const seatsBookedCount = seatsBookedData.length;
   for (var i = 0; i < seatsBookedCount; i++) {
     rowNameIndexArr.push(
       seatMatrixDataByIdParsed.data.findIndex((obj) => {
-        return obj.rowName == seatsBookedData.data[i].rowName;
+        return obj.rowName == seatsBookedData[i].rowName;
       })
     );
   }
@@ -26,9 +26,9 @@ export async function setIsOffStatus(showId, seatsBookedData) {
   //change status depend on seatsBookData
   for (let i = 0; i < seatsBookedCount; i++) {
     const rowNameIndex = rowNameIndexArr[i];
-    const bookedSeatId = seatsBookedData.data[i].colId;
+    const bookedSeatId = seatsBookedData[i].colId;
     seatMatrixDataByIdParsed.data[rowNameIndex].rowSeats[bookedSeatId].isOff =
-      seatsBookedData.data[i].status;
+      seatsBookedData[i].status;
   }
 
   const seatMatrixDataChanged = JSON.stringify(seatMatrixDataByIdParsed);
@@ -44,20 +44,20 @@ export async function setIsSoldStatus(showId, seatsBookedData) {
 
   //take index of each Row Name
   const rowNameIndexArr = [];
-  const seatsBookedCount = seatsBookedData.data.length;
+  const seatsBookedCount = seatsBookedData.length;
   for (var i = 0; i < seatsBookedCount; i++) {
     rowNameIndexArr.push(
       seatMatrixDataByIdParsed.data.findIndex((obj) => {
-        return obj.rowName == seatsBookedData.data[i].rowName;
+        return obj.rowName == seatsBookedData[i].rowName;
       })
     );
   }
   //change status depend on seatsBookData
   for (let i = 0; i < seatsBookedCount; i++) {
     const rowNameIndex = rowNameIndexArr[i];
-    const bookedSeatId = seatsBookedData.data[i].colId;
+    const bookedSeatId = seatsBookedData[i].colId;
     seatMatrixDataByIdParsed.data[rowNameIndex].rowSeats[bookedSeatId].isSold =
-      seatsBookedData.data[i].status;
+      seatsBookedData[i].status;
   }
 
   const seatMatrixDataChanged = JSON.stringify(seatMatrixDataByIdParsed);
@@ -72,21 +72,21 @@ export async function setOnHoldStatus(showId, seatsBookedData) {
   const seatMatrixDataByIdParsed = JSON.parse(seatMatrixByScreenId);
 
   //take index of each Row Name
-  const seatsBookedCount = seatsBookedData.data.length;
+  const seatsBookedCount = seatsBookedData.length;
   const rowNameIndexArr = [];
   for (var i = 0; i < seatsBookedCount; i++) {
     rowNameIndexArr.push(
       seatMatrixDataByIdParsed.data.findIndex((obj) => {
-        return obj.rowName == seatsBookedData.data[i].rowName;
+        return obj.rowName == seatsBookedData[i].rowName;
       })
     );
   }
   //change status depend on seatsBookData
   for (let i = 0; i < seatsBookedCount; i++) {
     const rowNameIndex = rowNameIndexArr[i];
-    const bookedSeatId = seatsBookedData.data[i].colId;
+    const bookedSeatId = seatsBookedData[i].colId;
     seatMatrixDataByIdParsed.data[rowNameIndex].rowSeats[bookedSeatId].onHold =
-      moment(seatsBookedData.data[i].onHold).add(5, 'm').format();
+      moment(seatsBookedData[i].onHold).add(5, 'm').format();
   }
 
   const seatMatrixDataChanged = JSON.stringify(seatMatrixDataByIdParsed);
@@ -106,7 +106,7 @@ export function add(screenWidth, screenLength) {
     };
     for (let colIndex = 0; colIndex < seatCols; colIndex++) {
       seatMatrix.data[rowIndex].rowSeats[colIndex] = {
-        price: 65000,
+        price: 0,
         isSeat: true,
         name: seatMatrix.data[rowIndex].rowName + (colIndex + 1),
         isOff: false,
