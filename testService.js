@@ -1,5 +1,5 @@
-import * as screenServices from './src/services/screen.js';
+import * as cinemaServices from './src/services/cinema.js';
 
 (async function test() {
-  await screenServices.add(13, 'HEHEHE', 1000, 600);
+  await cinemaServices.getByIdAdmin(3);
 })();

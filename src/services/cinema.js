@@ -1,5 +1,6 @@
 import * as cinema from '../repositories/cinema.js';
-
+import * as screen from '../repositories/screen.js';
+import { changeToCinemaByIdAdminDTO } from '../utils/cinemaByIdAdminDTO.js';
 import {
   changeCinemaToDTO,
   changeCinemaListToDTO,
@@ -37,4 +38,14 @@ export async function getAll() {
   const allCinemaInfor = await cinema.getAll();
   const allCinemaDTO = changeCinemaListToDTO(allCinemaInfor);
   return allCinemaDTO;
+}
+
+export async function getByIdAdmin(cinemaId) {
+  const screenByCinemaIdInfor = await screen.getByCinemaId(cinemaId);
+  const cinemaByIdInfor = await cinema.getById(cinemaId);
+  const cinemaByIdAdminDTO = changeToCinemaByIdAdminDTO(
+    screenByCinemaIdInfor,
+    cinemaByIdInfor
+  );
+  return cinemaByIdAdminDTO;
 }
