@@ -1,4 +1,5 @@
 import { db } from '../models/index.js';
+import { show } from '../models/show.js';
 
 export async function add(seatMatrix, cinemaId, name) {
   await db.screen.create({
@@ -61,13 +62,14 @@ export async function updateSeatMatrix(id, seatMatrixData) {
   );
 }
 
-export async function getSeatMatrixById(id) {
-  const seatMatrixData = await db.screen.findOne({
-    attributes: ['seatMatrix'],
-    where: {
-      id: id,
+export async function getByShowId(showId) {
+  const screenByShowId = await db.screen.findOne({
+    include: {
+      model: db.show,
+      attributes: ['id'],
+      where: {
+        id: showId,
+      },
     },
   });
-
-  return seatMatrixData.seatMatrix;
 }
