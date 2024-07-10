@@ -21,6 +21,14 @@ export function screen(sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      len: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      width: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,

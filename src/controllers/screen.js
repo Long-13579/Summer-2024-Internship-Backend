@@ -4,11 +4,12 @@ import { API_STATUS } from '../models/apiStatus.js';
 export async function add(req, res) {
   try {
     await screenServices.add(
-      req.body.seatMatrix,
       req.body.cinemaId,
+      req.body.name,
       req.body.width,
       req.body.len
     );
+
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {
@@ -78,8 +79,8 @@ export async function update(req, res) {
     const screenId = req.body.id;
     await screenServices.update(
       screenId,
-      req.body.seatMatrix,
       req.body.cinemaId,
+      req.body.name,
       req.body.width,
       req.body.len
     );

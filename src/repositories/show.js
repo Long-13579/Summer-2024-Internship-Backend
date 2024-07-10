@@ -26,7 +26,8 @@ export async function update(
   screenId,
   timeStart,
   dateStart,
-  price
+  price,
+  seatMatrix
 ) {
   await db.show.update(
     {
@@ -35,6 +36,7 @@ export async function update(
       timeStart: timeStart,
       dateStart: dateStart,
       price: price,
+      seatMatrix: seatMatrix,
     },
     {
       where: {
@@ -46,6 +48,10 @@ export async function update(
 
 export async function getAll() {
   const allShowInfor = await db.show.findAll({
+    include: {
+      model: db.film,
+      attributes: ['filmName'],
+    },
     where: {
       dateStart: {
         [Op.gt]: moment(),
@@ -73,7 +79,7 @@ export async function getByFilmIdAdmin(filmId) {
   return showByFilmIdInfor;
 }
 
-export async function getByFilmIdFilmDetail(filmId, date, provinceCityId) {
+export async function getByFilmIdFilmDetail(filmId, dateStart, provinceCityId) {
   const showByFilmIdInfor = await db.cinema.findAll({
     include: {
       model: db.screen,
@@ -81,13 +87,14 @@ export async function getByFilmIdFilmDetail(filmId, date, provinceCityId) {
         model: db.show,
         where: {
           filmId: filmId,
-          dateStart: date,
+          dateStart: dateStart,
         },
       },
     },
     where: {
       provinceCityId: provinceCityId,
     },
+    order: [[db.screen, db.show, 'timeStart', 'ASC']],
   });
   return showByFilmIdInfor;
 }

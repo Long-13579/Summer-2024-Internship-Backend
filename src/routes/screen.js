@@ -17,4 +17,6 @@ router.get(
 //get By Id
 router.get('/:screenId', validateScreenId, screenController.getById);
 
+router.put('/', validateScreenId, validateCinemaId, screenController.update);
+
 export default router;

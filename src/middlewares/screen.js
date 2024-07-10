@@ -3,13 +3,22 @@ import { API_STATUS } from '../models/apiStatus.js';
 
 export async function validateScreenId(req, res, next) {
   try {
-    const screenIdRequest =
-      req.body.id ||
-      req.query.id ||
-      req.params.screenId ||
-      req.body.screenId ||
-      req.query.screenId;
-
+    var screenIdRequest;
+    //use in update check case
+    if (req.previousId != undefined) {
+      screenIdRequest =
+        req.query.id ||
+        req.params.screenId ||
+        req.body.screenId ||
+        req.query.screenId;
+    } else {
+      screenIdRequest =
+        req.body.id ||
+        req.query.id ||
+        req.params.screenId ||
+        req.body.screenId ||
+        req.query.screenId;
+    }
     if (screenIdRequest == undefined) {
       req.noScreenId = true;
       next();
@@ -27,6 +36,9 @@ export async function validateScreenId(req, res, next) {
         )
       );
       return;
+    }
+    if (req.body.id != undefined) {
+      req.previousId = true;
     }
     next();
   } catch (error) {

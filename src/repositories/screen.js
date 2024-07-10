@@ -1,11 +1,12 @@
 import { db } from '../models/index.js';
-import { show } from '../models/show.js';
 
-export async function add(seatMatrix, cinemaId, name) {
+export async function add(seatMatrix, cinemaId, name, width, len) {
   await db.screen.create({
     seatMatrix: seatMatrix,
     cinemaId: cinemaId,
     name: name,
+    width: width,
+    len: len,
   });
 }
 
@@ -17,9 +18,15 @@ export async function drop(id) {
   });
 }
 
-export async function update(id, seatMatrix, cinemaId, name) {
+export async function update(id, seatMatrix, cinemaId, name, len, width) {
   await db.screen.update(
-    { seatMatrix: seatMatrix, cinemaId: cinemaId, name: name },
+    {
+      seatMatrix: seatMatrix,
+      cinemaId: cinemaId,
+      name: name,
+      len: len,
+      width: width,
+    },
     {
       where: {
         id: id,
@@ -51,25 +58,13 @@ export async function getById(id) {
   return screenByIdInfor;
 }
 
-export async function updateSeatMatrix(id, seatMatrixData) {
-  await db.screen.update(
-    { seatMatrix: seatMatrixData },
-    {
-      where: {
-        id: id,
-      },
-    }
-  );
-}
-
-export async function getByShowId(showId) {
-  const screenByShowId = await db.screen.findOne({
-    include: {
-      model: db.show,
-      attributes: ['id'],
-      where: {
-        id: showId,
-      },
-    },
-  });
-}
+// export async function updateSeatMatrix(id, seatMatrixData) {
+//   await db.screen.update(
+//     { seatMatrix: seatMatrixData },
+//     {
+//       where: {
+//         id: id,
+//       },
+//     }
+//   );
+// }

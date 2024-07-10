@@ -8,8 +8,7 @@ export async function add(req, res) {
       req.body.screenId,
       req.body.timeStart,
       req.body.dateStart,
-      req.body.price,
-      req.body.seatMatrix
+      req.body.price
     );
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
@@ -29,8 +28,7 @@ export async function update(req, res) {
       req.body.screenId,
       req.body.timeStart,
       req.body.dateStart,
-      req.body.price,
-      req.body.seatMatrix
+      req.body.price
     );
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);

@@ -3,12 +3,21 @@ import { API_STATUS } from '../models/apiStatus.js';
 
 export async function validateCinemaId(req, res, next) {
   try {
-    const cinemaIdRequest =
-      req.body.id ||
-      req.query.id ||
-      req.params.cinemaId ||
-      req.body.cinemaId ||
-      req.query.cinemaId;
+    var cinemaIdRequest;
+    if (req.previousId != undefined) {
+      cinemaIdRequest =
+        req.query.id ||
+        req.params.cinemaId ||
+        req.body.cinemaId ||
+        req.query.cinemaId;
+    } else {
+      cinemaIdRequest =
+        req.body.id ||
+        req.query.id ||
+        req.params.cinemaId ||
+        req.body.cinemaId ||
+        req.query.cinemaId;
+    }
     if (cinemaIdRequest == undefined) {
       req.noCinemaId = true;
       next();
@@ -26,6 +35,9 @@ export async function validateCinemaId(req, res, next) {
         )
       );
       return;
+    }
+    if (req.body.id != undefined) {
+      req.previousId = true;
     }
     next();
   } catch (error) {
