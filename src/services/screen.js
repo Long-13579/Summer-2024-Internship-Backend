@@ -15,6 +15,10 @@ export async function update(id, cinemaId, name, width, len) {
   await screen.update(id, seatMatrix, cinemaId, name, width, len);
 }
 
+export async function updateSeatMatrix(id, seatMatrixData) {
+  await screen.update(id, seatMatrixData);
+}
+
 export async function getAll() {
   const allScreenInfor = await screen.getAll();
   return allScreenInfor;

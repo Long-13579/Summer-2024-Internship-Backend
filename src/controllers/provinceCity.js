@@ -27,7 +27,7 @@ export async function drop(req, res) {
 
 export async function update(req, res) {
   try {
-    const provinceCityId = req.query.id;
+    const provinceCityId = req.body.id;
     await provinceCityServices.update(provinceCityId, req.body.name);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);

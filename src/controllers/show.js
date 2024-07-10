@@ -107,7 +107,7 @@ export async function getByFilmIdFilmDetail(req, res, next) {
     const queryFilmId = req.query.filmId;
     const queryProvinceCityId = req.query.provinceCityId;
     const queryDateStart = req.query.date;
-
+    //console.log(queryFilmId + ' ' + queryProvinceCityId + ' ' + queryDateStart);
     const showByFilmIdInfor = await showServices.getByFilmIdFilmDetail(
       queryFilmId,
       queryDateStart,
@@ -125,6 +125,7 @@ export async function getByFilmIdFilmDetail(req, res, next) {
     res.status(API_STATUS.OK.status);
     res.send(showByFilmIdInfor);
   } catch (error) {
+    console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }

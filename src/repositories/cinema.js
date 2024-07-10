@@ -30,7 +30,7 @@ export async function getById(id) {
   const getCinemaByIdInfor = await db.cinema.findOne({
     include: {
       model: db.provinceCity,
-      attributes: ['name'],
+      attributes: ['name', 'id'],
     },
     where: {
       id: id,
@@ -55,7 +55,7 @@ export async function getAll() {
     include: [
       {
         model: db.provinceCity,
-        attributes: ['name'],
+        attributes: ['name', 'id'],
       },
     ],
   });

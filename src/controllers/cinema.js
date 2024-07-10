@@ -65,7 +65,7 @@ export async function update(req, res) {
       req.body.id,
       req.body.name,
       req.body.address,
-      req.body.provinceCity
+      req.body.provinceCityId
     );
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
@@ -88,9 +88,11 @@ export async function drop(req, res) {
   }
 }
 
-export async function getByIdAdmin(req, res){
+export async function getByIdAdmin(req, res) {
   try {
-    const cinemaByIdInfor = await cinemaServices.getByIdAdmin(req.params.cinemaId);
+    const cinemaByIdInfor = await cinemaServices.getByIdAdmin(
+      req.params.cinemaId
+    );
     res.status(API_STATUS.OK.status);
     res.send(cinemaByIdInfor);
   } catch (error) {

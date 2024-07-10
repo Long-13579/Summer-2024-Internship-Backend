@@ -40,7 +40,7 @@ export function changeFilmToFilmDetailDto(filmInfo) {
       result.provinceList.push(show.screen.cinema.provinceCity);
     }
   });
-
+  console.log(result);
   return result;
 }
 

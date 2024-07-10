@@ -56,6 +56,7 @@ export async function getByFilmIdFilmDetail(filmId, date, provinceCityId) {
     date,
     provinceCityId
   );
+  console.log(JSON.stringify(showByFilmIdInfor, null, 2));
   const showByFilmIdDTO = changeCinemasToListShowDto(showByFilmIdInfor);
   return showByFilmIdDTO;
 }

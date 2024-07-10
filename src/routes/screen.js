@@ -5,7 +5,6 @@ import express from 'express';
 
 const router = express.Router();
 
-router.post('/', screenController.add);
 
 router.get(
   '/',
@@ -16,7 +15,5 @@ router.get(
 
 //get By Id
 router.get('/:screenId', validateScreenId, screenController.getById);
-
-router.put('/', validateScreenId, validateCinemaId, screenController.update);
 
 export default router;

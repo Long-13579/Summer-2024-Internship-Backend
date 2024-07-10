@@ -58,13 +58,13 @@ export async function getById(id) {
   return screenByIdInfor;
 }
 
-// export async function updateSeatMatrix(id, seatMatrixData) {
-//   await db.screen.update(
-//     { seatMatrix: seatMatrixData },
-//     {
-//       where: {
-//         id: id,
-//       },
-//     }
-//   );
-// }
+export async function updateSeatMatrix(id, seatMatrixData) {
+  await db.screen.update(
+    { seatMatrix: seatMatrixData },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
+}

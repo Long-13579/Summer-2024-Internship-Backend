@@ -4,6 +4,7 @@ export function changeCinemaToDTO(cinema) {
     name: cinema.name,
     address: cinema.address,
     provinceCity: cinema.provinceCity.name,
+    provinceId: cinema.provinceCity.id,
   };
   return DTO;
 }
@@ -17,6 +18,7 @@ export function changeCinemaListToDTO(cinemaArr) {
       name: cinemaArr[i].name,
       address: cinemaArr[i].address,
       provinceCity: cinemaArr[i].provinceCity.name,
+      provinceId: cinemaArr[i].provinceCity.id,
     };
   }
   return DTO;

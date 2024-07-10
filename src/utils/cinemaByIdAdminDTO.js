@@ -7,6 +7,7 @@ export function changeToCinemaByIdAdminDTO(
     seatMatrix: cinemaByIdInfor.seatMatrix,
     cinemaId: cinemaByIdInfor.cinemaId,
     name: cinemaByIdInfor.name,
+    address: cinemaByIdInfor.address,
     provinceCityId: cinemaByIdInfor.provinceCityId,
     provinceCityName: cinemaByIdInfor.provinceCity.name,
   };

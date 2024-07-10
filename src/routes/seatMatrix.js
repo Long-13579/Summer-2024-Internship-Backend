@@ -6,4 +6,6 @@ router.post('/setOnHold', seatMatrixController.setOnHoldStatus);
 
 router.post('/setIsSold', seatMatrixController.setIsSoldStatus);
 
+router.post('/setAvailability', seatMatrixController.setIsOffStatus);
+
 export default router;
