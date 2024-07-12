@@ -73,3 +73,24 @@ export async function getByIdForAdmin(filmId) {
   return filmByIdInfor;
 }
 
+export async function getUpComing() {
+  const upcomingFilmInfor = await db.film.findAll({
+    where: {
+      dateStart: {
+        [Op.gt]: new Date(),
+      },
+    },
+  });
+  return upcomingFilmInfor;
+}
+
+export async function getOnCasting() {
+  const onCastingFilmInfor = await db.film.findAll({
+    where: {
+      dateEnd: {
+        [Op.gt]: new Date(),
+      },
+    },
+  });
+  return onCastingFilmInfor;
+}
