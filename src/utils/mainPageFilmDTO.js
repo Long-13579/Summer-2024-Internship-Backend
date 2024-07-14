@@ -17,10 +17,6 @@ export function changeFilmToDTO(filmObj) {
 }
 
 export function changeFilmListToDTO(filmObjArr) {
-  const filmListLen = filmObjArr.length;
-  const filmDTOArr = [];
-  for (let i = 0; i < filmListLen; i++) {
-    filmDTOArr.push(changeFilmToDTO(filmObjArr[i]));
-  }
+  const filmDTOArr = filmObjArr.map(changeFilmToDTO);
   return filmDTOArr;
 }
