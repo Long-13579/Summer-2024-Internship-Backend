@@ -24,3 +24,14 @@ export async function getByCinemaId(cinemaId) {
   );
   return filmByCinemaIdDTO;
 }
+export async function getAll() {
+  const allFilmInfor = await film.getAll();
+  return allFilmInfor;
+}
+
+export async function getFilmForUser({ cinemaId }) {
+  if (cinemaId) {
+    return await getByCinemaId(cinemaId);
+  }
+  return await getAll();
+}
