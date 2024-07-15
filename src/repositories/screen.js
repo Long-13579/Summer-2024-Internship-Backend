@@ -1,5 +1,6 @@
 import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
+const { screen, cinema, ...rest } = db;
 
 export async function add(seatMatrix, cinemaId) {
   await db.screen.create({
@@ -37,6 +38,9 @@ export async function getAll() {
 
 export async function getByCinemaId(cinemaId) {
   const screenByCinemaIdInfor = await db.screen.findAll({
+    include: {
+      model: cinema,
+    },
     where: {
       cinemaId: cinemaId,
     },
