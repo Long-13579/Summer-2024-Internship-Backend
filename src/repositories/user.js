@@ -1,11 +1,10 @@
 import { db } from '../models/index.js';
 
-export async function getByUserNamePassWord(userName, password) {
-  const userInfor = await db.user.findOne({
+export async function getAdminInfor(userName, password) {
+  const adminInfor = await db.user.findAll({
     where: {
-      userName: userName,
-      password: password,
+      roleId: 1,
     },
   });
-  return userInfor;
+  return adminInfor;
 }
