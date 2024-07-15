@@ -25,15 +25,17 @@ export async function getAllForAdmin() {
 }
 
 export async function getProvinceCityForUser(params) {
-  if (params.id) {
-    return await getById(params.id);
+  const provinceCityId = params.id;
+  if (provinceCityId) {
+    return await getById(provinceCityId);
   }
   return await getAllForUser();
 }
 
 export async function getProvinceCityForAdmin(params) {
-  if (params.id) {
-    return await getById(params.id);
+  const provinceCityId = params.id;
+  if (provinceCityId) {
+    return await getById(provinceCityId);
   }
   return await getAllForAdmin();
 }
