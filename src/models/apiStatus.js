@@ -1,4 +1,4 @@
-import { StatusCodes } from 'http-status-codes';
+import { StatusCodes} from 'http-status-codes';
 
 export const API_STATUS = {
   BAD_REQUEST: {
@@ -20,5 +20,9 @@ export const API_STATUS = {
   UNPROCESSABLE_ENTITY: {
     status: StatusCodes.UNPROCESSABLE_ENTITY,
     message: 'User Name or Password is not correct!',
+  },
+  UNAUTHORIZED: {
+    status: StatusCodes.UNAUTHORIZED,
+    message: 'Access Denied!',
   },
 };
