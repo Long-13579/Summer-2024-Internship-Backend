@@ -1,4 +1,4 @@
-export function user(sequelize, DataTypes){
+export function user(sequelize, DataTypes) {
   const user = sequelize.define(
     'user',
     {
@@ -22,7 +22,7 @@ export function user(sequelize, DataTypes){
         allowNull: false,
       },
       roleId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BOOLEAN,
       },
       address: {
         type: DataTypes.STRING,
@@ -35,6 +35,14 @@ export function user(sequelize, DataTypes){
       },
       avatar: {
         type: DataTypes.STRING,
+      },
+      userPoint: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
     },
     {
@@ -52,4 +60,4 @@ export function user(sequelize, DataTypes){
     });
   };
   return user;
-};
+}
