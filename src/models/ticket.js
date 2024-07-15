@@ -1,4 +1,4 @@
-export function ticket(sequelize, DataTypes){
+export function ticket(sequelize, DataTypes) {
   const ticket = sequelize.define(
     'ticket',
     {
@@ -31,24 +31,24 @@ export function ticket(sequelize, DataTypes){
       isPaid: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        default: false
+        default: false,
       },
       clientName: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
       },
       email: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       price: {
         type: DataTypes.INTEGER,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       sequelize,
@@ -63,7 +63,7 @@ export function ticket(sequelize, DataTypes){
       onDelete: 'NO ACTION',
       onUpdate: 'NO ACTION',
     });
-    ticket.hasMany(db.show, {
+    ticket.belongsTo(db.show, {
       foreignKey: 'showId',
       onDelete: 'NO ACTION',
       onUpdate: 'NO ACTION',
@@ -80,4 +80,4 @@ export function ticket(sequelize, DataTypes){
     });
   };
   return ticket;
-};
+}

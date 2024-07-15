@@ -29,12 +29,12 @@ export async function update({
 }) {
   await db.show.update(
     {
-      filmId: filmId,
-      screenId: screenId,
-      timeStart: timeStart,
-      dateStart: dateStart,
-      price: price,
-      seatMatrix: seatMatrix,
+      filmId,
+      screenId,
+      timeStart,
+      dateStart,
+      price,
+      seatMatrix,
     },
     {
       where: {
@@ -50,7 +50,7 @@ export async function getAll() {
 }
 
 export async function getById(id) {
-  const showByIdInfor = await db.show.findAll({
+  const showByIdInfor = await db.show.findOne({
     where: {
       id: id,
     },
