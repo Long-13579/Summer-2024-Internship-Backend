@@ -1,19 +1,19 @@
 import * as userServices from '../services/user.js';
-import jwt from 'jsonwebtoken';
 import { API_STATUS } from '../models/apiStatus.js';
 
 export async function login(req, res) {
-  const userInfor = await userServices.getByUserNamePassWord(
-    req.body.userName,
-    req.body.password
-  );
-  if (userInfor === null) {
-    res.status(API_STATUS.UNPROCESSABLE_ENTITY.status);
-    res.send(API_STATUS.UNPROCESSABLE_ENTITY);
+  try {
+    const token = await userServices.getToken(req.body);
+    if (token == undefined) {
+      res.status(API_STATUS.UNPROCESSABLE_ENTITY.status);
+      res.send(API_STATUS.UNPROCESSABLE_ENTITY);
+      return;
+    }
+    res.status(API_STATUS.OK.status);
+    res.header('auth-token', token);
+    res.send(API_STATUS.OK);
+  } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
-  const token = jwt.sign({ data: userInfor }, process.env.TOKEN_SECRET, {
-    expiresIn: Math.floor(Date.now() / 1000) + 60 * 60,
-  });
-  res.status(API_STATUS.OK.status);
-  res.send(token);
 }
