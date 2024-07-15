@@ -6,6 +6,7 @@ import screenRoute from './src/routes/screen.js';
 import filmRoute from './src/routes/film.js';
 import ticketRoute from './src/routes/ticket.js';
 import showRoute from './src/routes/show.js';
+import seatMatrixRoute from './src/routes/seatMatrix.js';
 import userRoute from './src/routes/user.js';
 import adminRoute from './src/routes/admin.js';
 import bodyParser from 'body-parser';
@@ -27,6 +28,7 @@ app.use('/ticket', ticketRoute);
 app.use('/show', showRoute);
 app.use('/admin', adminRoute);
 app.use('/user', userRoute);
+app.use('/seatMatrix', seatMatrixRoute);
 
 app.listen(PORT, (error) => {
   if (error) console.log("Error occurred, server can't start", error);
