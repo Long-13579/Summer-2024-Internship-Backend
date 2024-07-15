@@ -1,6 +1,6 @@
 import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
-const { cinema, screen, ...rest } = db;
+const { cinema, screen, provinceCity, ...rest } = db;
 
 export async function add({ name, address, provinceCityId }) {
   await cinema.create({
@@ -31,31 +31,75 @@ export async function update({ id, name, address, provinceCityId }) {
   );
 }
 
-export async function getById(id) {
+export async function getByIdForUser(id) {
   const getCinemaByIdInfor = await cinema.findOne({
+    include: {
+      model: provinceCity,
+      attributes: ['name', 'id'],
+    },
     where: {
-      id: id,
+      id,
     },
   });
   return getCinemaByIdInfor; //return that cinema's infor
 }
 
+export async function getByIdAdmin(id) {
+  const getCinemaByIdInfor = await cinema.findOne({
+    include: {
+      model: screen,
+      attributes: ['name', 'size', 'status', 'seatMatrix', 'id'],
+    },
+    where: {
+      id,
+    },
+  });
+  return getCinemaByIdInfor;
+}
+
 export async function getByProvinceCityId(provinceCityId) {
-  const getCinemaByProvinceIdInfor = await cinema.findOne({
+  const getCinemaByProvinceIdInfor = await cinema.findAll({
+    include: {
+      model: provinceCity,
+      attributes: ['name', 'id'],
+    },
     where: {
       provinceCityId: provinceCityId,
     },
   });
   return getCinemaByProvinceIdInfor;
 }
-export async function getAll() {
+
+export async function getAllForUser() {
   const allCinemaInfor = await cinema.findAll({
+    attributes: ['id', 'name', 'address'],
     include: [
       {
-        model: screen,
-        required: true,
+        model: provinceCity,
+        attributes: ['name', 'id'],
       },
     ],
+    order: [['id', 'ASC']],
+  });
+  return allCinemaInfor;
+}
+
+export async function getAllForAdmin() {
+  const allCinemaInfor = await cinema.findAll({
+    attributes: ['id', 'name', 'address', 'status'],
+    include: [
+      {
+        model: provinceCity,
+        attributes: ['name', 'id'],
+      },
+      {
+        model: screen,
+        attributes: {
+          exclude: ['seatMatrix'],
+        },
+      },
+    ],
+    order: [['id', 'ASC']],
   });
   return allCinemaInfor;
 }

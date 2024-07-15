@@ -1,5 +1,4 @@
 import * as provinceCity from '../repositories/provinceCity.js';
-import { getById } from './cinema.js';
 
 export async function add(name) {
   await provinceCity.add(name);
@@ -11,6 +10,11 @@ export async function drop(provinceCityId) {
 
 export async function update(provinceCityId, name) {
   await provinceCity.update(provinceCityId, name);
+}
+
+export async function getById(id) {
+  const provinceCityByIdInfor = await provinceCity.getById(id);
+  return provinceCityByIdInfor;
 }
 
 export async function getAllForUser() {
