@@ -3,10 +3,6 @@ import express from 'express';
 
 var router = express.Router();
 
-router.get(
-  '/',
-  cinemaController.getCinema
-);
-
+router.get('/', cinemaController.getCinemaForUser);
 
 export default router;
