@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.delete('/:screenId', validateScreenId, screenController.deactivateScreen);
 
+router.get('/', screenController.getScreen);
+
 export default router;
