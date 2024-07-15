@@ -1,3 +1,4 @@
+import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
 import { Op } from 'sequelize';
 const { screen, show, film, ...rest } = db;
@@ -36,8 +37,54 @@ export async function add({
     format,
     ageRate,
     category,
+    status: STATUS.ACTIVE,
   });
 }
+
+export async function update({
+  id,
+  filmName,
+  duration,
+  description,
+  dateStart,
+  dateEnd,
+  director,
+  actor,
+  subtitle,
+  dubbing,
+  language,
+  poster,
+  trailer,
+  format,
+  ageRate,
+  category,
+}) {
+  await film.update(
+    {
+      filmName,
+      duration,
+      description,
+      dateStart,
+      dateEnd,
+      director,
+      actor,
+      subtitle,
+      dubbing,
+      language,
+      poster,
+      trailer,
+      format,
+      ageRate,
+      category,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  );
+}
+
 export async function getAll() {
   const allFilmInfor = await film.findAll();
   return allFilmInfor;
