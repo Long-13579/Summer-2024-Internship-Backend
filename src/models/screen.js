@@ -1,3 +1,4 @@
+import { SCREEN_SIZE_LIST } from '../constants/enumScreen.js';
 export function screen(sequelize, DataTypes) {
   const screen = sequelize.define(
     'screen',
@@ -15,6 +16,15 @@ export function screen(sequelize, DataTypes) {
       },
       cinemaId: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+      size: {
+        type: DataTypes.ENUM({
+          values: SCREEN_SIZE_LIST,
+        }),
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
       },
     },
