@@ -4,7 +4,7 @@ import { API_STATUS } from '../models/apiStatus.js';
 export async function getCinema(req, res) {
   try {
     const cinemasInfor = await cinemaServices.getCinema(req.query);
-    res.status(API_STATUS.OK);
+    res.status(API_STATUS.OK.status);
     res.send(cinemasInfor);
     return;
   } catch (error) {
