@@ -1,25 +1,25 @@
 import * as show from '../repositories/show.js';
 
-export async function add(
-  {filmId,
-  screenId,
-  timeStart,
-  dateStart,
-  price,
-  seatMatrix}
-) {
-  await show.add(filmId, screenId, timeStart, dateStart, price, seatMatrix);
-}
-
-export async function update(
-  {id,
+export async function add({
   filmId,
   screenId,
   timeStart,
   dateStart,
   price,
-  seatMatrix}
-) {
+  seatMatrix,
+}) {
+  await show.add(filmId, screenId, timeStart, dateStart, price, seatMatrix);
+}
+
+export async function update({
+  id,
+  filmId,
+  screenId,
+  timeStart,
+  dateStart,
+  price,
+  seatMatrix,
+}) {
   await show.update({
     id,
     filmId,
@@ -27,8 +27,12 @@ export async function update(
     timeStart,
     dateStart,
     price,
-    seatMatrix
+    seatMatrix,
   });
+}
+
+export async function inactive(id) {
+  await show.inactive(id);
 }
 
 export async function getAll() {
