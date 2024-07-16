@@ -7,15 +7,18 @@ export async function add(seatMatrix, cinemaId) {
   });
 }
 
-export async function drop(id) {
-  await db.screen.destroy({
-    where: {
-      id: id,
-    },
-  });
+export async function inactive(id) {
+  await db.screen.update(
+    { status: 0 },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
 }
 
-export async function update({id, seatMatrix, cinemaId}) {
+export async function update({ id, seatMatrix, cinemaId }) {
   await db.screen.update(
     { seatMatrix: seatMatrix, cinemaId: cinemaId },
     {
