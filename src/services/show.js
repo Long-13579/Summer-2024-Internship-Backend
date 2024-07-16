@@ -27,7 +27,7 @@ export async function update(
     timeStart,
     dateStart,
     price,
-    seatMatrix
+    seatMatrix,
   });
 }
 
