@@ -6,10 +6,10 @@ export async function add(seatMatrix, cinemaId) {
 }
 
 export async function inactive(id) {
-  const showsByScreenIdInfor = showServices.getByScreenId(id);
-  console.log(JSON.stringify(showsByScreenIdInfor, null, 2));
+  const showsByScreenIdInfor = await showServices.getByScreenId(id);
   const showsByScreenIdArrId = showsByScreenIdInfor.map((index) => index.id);
-  await screen.inactive(showsByScreenIdArrId);
+  await showServices.inactive(showsByScreenIdArrId);
+  await screen.inactive(id);
 }
 
 export async function update({ id, seatMatrix, cinemaId }) {

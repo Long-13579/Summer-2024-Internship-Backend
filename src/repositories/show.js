@@ -30,19 +30,6 @@ export async function inactive(id) {
   );
 }
 
-export async function inactiveMutiple(arrId) {
-  await show.update(
-    { status: 0 },
-    {
-      where: {
-        id: {
-          [Op.in]: arrId,
-        },
-      },
-    }
-  );
-}
-
 export async function update({
   id,
   filmId,
