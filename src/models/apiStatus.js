@@ -17,4 +17,12 @@ export const API_STATUS = {
     status: StatusCodes.NO_CONTENT,
     message: 'Empty Data',
   },
+  UNPROCESSABLE_ENTITY: {
+    status: StatusCodes.UNPROCESSABLE_ENTITY,
+    message: 'User Name or Password is not correct!',
+  },
+  UNAUTHORIZED: {
+    status: StatusCodes.UNAUTHORIZED,
+    message: 'Access Denied!',
+  },
 };

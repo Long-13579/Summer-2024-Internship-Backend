@@ -36,6 +36,14 @@ export function user(sequelize, DataTypes){
       avatar: {
         type: DataTypes.STRING,
       },
+      userPoint: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
     },
     {
       sequelize,

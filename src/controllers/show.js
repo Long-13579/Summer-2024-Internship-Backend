@@ -3,7 +3,7 @@ import { API_STATUS } from '../models/apiStatus.js';
 
 export async function inactive(req, res) {
   try {
-    await showServices.inactive(req.params.id);
+    await showServices.inactive(req.params.showId);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {
