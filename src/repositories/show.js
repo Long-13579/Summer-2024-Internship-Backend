@@ -18,7 +18,7 @@ export async function add({
   });
 }
 
-export async function inactive(id) {
+export async function deactive(id) {
   await show.update(
     { status: 0 },
     {
