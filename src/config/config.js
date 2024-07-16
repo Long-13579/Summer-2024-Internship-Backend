@@ -6,6 +6,7 @@ export const configPathEnv = {
     database: process.env.DEVELOPMENT_DATABASE,
     host: process.env.DEVELOPMENT_HOST,
     dialect: process.env.DEVELOPMENT_DIALECT,
+    port: process.env.DEVELOPMENT_PORT,
     vnp: {
       vnp_TmnCode: process.env.VNP_TMNCODE,
       vnp_HashSecret: process.env.VNP_HASHSECRET,
@@ -29,6 +30,7 @@ export const configPathEnv = {
     database: process.env.TEST_DATABASE,
     host: process.env.TEST_HOST,
     dialect: process.env.TEST_DIALECT,
+    port: process.env.TEST_PORT
   },
   production: {
     username: process.env.PRODUCTION_USERNAME,
@@ -36,6 +38,7 @@ export const configPathEnv = {
     database: process.env.PRODUCTION_DATABASE,
     host: process.env.PRODUCTION_HOST,
     dialect: process.env.PRODUCTION_DIALECT,
+    port: process.env.PRODUCTION_PORT,
     email: {
       service: process.env.MAIL_SERVICE,
       host: process.env.MAIL_HOST,
