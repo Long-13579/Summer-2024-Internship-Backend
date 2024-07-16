@@ -6,6 +6,7 @@ import screenRoute from './src/routes/screen.js';
 import filmRoute from './src/routes/film.js';
 import ticketRoute from './src/routes/ticket.js';
 import userRoute from './src/routes/user.js';
+import adminRoute from './src/routes/admin.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -22,6 +23,7 @@ app.use('/provinceCity', provinceRoute);
 app.use('/screen', screenRoute);
 app.use('/film', filmRoute);
 app.use('/ticket', ticketRoute);
+app.use('/admin', adminRoute);
 app.use('/user', userRoute);
 
 app.listen(PORT, (error) => {

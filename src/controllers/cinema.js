@@ -38,10 +38,10 @@ export async function update(req, res) {
   }
 }
 
-export async function drop(req, res) {
+export async function deactivate(req, res) {
   try {
     const paramsCinemaId = req.params.cinemaId;
-    await cinemaServices.drop(paramsCinemaId);
+    await cinemaServices.deactivate(paramsCinemaId);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
     return;

@@ -8,7 +8,7 @@ export async function add(
   price,
   seatMatrix}
 ) {
-  await show.add(filmId, screenId, timeStart, dateStart, price, seatMatrix);
+  await show.add({filmId, screenId, timeStart, dateStart, price, seatMatrix});
 }
 
 export async function update(
@@ -29,6 +29,10 @@ export async function update(
     price,
     seatMatrix
   });
+}
+
+export async function deactivate(id) {
+  await show.deactivate(id);
 }
 
 export async function getAll() {
