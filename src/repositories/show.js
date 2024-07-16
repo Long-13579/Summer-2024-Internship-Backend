@@ -1,5 +1,6 @@
 import { db } from '../models/index.js';
-const {show, ...rest} = db;
+import { Op } from 'sequelize';
+const { show, ...rest } = db;
 export async function add({
   filmId,
   screenId,
@@ -24,6 +25,19 @@ export async function inactive(id) {
     {
       where: {
         id: id,
+      },
+    }
+  );
+}
+
+export async function inactiveMutiple(arrId) {
+  await show.update(
+    { status: 0 },
+    {
+      where: {
+        id: {
+          [Op.in]: arrId,
+        },
       },
     }
   );
