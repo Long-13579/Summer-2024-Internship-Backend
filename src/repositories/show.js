@@ -1,7 +1,6 @@
 import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
-import { Op } from 'sequelize';
-const { show, ...rest } = db;
+const { show, screen, cinema, film, ...rest } = db;
 export async function add({
   filmId,
   screenId,
@@ -80,27 +79,78 @@ export async function getByFilmId(filmId) {
   return showByFilmIdInfor;
 }
 
-export async function getByScreenId(screenId) {
-  const showByScreenIdInfor = await show.findAll({
-    where: {
-      screenId: screenId,
-    },
-  });
-  return showByScreenIdInfor;
-}
-
-export async function getByCinemaId(cinemaId) {
-  const showByCinemaIdInfor = await db.cinema.findAll({
-    where: {
-      id: cinemaId,
-    },
+export async function getByFilmIdDateStartProvinceCityId({
+  filmId,
+  dateStart,
+  provinceCityId,
+}) {
+  const showByFilmIdInfor = await cinema.findAll({
     include: {
-      model: db.screen,
-      attributes: ['id'],
+      model: screen,
+      required: true,
+      attributes: {
+        exclude: ['seatMatrix'],
+      },
       include: {
-        model: db.show,
+        model: show,
+        required: true,
+        attributes: {
+          exclude: ['seatMatrix'],
+        },
+        where: {
+          filmId,
+          dateStart,
+        },
       },
     },
+    where: {
+      provinceCityId,
+    },
+    order: [[screen, show, 'timeStart', 'ASC']],
   });
-  return showByCinemaIdInfor;
+  return showByFilmIdInfor;
+}
+
+export async function getByCinemaScreenDateStart({
+  cinemaId,
+  screenId,
+  dateStart,
+}) {
+  const showsInfor = await cinema.findAll({
+    include: {
+      model: screen,
+      attributes: ['name', 'status', 'id'],
+      include: {
+        model: show,
+        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+        include: {
+          model: film,
+          attributes: ['filmName', 'duration'],
+        },
+        ...(dateStart
+          ? {
+              where: {
+                dateStart,
+              },
+            }
+          : {}),
+      },
+      ...(screenId
+        ? {
+            where: {
+              id: screenId,
+            },
+          }
+        : {}),
+    },
+    ...(cinemaId
+      ? {
+          where: {
+            id: cinemaId,
+          },
+        }
+      : {}),
+    order: [[screen, show, 'timeStart', 'ASC']],
+  });
+  return showsInfor;
 }
