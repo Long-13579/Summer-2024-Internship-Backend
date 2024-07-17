@@ -2,7 +2,7 @@ import * as filmServices from '../services/film.js';
 import { getNotFoundErrorMessage } from '../utils/getErrorMessage.js';
 import { API_STATUS } from '../models/apiStatus.js';
 
-export async function validatefilmId(req, res, next) {
+export async function validateFilmId(req, res, next) {
   try {
     const filmIdRequest =
       req.body.id ||
