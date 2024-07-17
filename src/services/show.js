@@ -105,4 +105,3 @@ export async function getShowForUser({ id }) {
   }
   return getAll();
 }
-
