@@ -1,13 +1,15 @@
 import { API_STATUS } from '../models/apiStatus.js';
 import * as ticketService from '../services/ticket.js'
 import { getNotFoundErrorMessage } from '../utils/getErrorMessage.js';
+import { validationResult } from 'express-validator'
+import ticketValidator from '../validators/ticket.js'
 
 export async function validateTicketPayment(req, res, next) {
     try {
-        const ticketInfo = req.body.ticketInfo;
-        const paymentInfo = req.body.paymentInfo;
+        await ticketValidator.run(req);
+        const result = validationResult(req);
 
-        if (ticketInfo && paymentInfo) {
+        if (result.isEmpty()) {
             next();
             return;
         }
@@ -33,7 +35,8 @@ export async function validateTicketId(req, res, next) {
             const errorMessage = getNotFoundErrorMessage({
                 model: 'ticket', 
                 modelQuery: 'ticket', 
-                modelQueryId: ticketId});
+                modelQueryId: ticketId
+            });
 
             res.status(errorMessage.status);
             res.send(errorMessage);
