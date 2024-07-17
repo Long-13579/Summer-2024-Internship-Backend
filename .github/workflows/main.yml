@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-lastest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4.0.3
+      with: 
+        node-version: 20
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run test
+      run: npm test
+
+  deploy: 
+    if: github.ref == 'refs/heads/main' && success()
+    runs-on: ubunty-lastest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4.0.3
+      with: 
+        node-version: 20
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run build
+      run: npm run build
+
+    - name: Deploy 
+      env: 
+        deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      run: |
+        curl "$deploy_url"
