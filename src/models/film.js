@@ -84,6 +84,10 @@ export function film(sequelize, DataTypes) {
         }),
         allowNull: false,
       },
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
     },
     {
       sequelize,
