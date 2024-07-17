@@ -1,5 +1,6 @@
 import { db } from '../models/index.js';
-const {show, ...rest} = db;
+import { Op } from 'sequelize';
+const { show, ...rest } = db;
 export async function add({
   filmId,
   screenId,
