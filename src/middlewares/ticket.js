@@ -1,19 +1,21 @@
 import { API_STATUS } from '../models/apiStatus.js';
 import * as ticketService from '../services/ticket.js'
 import { getNotFoundErrorMessage } from '../utils/getErrorMessage.js';
+import { validationResult } from 'express-validator'
+import ticketValidator from '../validators/ticket.js'
 
 export async function validateTicketPayment(req, res, next) {
     try {
-        const ticketInfo = req.body.ticketInfo;
-        const paymentInfo = req.body.paymentInfo;
+        await ticketValidator.run(req);
+        const result = validationResult(req);
 
-        if (ticketInfo && paymentInfo) {
+        if (result.isEmpty()) {
             next();
             return;
         }
 
         res.status(API_STATUS.BAD_REQUEST.status);
-        res.send(API_STATUS.BAD_REQUEST)
+        res.send(result)
     } catch (error) {
         res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
         res.send(API_STATUS.INTERNAL_SERVER_ERROR);
