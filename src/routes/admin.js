@@ -1,5 +1,6 @@
 import express from 'express';
 import showAdminRoutes from './showAdmin.js';
+import filmAdminRoute from './filmAdmin.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
 
 const router = express.Router();
@@ -7,5 +8,7 @@ const router = express.Router();
 router.use('/', verifyToken);
 
 router.use('/show', showAdminRoutes);
+
+router.use('/film', filmAdminRoute);
 
 export default router;
