@@ -10,8 +10,7 @@ export async function login(req, res) {
       return;
     }
     res.status(API_STATUS.OK.status);
-    res.header('auth-token', token);
-    res.send(API_STATUS.OK);
+    res.send(token);
   } catch (error) {
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
