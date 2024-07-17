@@ -1,10 +1,10 @@
 import * as cinemaServices from '../services/cinema.js';
 import { API_STATUS } from '../models/apiStatus.js';
 
-export async function getCinema(req, res) {
+export async function getCinemaForAdmin(req, res) {
   try {
-    const cinemasInfor = await cinemaServices.getCinema(req.query);
-    res.status(API_STATUS.OK);
+    const cinemasInfor = await cinemaServices.getCinemaForAdmin(req.query);
+    res.status(API_STATUS.OK.status);
     res.send(cinemasInfor);
     return;
   } catch (error) {

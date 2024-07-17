@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.get(
   '/',
-  cinemaController.getCinema
+  cinemaController.getCinemaForAdmin
 );
 
 
