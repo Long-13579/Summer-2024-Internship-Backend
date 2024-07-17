@@ -1,7 +1,6 @@
 import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
-import { Op } from 'sequelize';
-const { show, ...rest } = db;
+const { show, screen, cinema, ...rest } = db;
 export async function add({
   filmId,
   screenId,
@@ -80,8 +79,54 @@ export async function getByFilmId(filmId) {
   return showByFilmIdInfor;
 }
 
+export async function getByFilmIdDateStartProvinceCityId({
+  filmId,
+  dateStart,
+  provinceCityId,
+}) {
+  const showByFilmIdInfor = await db.cinema.findAll({
+    include: {
+      model: db.screen,
+      required: true,
+      attributes: {
+        exclude: ['seatMatrix'],
+      },
+      include: {
+        model: db.show,
+        required: true,
+        attributes: {
+          exclude: ['seatMatrix'],
+        },
+        where: {
+          filmId: filmId,
+          dateStart: dateStart,
+        },
+      },
+    },
+    where: {
+      provinceCityId: provinceCityId,
+    },
+    order: [[db.screen, db.show, 'timeStart', 'ASC']],
+  });
+  return showByFilmIdInfor;
+}
+
 export async function getByScreenId(screenId) {
   const showByScreenIdInfor = await show.findAll({
+    include: {
+      model: screen,
+      required: true,
+      attributes: ['name', 'status', 'id'],
+      include: {
+        model: show,
+        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+        required: true,
+        include: {
+          model: film,
+          attributes: ['filmName'],
+        },
+      },
+    },
     where: {
       screenId: screenId,
     },
@@ -89,18 +134,129 @@ export async function getByScreenId(screenId) {
   return showByScreenIdInfor;
 }
 
+export async function getByDateStart(dateStart) {
+    const showByCinemaIdInfor = await cinema.findAll({
+      include: {
+        model: screen,
+        required: true,
+        attributes: ['name', 'status', 'id'],
+        include: {
+          model: show,
+          attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+          required: true,
+          include: {
+            model: film,
+            attributes: ['filmName'],
+          },
+          where: {
+            dateStart: dateStart,
+          },
+        },
+      },
+      order: [[screen, show, 'timeStart', 'ASC']],
+    });
+    return showByCinemaIdInfor;
+}
+
+export async function getByDateStartScreenId(dateStart, screenId) {
+    const showByCinemaIdInfor = await cinema.findAll({
+      include: {
+        model: screen,
+        required: true,
+        attributes: ['name', 'status', 'id'],
+        include: {
+          model: show,
+          attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+          required: true,
+          include: {
+            model: film,
+            attributes: ['filmName'],
+          },
+          where: {
+            dateStart: dateStart,
+          },
+        },
+        where: {
+          id: screenId,
+        },
+      },
+      order: [[screen, show, 'timeStart', 'ASC']],
+    });
+    return showByCinemaIdInfor;
+}
+
+export async function getByDateStartCinemaId(dateStart, cinemaId) {
+    const showByCinemaIdInfor = await cinema.findAll({
+      include: {
+        model: screen,
+        required: true,
+        attributes: ['name', 'status', 'id'],
+        include: {
+          model: show,
+          attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+          required: true,
+          include: {
+            model: film,
+            attributes: ['filmName'],
+          },
+          where: {
+            dateStart: dateStart,
+          },
+        },
+      },
+      where: {
+        id: cinemaId,
+      },
+      order: [[screen, show, 'timeStart', 'ASC']],
+    });
+    return showByCinemaIdInfor;
+}
+
 export async function getByCinemaId(cinemaId) {
-  const showByCinemaIdInfor = await db.cinema.findAll({
+  const showByCinemaIdInfor = await cinema.findAll({
     where: {
       id: cinemaId,
     },
     include: {
-      model: db.screen,
+      model: screen,
       attributes: ['id'],
       include: {
-        model: db.show,
+        model: show,
+        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+        include: {
+          model: film,
+          attributes: ['filmName'],
+        },
       },
     },
   });
   return showByCinemaIdInfor;
+}
+
+export async function getByCinemaScreenDateStart({ cinemaId, screenId, dateStart }) {
+  const showsInfor = await cinema.findAll({
+    where: {
+      id: cinemaId,
+    },
+    include: {
+      model: screen,
+      attributes: ['name', 'status', 'id'],
+      where: {
+        id: screenId,
+      },
+      include: {
+        model: show,
+        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+        include: {
+          model: film,
+          attributes: ['filmName'],
+        },
+        where: {
+          dateStart: dateStart,
+        },
+      },
+    },
+    order: [[screen, show, 'timeStart', 'ASC']],
+  });
+  return showsInfor;
 }
