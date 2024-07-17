@@ -1,5 +1,5 @@
 import { db } from '../models/index.js';
-
+const { show, ...rest } = db;
 export async function add({
   filmId,
   screenId,
@@ -8,13 +8,13 @@ export async function add({
   price,
   seatMatrix,
 }) {
-  await db.show.create({
-    filmId: filmId,
-    screenId: screenId,
-    timeStart: timeStart,
-    dateStart: dateStart,
-    price: price,
-    seatMatrix: seatMatrix,
+  await show.create({
+    filmId,
+    screenId,
+    timeStart,
+    dateStart,
+    price,
+    seatMatrix,
   });
 }
 
@@ -27,14 +27,14 @@ export async function update({
   price,
   seatMatrix,
 }) {
-  await db.show.update(
+  await show.update(
     {
-      filmId: filmId,
-      screenId: screenId,
-      timeStart: timeStart,
-      dateStart: dateStart,
-      price: price,
-      seatMatrix: seatMatrix,
+      filmId,
+      screenId,
+      timeStart,
+      dateStart,
+      price,
+      seatMatrix,
     },
     {
       where: {
@@ -45,12 +45,12 @@ export async function update({
 }
 
 export async function getAll() {
-  const allShowInfor = await db.show.findAll();
+  const allShowInfor = await show.findAll();
   return allShowInfor;
 }
 
 export async function getById(id) {
-  const showByIdInfor = await db.show.findAll({
+  const showByIdInfor = await show.findAll({
     where: {
       id: id,
     },
@@ -59,7 +59,7 @@ export async function getById(id) {
 }
 
 export async function getByFilmId(filmId) {
-  const showByFilmIdInfor = await db.show.findAll({
+  const showByFilmIdInfor = await show.findAll({
     where: {
       filmId: filmId,
     },
@@ -68,7 +68,7 @@ export async function getByFilmId(filmId) {
 }
 
 export async function getByScreenId(screenId) {
-  const showByScreenIdInfor = await db.show.findAll({
+  const showByScreenIdInfor = await show.findAll({
     where: {
       screenId: screenId,
     },
@@ -85,7 +85,7 @@ export async function getByCinemaId(cinemaId) {
       model: db.screen,
       attributes: ['id'],
       include: {
-        model: db.show,
+        model: show,
       },
     },
   });
