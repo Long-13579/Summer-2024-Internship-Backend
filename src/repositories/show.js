@@ -1,5 +1,5 @@
 import { db } from '../models/index.js';
-const { show, ...rest } = db;
+const { show, screen, cinema, ...rest } = db;
 export async function add({
   filmId,
   screenId,
@@ -77,12 +77,12 @@ export async function getByScreenId(screenId) {
 }
 
 export async function getByCinemaId(cinemaId) {
-  const showByCinemaIdInfor = await db.cinema.findAll({
+  const showByCinemaIdInfor = await cinema.findAll({
     where: {
       id: cinemaId,
     },
     include: {
-      model: db.screen,
+      model: screen,
       attributes: ['id'],
       include: {
         model: show,
@@ -90,4 +90,25 @@ export async function getByCinemaId(cinemaId) {
     },
   });
   return showByCinemaIdInfor;
+}
+
+export async function getByCinemaScreenDate({ cinemaId, screenId, dateStart }) {
+  const showsInfor = await cinema.findAll({
+    where: {
+      id: cinemaId,
+    },
+    include: {
+      model: screen,
+      where: {
+        id: screenId,
+      },
+      include: {
+        model: show,
+        where: {
+          dateStart: dateStart,
+        },
+      },
+    },
+  });
+  return showsInfor;
 }

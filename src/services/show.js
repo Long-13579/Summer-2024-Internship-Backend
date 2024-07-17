@@ -55,3 +55,12 @@ export async function getByCinemaId(cinemaId) {
   const showByCinemaIdInfor = await show.getByCinemaId(cinemaId);
   return showByCinemaIdInfor;
 }
+
+export async function getByCinemaScreenDate({ cinemaId, screenId, dateStart }) {
+  const showsInfor = await show.getByCinemaScreenDate({
+    cinemaId,
+    screenId,
+    dateStart,
+  });
+  return showsInfor;
+}
