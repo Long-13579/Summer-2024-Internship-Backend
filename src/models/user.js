@@ -1,4 +1,4 @@
-export function user(sequelize, DataTypes){
+export function user(sequelize, DataTypes) {
   const user = sequelize.define(
     'user',
     {
@@ -36,6 +36,14 @@ export function user(sequelize, DataTypes){
       avatar: {
         type: DataTypes.STRING,
       },
+      userPoint: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
     },
     {
       sequelize,
@@ -52,4 +60,4 @@ export function user(sequelize, DataTypes){
     });
   };
   return user;
-};
+}
