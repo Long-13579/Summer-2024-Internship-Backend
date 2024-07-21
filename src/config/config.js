@@ -1,5 +1,9 @@
 import 'dotenv/config';
 export const configPathEnv = {
+<<<<<<< HEAD
+=======
+
+>>>>>>> ef3f9ab33a469499aa902f4d76b575f9317dace8
   development: {
     username: process.env.DEVELOPMENT_USERNAME,
     password: process.env.DEVELOPMENT_PASSWORD,
@@ -21,6 +25,10 @@ export const configPathEnv = {
     host: process.env.PRODUCTION_HOST,
     dialect: process.env.PRODUCTION_DIALECT,
   },
+<<<<<<< HEAD
+=======
+  
+>>>>>>> ef3f9ab33a469499aa902f4d76b575f9317dace8
 };
 
 export const env = process.env.NODE_ENV || 'development';

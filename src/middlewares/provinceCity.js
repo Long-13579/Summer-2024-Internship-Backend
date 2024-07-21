@@ -1,4 +1,5 @@
 import * as provinceCityServices from '../services/provinceCity.js';
+import { getNotFoundErrorMessage } from '../utils/getErrorMessage.js';
 import { API_STATUS } from '../models/apiStatus.js';
 
 export async function validateProvinceCityId(req, res, next) {
@@ -9,24 +10,19 @@ export async function validateProvinceCityId(req, res, next) {
       req.params.provinceCityId ||
       req.body.provinceCityId ||
       req.query.provinceCityId;
-    if (provinceCityIdRequest == undefined) {
-      req.noProvinceCityId = true;
-      next();
-      return;
-    }
 
     const provinceCityByIdInfor = await provinceCityServices.getById(
       provinceCityIdRequest
     );
-    if (provinceCityByIdInfor == null) {
-      res.status(API_STATUS.NOT_FOUND.status);
-      res.send(
-        API_STATUS.NOT_FOUND.getErrorMessage(
-          'provinceCity',
-          'provinceCity',
-          provinceCityIdRequest
-        )
-      );
+    if (provinceCityByIdInfor === null) {
+      const errorObj = {
+        model: 'provinceCity',
+        modelQuery: 'provinceCity',
+        modelQueryId: provinceCityIdRequest,
+      };
+      const errorNotFound = getNotFoundErrorMessage(errorObj);
+      res.status(errorNotFound.status);
+      res.send(errorNotFound);
       return;
     }
     next();

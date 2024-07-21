@@ -18,15 +18,15 @@ export async function update(
   price
 ) {
   const seatMatrixData = await takeSeatMatrixAndApplyPrice(screenId, price);
-  await show.update(
+  await show.update({
     id,
     filmId,
     screenId,
     timeStart,
     dateStart,
     price,
-    seatMatrixData
-  );
+    seatMatrix
+  });
 }
 
 export async function getAll() {
@@ -42,6 +42,11 @@ export async function getById(id) {
 
 export async function getByFilmIdAdmin(filmId) {
   const showByFilmIdInfor = await show.getByFilmIdAdmin(filmId);
+  return showByFilmIdInfor;
+}
+
+export async function getByFilmId(filmId) {
+  const showByFilmIdInfor = await show.getByFilmId(filmId);
   return showByFilmIdInfor;
 }
 

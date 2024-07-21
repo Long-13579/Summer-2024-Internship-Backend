@@ -27,8 +27,7 @@ export async function drop(req, res) {
 
 export async function update(req, res) {
   try {
-    const provinceCityId = req.body.id;
-    await provinceCityServices.update(provinceCityId, req.body.name);
+    await provinceCityServices.update(req.query.id, req.body.name);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
     return;
@@ -38,12 +37,13 @@ export async function update(req, res) {
   }
 }
 
-//get all province
-export async function getAll(req, res) {
+//get all province admin
+export async function getProvinceCityForAdmin(req, res) {
   try {
-    const allProvinceCityInfor = await provinceCityServices.getAll();
+    const provinceCityForAdmin =
+      await provinceCityServices.getProvinceCityForAdmin(req.query);
     res.status(API_STATUS.OK.status);
-    res.send(allProvinceCityInfor);
+    res.send(provinceCityForAdmin);
     return;
   } catch (error) {
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
@@ -51,28 +51,13 @@ export async function getAll(req, res) {
   }
 }
 
-//get all province have cinema
-export async function getAllHaveCinema(req, res) {
+//get all province have cinema user
+export async function getProvinceCityForUser(req, res) {
   try {
-    const provinceCityHaveCinemaInfor =
-      await provinceCityServices.getAllHaveCinema();
+    const provinceCityForUser =
+      await provinceCityServices.getProvinceCityForUser(req.query);
     res.status(API_STATUS.OK.status);
-    res.send(provinceCityHaveCinemaInfor);
-    return;
-  } catch (error) {
-    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
-    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
-  }
-}
-
-export async function getById(req, res) {
-  try {
-    const paramsProvinceCityId = req.params.provinceCityId;
-    const provinceCityByIdInfor = await provinceCityServices.getById(
-      paramsProvinceCityId
-    );
-    res.status(API_STATUS.OK.status);
-    res.send(provinceCityByIdInfor);
+    res.send(provinceCityForUser);
     return;
   } catch (error) {
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);

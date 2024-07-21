@@ -1,41 +1,11 @@
 import * as cinemaServices from '../services/cinema.js';
 import { API_STATUS } from '../models/apiStatus.js';
 
-export async function getAll(req, res) {
+export async function getCinema(req, res) {
   try {
-    const allCinemaInfor = await cinemaServices.getAll();
-    res.status(API_STATUS.OK.status);
-    res.send(allCinemaInfor);
-    return;
-  } catch (error) {
-    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
-    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
-  }
-}
-
-export async function getById(req, res) {
-  try {
-    const paramsCinemaId = req.params.cinemaId;
-    const cinemaByIdInfor = await cinemaServices.getById(paramsCinemaId);
-    res.status(API_STATUS.OK.status);
-    res.send(cinemaByIdInfor);
-    return;
-  } catch (error) {
-    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
-    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
-  }
-}
-
-export async function getByProvinceCityId(req, res, next) {
-  try {
-    if (req.noProvinceCityId) {
-      next();
-      return;
-    }
-    const cinemaByProvinceCityIdInfor =
-      await cinemaServices.getByProvinceCityId(req.query.provinceCityId);
-    res.status(API_STATUS.OK.status);
-    res.send(cinemaByProvinceCityIdInfor);
+    const cinemasInfor = await cinemaServices.getCinema(req.query);
+    res.status(API_STATUS.OK);
+    res.send(cinemasInfor);
     return;
   } catch (error) {
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
@@ -45,11 +15,8 @@ export async function getByProvinceCityId(req, res, next) {
 
 export async function add(req, res) {
   try {
-    await cinemaServices.add(
-      req.body.name,
-      req.body.address,
-      req.body.provinceCityId
-    );
+    const { name, address, provinceCityId } = req.body;
+    await cinemaServices.add({ name, address, provinceCityId });
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
     return;
@@ -61,12 +28,8 @@ export async function add(req, res) {
 
 export async function update(req, res) {
   try {
-    await cinemaServices.update(
-      req.body.id,
-      req.body.name,
-      req.body.address,
-      req.body.provinceCityId
-    );
+    const { id, name, address, provinceCityId } = req.body;
+    await cinemaServices.update({ id, name, address, provinceCityId });
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {

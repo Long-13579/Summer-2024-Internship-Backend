@@ -1,9 +1,8 @@
 import { db } from '../models/index.js';
-import { Op, Sequelize } from 'sequelize';
-import { eliminateNoShowFilm, DTO } from '../utils/filmByCinemaSiteDTO.js';
+import { Op } from 'sequelize';
 
 //add films
-export async function add(
+export async function add({
   filmName,
   duration,
   description,
@@ -18,8 +17,8 @@ export async function add(
   trailer,
   format,
   ageRate,
-  category
-) {
+  category,
+}) {
   await db.film.create({
     filmName: filmName,
     duration: duration,
@@ -59,6 +58,14 @@ export async function getByIdFilmDetail(filmId) {
         },
       },
     ],
+    where: {
+      id: filmId,
+    },
+  });
+  return filmByIdInfor;
+}
+export async function getById(filmId) {
+  const filmByIdInfor = await db.film.findAll({
     where: {
       id: filmId,
     },

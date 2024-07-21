@@ -34,13 +34,13 @@ export async function getById(id) {
   return provinceCityByIdInfor;
 }
 //get all province from db
-export async function getAll() {
+export async function getAllForAdmin() {
   const allProvinceInfor = await db.provinceCity.findAll();
   return allProvinceInfor;
 }
 
 //get all province that have cinema
-export async function getAllHaveCinema() {
+export async function getAllForUser() {
   const allProvinceHaveCinemaInfor = await db.provinceCity.findAll({
     include: [
       {

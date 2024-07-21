@@ -1,43 +1,28 @@
 import * as cinemaServices from '../services/cinema.js';
 import { API_STATUS } from '../models/apiStatus.js';
+import { getNotFoundErrorMessage } from '../utils/getErrorMessage.js';
 
 export async function validateCinemaId(req, res, next) {
   try {
-    var cinemaIdRequest;
-    if (req.previousId != undefined) {
-      cinemaIdRequest =
-        req.query.id ||
-        req.params.cinemaId ||
-        req.body.cinemaId ||
-        req.query.cinemaId;
-    } else {
-      cinemaIdRequest =
-        req.body.id ||
-        req.query.id ||
-        req.params.cinemaId ||
-        req.body.cinemaId ||
-        req.query.cinemaId;
-    }
-    if (cinemaIdRequest == undefined) {
-      req.noCinemaId = true;
-      next();
-      return;
-    }
+    const cinemaIdRequest =
+      req.body.id ||
+      req.query.id ||
+      req.params.cinemaId ||
+      req.body.cinemaId ||
+      req.query.cinemaId;
+    
 
     const cinemaByIdInfor = await cinemaServices.getById(cinemaIdRequest);
-    if (cinemaByIdInfor == null) {
-      res.status(API_STATUS.NOT_FOUND.status);
-      res.send(
-        API_STATUS.NOT_FOUND.getErrorMessage(
-          'cinema',
-          'cinema',
-          cinemaIdRequest
-        )
-      );
+    if (cinemaByIdInfor === null) {
+      const errorObj = {
+        model: 'cinema',
+        modelQuery: 'cinema',
+        modelQueryId: cinemaIdRequest,
+      };
+      const errorNotFound = getNotFoundErrorMessage(errorObj);
+      res.status(errorNotFound.status);
+      res.send(errorNotFound);
       return;
-    }
-    if (req.body.id != undefined) {
-      req.previousId = true;
     }
     next();
   } catch (error) {

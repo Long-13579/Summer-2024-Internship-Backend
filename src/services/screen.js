@@ -33,3 +33,13 @@ export async function getById(id) {
   const screenByIdInfor = await screen.getById(id);
   return screenByIdInfor;
 }
+
+export async function getScreen(params){
+  if(params.id){
+    return await getById(params.id);
+  }
+  if(params.cinemaId){
+    return await getByCinemaId(params.cinemaId);
+  }
+  return await getAll();
+}
