@@ -12,7 +12,12 @@ export async function login(req, res) {
     res.status(API_STATUS.OK.status);
     res.send(JSON.stringify(token));
   } catch (error) {
+<<<<<<< HEAD
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+=======
+    res.status(API_STATUS.UNAUTHORIZED.status);
+    res.send(API_STATUS.UNAUTHORIZED);
+>>>>>>> 2239d698d699510c3176bba35ebcd323560e54b5
   }
 }

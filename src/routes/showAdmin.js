@@ -8,5 +8,6 @@ const router = express.Router();
 router.post('/', validateScreenId, showController.add);
 
 router.put('/', validateShowId, showController.update);
+router.delete('/:showId', validateShowId, showController.deactive);
 
 export default router;

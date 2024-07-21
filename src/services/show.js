@@ -25,8 +25,12 @@ export async function update(
     timeStart,
     dateStart,
     price,
-    seatMatrix
+    seatMatrix,
   });
+}
+
+export async function deactive(id) {
+  await show.deactive(id);
 }
 
 export async function getAll() {

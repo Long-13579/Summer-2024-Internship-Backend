@@ -25,6 +25,7 @@ app.use('/provinceCity', provinceRoute);
 app.use('/screen', screenRoute);
 app.use('/admin', adminRoute);
 app.use('/seatMatrix', seatMatrixRoute);
+app.use('/user', userRoute);
 
 app.listen(PORT, (error) => {
   if (error) console.log("Error occurred, server can't start", error);
