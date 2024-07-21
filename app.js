@@ -4,6 +4,7 @@ import screenRoute from './src/routes/screen.js';
 import showRoute from './src/routes/show.js';
 import filmRoute from './src/routes/film.js';
 import adminRoute from './src/routes/admin.js';
+import userRoute from './src/routes/user.js';
 import seatMatrixRoute from './src/routes/seatMatrix.js';
 
 import cors from 'cors';

@@ -131,6 +131,5 @@ export async function getByCinemaId(cinemaId) {
       [db.show, 'timeStart', 'ASC'],
     ],
   });
-  const filmByCinemaIdDTO = DTO(eliminateNoShowFilm(filmByCinemaIdInfor));
-  return filmByCinemaIdDTO;
+  return filmByCinemaIdInfor;
 }

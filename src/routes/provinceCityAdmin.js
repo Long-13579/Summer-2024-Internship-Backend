@@ -4,11 +4,13 @@ import express from 'express';
 
 var router = express.Router();
 
-router.get('/:provinceId', validateProvinceCityId, provinceCityController.getById);
+router.get(
+  '/',
+  validateProvinceCityId,
+  provinceCityController.getProvinceCityForAdmin
+);
 
-router.get('/', provinceCityController.getAll);
-
-router.post('/', provinceCityController.add);
+router.post('/', validateProvinceCityId, provinceCityController.add);
 
 router.delete(
   '/:provinceCityId',

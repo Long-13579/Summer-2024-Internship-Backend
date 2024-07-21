@@ -1,7 +1,6 @@
 import * as showServices from '../services/show.js';
 import { API_STATUS } from '../models/apiStatus.js';
 
-<<<<<<< HEAD
 export async function add(req, res) {
   try {
     await showServices.add(
@@ -169,13 +168,17 @@ export async function getAll(req, res) {
     }
     res.status(API_STATUS.OK.status);
     res.send(allShowInfor);
-=======
+  } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
+
 export async function deactive(req, res) {
   try {
     await showServices.deactive(req.params.showId);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
->>>>>>> 2239d698d699510c3176bba35ebcd323560e54b5
   } catch (error) {
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);

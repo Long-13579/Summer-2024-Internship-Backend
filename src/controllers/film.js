@@ -29,63 +29,6 @@ export async function add(req, res) {
   }
 }
 
-export async function getAll(req, res) {
-  try {
-    const allFilmInfor = await filmServices.getAll();
-    res.status(API_STATUS.OK.status);
-    res.send(allFilmInfor);
-    return;
-  } catch (error) {
-    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
-    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
-  }
-}
-
-export async function getByIdFilmDetail(req, res) {
-  try {
-    const paramsFilmId = req.params.filmId;
-    const filmByIdInfor = await filmServices.getByIdFilmDetail(paramsFilmId);
-    res.status(API_STATUS.OK.status);
-    res.send(filmByIdInfor);
-    return;
-  } catch (error) {
-    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
-    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
-  }
-}
-
-export async function getByIdAdmin(req, res) {
-  try {
-    const paramsFilmId = req.params.filmId;
-    const filmByIdInfor = await filmServices.getByIdAdmin(paramsFilmId);
-    if (filmByIdInfor == null) {
-      res.status(API_STATUS.NOT_FOUND.status);
-      res.send(
-        API_STATUS.NOT_FOUND.getErrorMessage('film', 'film', paramsFilmId)
-      );
-      return;
-    }
-
-    res.status(API_STATUS.OK.status);
-    res.send(filmByIdInfor);
-    return;
-  } catch (error) {
-    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
-    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
-  }
-}
-
-export async function getAllAdmin(req, res) {
-  try {
-    const allFilmInfor = await filmServices.getAllAdmin();
-    res.status(API_STATUS.OK.status);
-    res.send(allFilmInfor);
-  } catch (error) {
-    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
-    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
-  }
-}
-
 export async function getUpComing(req, res) {
   try {
     const upComingFilm = await filmServices.getUpComing();
@@ -108,25 +51,24 @@ export async function getOnCasting(req, res) {
   }
 }
 
-export async function getByCinemaId(req, res, next) {
+export async function getFilmAdmin(req, res) {
   try {
-    const queryCinemaId = req.query.cinemaId;
-    if (req.noCinemaId) {
-      next();
-      return;
-    }
-    const filmByCinemaIdInfor = await filmServices.getByCinemaId(queryCinemaId);
-    const noFilmByCinemaId = filmByCinemaIdInfor?.length === 0;
-    if (noFilmByCinemaId) {
-      res.status(API_STATUS.NOT_FOUND.status);
-      res.send(
-        API_STATUS.NOT_FOUND.getErrorMessage('film', 'cinema', queryCinemaId)
-      );
-    }
+    const filmsInfor = await filmServices.getFilmAdmin(req.query);
     res.status(API_STATUS.OK.status);
-    res.send(filmByCinemaIdInfor);
-  } catch {
-    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(filmsInfor);
+  } catch (error) {
+    res.status(API.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function getFilmUser(req, res) {
+  try {
+    const filmsInfor = await filmServices.getFilmUser(req.query);
+    res.status(API_STATUS.OK.status);
+    res.send(filmsInfor);
+  } catch (error) {
+    res.status(API.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }

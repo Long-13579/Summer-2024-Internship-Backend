@@ -11,7 +11,6 @@ export async function validateCinemaId(req, res, next) {
       req.body.cinemaId ||
       req.query.cinemaId;
     
-
     const cinemaByIdInfor = await cinemaServices.getById(cinemaIdRequest);
     if (cinemaByIdInfor === null) {
       const errorObj = {
