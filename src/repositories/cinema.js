@@ -9,12 +9,15 @@ export async function add({ name, address, provinceCityId }) {
   });
 }
 
-export async function drop(id) {
-  await cinema.destroy({
-    where: {
-      id: id,
-    },
-  });
+export async function inactive(id) {
+  await db.cinema.update(
+    { status: 0 },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
 }
 export async function update({ id, name, address, provinceCityId }) {
   await cinema.update(

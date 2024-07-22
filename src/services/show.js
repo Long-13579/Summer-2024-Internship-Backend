@@ -29,8 +29,8 @@ export async function update(
   });
 }
 
-export async function deactive(id) {
-  await show.deactive(id);
+export async function deactivate(id) {
+  await show.deactivate(id);
 }
 
 export async function getAll() {

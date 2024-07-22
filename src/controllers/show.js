@@ -41,7 +41,7 @@ export async function update(req, res) {
 
 export async function deactive(req, res) {
   try {
-    await showServices.deactive(req.params.showId);
+    await showServices.deactivate(req.params.showId);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {

@@ -7,11 +7,12 @@ export async function add(cinemaId, name, width, len) {
   await screen.add(seatMatrixData, cinemaId, name, width, len);
 }
 
-export async function inactive(id) {
+
+export async function deactivate(id) {
   const showsByScreenIdInfor = await showServices.getByScreenId(id);
   const showsByScreenIdArrId = showsByScreenIdInfor.map((index) => index.id);
-  await showServices.inactive(showsByScreenIdArrId);
-  await screen.inactive(id);
+  await showServices.deactivate(showsByScreenIdArrId);
+  await screen.deactivate(id);
 }
 
 export async function update(id, cinemaId, name, width, len) {

@@ -10,7 +10,18 @@ export async function add(seatMatrix, cinemaId, name, width, len) {
   });
 }
 
-export async function inactive(id) {
+export async function deactivate(id) {
+  await db.screen.update(
+    { status: 0 },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
+}
+
+export async function update({ id, seatMatrix, cinemaId }) {
   await db.screen.update(
     { status: 0 },
     {

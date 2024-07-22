@@ -3,37 +3,18 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { TOKEN_EXPIRE_DATE } from '../constants/token.js';
 
-export async function hashCompareInfor(userInputObj, adminInforArr) {
-  const { userNameReq, passwordReq } = userInputObj;
-  for (const adminIndex of adminInforArr) {
-    const checkUserNameCorrect = await bcrypt.compare(
-      userNameReq,
-      adminIndex.userName
-    );
-    const checkPasswordCorrect = await bcrypt.compare(
-      passwordReq,
-      adminIndex.password
-    );
-    if (checkUserNameCorrect && checkPasswordCorrect) {
-      return { userNameReq, passwordReq };
-    }
-  }
-  return;
-}
-
 export async function getToken({ userName, password }) {
   const userNameReq = userName;
   const passwordReq = password;
-  const adminInforArr = await user.getAdminInfor();
-  const userInfor = await hashCompareInfor(
-    {
-      userNameReq,
-      passwordReq,
-    },
-    adminInforArr
-  );
-  if (userInfor) {
-    const token = jwt.sign({ data: userInfor }, process.env.TOKEN_SECRET, {
+  const dbUserInfor = await user.getByUserName(userNameReq);
+  const { roleId, password } = dbUserInfor;
+  if (!roleId || dbUserInfor === null) {
+    return;
+  }
+  const validPassword = await bcrypt.compare(passwordReq, password);
+
+  if (validPassword) {
+    const token = jwt.sign({ data: dbUserInfor }, process.env.TOKEN_SECRET, {
       expiresIn: TOKEN_EXPIRE_DATE,
     });
     return token;
