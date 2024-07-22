@@ -49,24 +49,21 @@ export async function getByFilmIdAdmin(filmId) {
   return showByFilmIdInfor;
 }
 
-export async function getByFilmId(filmId) {
-  const showByFilmIdInfor = await show.getByFilmId(filmId);
-  return showByFilmIdInfor;
-}
-
 export async function getByScreenId(screenId) {
   const showByScreenIdInfor = await show.getByScreenId(screenId);
   return showByScreenIdInfor;
 }
 
-export async function getByFilmIdFilmDetail({ filmId, dateStart, provinceCityId }) {
-  console.log(dateStart);
-  const showByFilmIdInfor = await show.getByFilmIdFilmDetail({
+export async function getByFilmIdDateStartProvinceCityId({
+  filmId,
+  dateStart,
+  provinceCityId,
+}) {
+  const showByFilmIdInfor = await show.getByFilmIdDateStartProvinceCityId({
     filmId,
     dateStart,
     provinceCityId,
   });
-  console.log(JSON.stringify(showByFilmIdInfor, null, 2));
   const showByFilmIdDTO = changeCinemasToListShowDto(showByFilmIdInfor);
   return showByFilmIdDTO;
 }
@@ -91,4 +88,67 @@ export async function takeSeatMatrixAndApplyPrice(screenId, priceReq) {
 
   const seatMatrixDataStrjed = JSON.stringify(seatMatrixDataParsed);
   return seatMatrixDataStrjed;
+}
+export async function getByDateStart(dateStart) {
+  const showByDateStartInfor = await show.getByDateStart(dateStart);
+  return showByDateStartInfor;
+}
+
+export async function getByDateStartScreenId(dateStart, screenId) {
+  const showByDateStartScreenIdInfor = await show.getByDateStartScreenId(
+    dateStart,
+    screenId
+  );
+  return showByDateStartScreenIdInfor;
+}
+
+export async function getByDateStartCinemaId(dateStart, cinemaId) {
+  const showByDateStartCinemaIdInfor = await show.getByDateStartCinemaId(
+    dateStart,
+    cinemaId
+  );
+  return showByDateStartCinemaIdInfor;
+}
+
+export async function getByCinemaScreenDate({ cinemaId, screenId, dateStart }) {
+  const showsInfor = await show.getByCinemaScreenDate({
+    cinemaId,
+    screenId,
+    dateStart,
+  });
+  return showsInfor;
+}
+
+export async function getShowForAdmin({
+  showId,
+  filmId,
+  screenId,
+  cinemaId,
+  dateStart,
+}) {
+  if (showId) {
+    return await getById(showId);
+  }
+  if (cinemaId && screenId && dateStart) {
+    return await getByCinemaScreenDate({ cinemaId, screenId, dateStart });
+  }
+  if (screenId && dateStart) {
+    return await getByDateStartScreenId(dateStart, screenId);
+  }
+  if (cinemaId && dateStart) {
+    return await getByDateStartCinemaId(dateStart, cinemaId);
+  }
+  if (dateStart) {
+    return await getByDateStart(dateStart);
+  }
+  if (cinemaId) {
+    return await getByCinemaId(cinemaId);
+  }
+  if (filmId) {
+    return await getByFilmId(filmId);
+  }
+  if (screenId) {
+    return await getByScreenId(screenId);
+  }
+  return await getAll();
 }
