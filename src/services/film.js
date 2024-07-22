@@ -35,3 +35,77 @@ export async function getFilmForUser({ cinemaId }) {
   }
   return await getAll();
 }
+
+export async function add({
+  filmName,
+  duration,
+  description,
+  dateStart,
+  dateEnd,
+  director,
+  actor,
+  subtitle,
+  dubbing,
+  language,
+  poster,
+  trailer,
+  format,
+  ageRate,
+  category,
+}) {
+  await film.add({
+    filmName,
+    duration,
+    description,
+    dateStart,
+    dateEnd,
+    director,
+    actor,
+    subtitle,
+    dubbing,
+    language,
+    poster,
+    trailer,
+    format,
+    ageRate,
+    category,
+  });
+}
+
+export async function update({
+  id,
+  filmName,
+  duration,
+  description,
+  dateStart,
+  dateEnd,
+  director,
+  actor,
+  subtitle,
+  dubbing,
+  language,
+  poster,
+  trailer,
+  format,
+  ageRate,
+  category,
+}) {
+  await film.update({
+    id,
+    filmName,
+    duration,
+    description,
+    dateStart,
+    dateEnd,
+    director,
+    actor,
+    subtitle,
+    dubbing,
+    language,
+    poster,
+    trailer,
+    format,
+    ageRate,
+    category,
+  });
+}

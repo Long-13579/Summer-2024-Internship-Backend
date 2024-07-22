@@ -36,8 +36,54 @@ export async function add({
     format,
     ageRate,
     category,
+    status: 1,
   });
 }
+
+export async function update({
+  id,
+  filmName,
+  duration,
+  description,
+  dateStart,
+  dateEnd,
+  director,
+  actor,
+  subtitle,
+  dubbing,
+  language,
+  poster,
+  trailer,
+  format,
+  ageRate,
+  category,
+}) {
+  await film.update(
+    {
+      filmName,
+      duration,
+      description,
+      dateStart,
+      dateEnd,
+      director,
+      actor,
+      subtitle,
+      dubbing,
+      language,
+      poster,
+      trailer,
+      format,
+      ageRate,
+      category,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  );
+}
+
 export async function getAll() {
   const allFilmInfor = await film.findAll();
   return allFilmInfor;
