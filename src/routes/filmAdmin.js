@@ -3,7 +3,7 @@ import { validateFilmId } from '../middlewares/film.js';
 
 import express from 'express';
 
-var router = express.Router();
+const router = express.Router();
 
 router.post('/', filmController.add);
 
