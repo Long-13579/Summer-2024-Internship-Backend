@@ -4,6 +4,7 @@ import { API_STATUS } from '../models/apiStatus.js';
 export async function login(req, res) {
   try {
     const token = await userServices.getToken(req.body);
+    
     if (token == undefined) {
       res.status(API_STATUS.UNPROCESSABLE_ENTITY.status);
       res.send(API_STATUS.UNPROCESSABLE_ENTITY);

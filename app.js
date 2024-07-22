@@ -1,4 +1,6 @@
-import cinemaRoute from './src/routes/cinema.js';
+import 'dotenv/config';
+import express from 'express';
+import cinemaRoute from './src/routes/cinemaAdmin.js';
 import provinceRoute from './src/routes/provinceCity.js';
 import screenRoute from './src/routes/screen.js';
 import showRoute from './src/routes/show.js';
@@ -8,7 +10,6 @@ import userRoute from './src/routes/user.js';
 import seatMatrixRoute from './src/routes/seatMatrix.js';
 
 import cors from 'cors';
-import express from 'express';
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -27,6 +28,7 @@ app.use('/screen', screenRoute);
 app.use('/admin', adminRoute);
 app.use('/seatMatrix', seatMatrixRoute);
 app.use('/user', userRoute);
+app.use('/admin', adminRoute);
 
 app.listen(PORT, (error) => {
   if (error) console.log("Error occurred, server can't start", error);

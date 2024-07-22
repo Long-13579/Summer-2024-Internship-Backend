@@ -2,14 +2,14 @@ import { db } from '../models/index.js';
 import { Op } from 'sequelize';
 import moment from 'moment';
 
-const {show, ...rest} = db;
+const { show, ...rest } = db;
 export async function add({
   filmId,
   screenId,
   timeStart,
   dateStart,
   price,
-  seatMatrix
+  seatMatrix,
 }) {
   await show.create({
     filmId: filmId,
@@ -39,7 +39,7 @@ export async function update({
   timeStart,
   dateStart,
   price,
-  seatMatrix
+  seatMatrix,
 }) {
   await show.update(
     {
@@ -91,7 +91,12 @@ export async function getByFilmIdAdmin(filmId) {
   return showByFilmIdInfor;
 }
 
-export async function getByFilmIdFilmDetail({filmId, dateStart, provinceCityId}) {
+export async function getByFilmIdFilmDetail({
+  filmId,
+  dateStart,
+  provinceCityId,
+}) {
+  console.log(dateStart);
   const showByFilmIdInfor = await db.cinema.findAll({
     include: {
       model: db.screen,

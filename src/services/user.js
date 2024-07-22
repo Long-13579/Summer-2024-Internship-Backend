@@ -21,8 +21,9 @@ export async function hashCompareInfor(userInputObj, adminInforArr) {
   return;
 }
 
-export async function getToken(params) {
-  const { userNameReq, passwordReq } = params;
+export async function getToken({ userName, password }) {
+  const userNameReq = userName;
+  const passwordReq = password;
   const adminInforArr = await user.getAdminInfor();
   const userInfor = await hashCompareInfor(
     {

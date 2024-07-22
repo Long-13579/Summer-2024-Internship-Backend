@@ -4,8 +4,6 @@ import express from 'express';
 
 var router = express.Router();
 
-router.get('/:cinemaId', cinemaController.getByIdAdmin);
-
 //add cinema
 router.post('/', cinemaController.add);
 
@@ -14,5 +12,11 @@ router.put('/', validateCinemaId, cinemaController.update);
 
 //delete
 router.delete('/:cinemaId', validateCinemaId, cinemaController.drop);
+
+router.get(
+  '/',
+  cinemaController.getCinemaForAdmin
+);
+
 
 export default router;

@@ -104,14 +104,8 @@ export async function getByFilmIdAdmin(req, res, next) {
 
 export async function getByFilmIdFilmDetail(req, res, next) {
   try {
-    const queryFilmId = req.query.filmId;
-    const queryProvinceCityId = req.query.provinceCityId;
-    const queryDateStart = req.query.date;
-    //console.log(queryFilmId + ' ' + queryProvinceCityId + ' ' + queryDateStart);
     const showByFilmIdInfor = await showServices.getByFilmIdFilmDetail(
-      queryFilmId,
-      queryDateStart,
-      queryProvinceCityId
+      req.query
     );
     const noShowByFilmId = showByFilmIdInfor?.length === 0;
     if (noShowByFilmId) {

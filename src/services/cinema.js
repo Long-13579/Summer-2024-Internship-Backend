@@ -17,6 +17,11 @@ export async function getById(id) {
   return cinemaByIdInfor;
 }
 
+export async function getByIdForAdmin(id) {
+  const cinemaByIdInfor = await cinema.getByIdAdmin(id);
+  return cinemaByIdInfor;
+}
+
 export async function getByProvinceCityId(provinceCityId) {
   const cinemaByProvinceCityIdInfor = await cinema.getByProvinceCityId(
     provinceCityId
@@ -24,17 +29,22 @@ export async function getByProvinceCityId(provinceCityId) {
   return cinemaByProvinceCityIdInfor;
 }
 
-export async function getAll() {
-  const allCinemaInfor = await cinema.getAll();
+export async function getAllForAdmin() {
+  const allCinemaInfor = await cinema.getAllForAdmin();
   return allCinemaInfor;
 }
 
-export async function getCinema({id, provinceCityId}) {
+export async function getAllForUser() {
+  const allCinemaInfor = await cinema.getAllForUser();
+  return allCinemaInfor;
+}
+
+export async function getCinemaForAdmin({ id, provinceCityId }) {
   if (id) {
-    return await getById(id);
+    return await getByIdForAdmin(id);
   }
   if (provinceCityId) {
     return await getByProvinceCityId(provinceCityId);
   }
-  return await getAll();
+  return await getAllForAdmin();
 }

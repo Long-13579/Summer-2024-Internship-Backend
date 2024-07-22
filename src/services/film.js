@@ -88,6 +88,7 @@ export async function getFilmAdmin({ id, cinemaId }) {
 }
 
 export async function getFilmUser({ id, cinemaId }) {
+  console.log(id);
   if (id) {
     return await getByIdFilmDetail(id);
   }

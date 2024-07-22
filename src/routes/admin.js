@@ -14,5 +14,6 @@ router.use('/cinema', cinemaAdminRoute);
 router.use('/provinceCity', provinceCityAdminRoute);
 router.use('/show', showAdminRoute);
 router.use('/screen', screenAdminRoute);
+router.use('/cinema', cinemaAdminRoute);
 
 export default router;
