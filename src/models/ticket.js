@@ -1,4 +1,4 @@
-export function ticket(sequelize, DataTypes){
+export function ticket(sequelize, DataTypes) {
   const ticket = sequelize.define(
     'ticket',
     {
@@ -63,7 +63,7 @@ export function ticket(sequelize, DataTypes){
       onDelete: 'NO ACTION',
       onUpdate: 'NO ACTION',
     });
-    ticket.hasMany(db.show, {
+    ticket.belongsTo(db.show, {
       foreignKey: 'showId',
       onDelete: 'NO ACTION',
       onUpdate: 'NO ACTION',
@@ -80,4 +80,4 @@ export function ticket(sequelize, DataTypes){
     });
   };
   return ticket;
-};
+}

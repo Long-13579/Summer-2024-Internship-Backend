@@ -1,5 +1,6 @@
 import { db } from '../models/index.js';
-const {show, ...rest} = db;
+import { Op } from 'sequelize';
+const { show, ...rest } = db;
 export async function add({
   filmId,
   screenId,
@@ -18,7 +19,7 @@ export async function add({
   });
 }
 
-export async function inactive(id) {
+export async function deactivate(id) {
   await show.update(
     { status: 0 },
     {

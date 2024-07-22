@@ -1,21 +1,23 @@
 import * as user from '../repositories/user.js';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { TOKEN_EXPIRE_DATE } from '../constants/token.js';
 
-export async function getByUserNamePassWord(userName, password) {
-  const userInfor = await user.getByUserNamePassWord(userName, password);
-  return userInfor;
-}
-
-export async function getToken(params) {
-  const userInfor = await getByUserNamePassWord(
-    params.userName,
-    params.password
-  );
-  if (userInfor === null || userInfor.roleId == 0) {
+export async function getToken({ userName, password }) {
+  const userNameReq = userName;
+  const passwordReq = password;
+  const dbUserInfor = await user.getByUserName(userNameReq);
+  const { roleId, password } = dbUserInfor;
+  if (!roleId || dbUserInfor === null) {
     return;
   }
-  const token = jwt.sign({ data: userInfor }, process.env.TOKEN_SECRET, {
-    expiresIn: Math.floor(Date.now() / 1000) + 60 * 60,
-  });
-  return token;
+  const validPassword = await bcrypt.compare(passwordReq, password);
+
+  if (validPassword) {
+    const token = jwt.sign({ data: dbUserInfor }, process.env.TOKEN_SECRET, {
+      expiresIn: TOKEN_EXPIRE_DATE,
+    });
+    return token;
+  }
+  return;
 }
