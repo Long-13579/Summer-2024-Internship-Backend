@@ -1,7 +1,7 @@
 import * as filmController from '../controllers/film.js';
 import express from 'express';
 
-var router = express.Router();
+const router = express.Router();
 
 router.get('/upComing', filmController.getUpComing);
 

@@ -10,5 +10,8 @@ router.get(
   '/',
   cinemaController.getCinemaForAdmin
 );
+router.post('/', cinemaController.add);
+
+router.put('/', validateCinemaId, cinemaController.update);
 
 export default router;
