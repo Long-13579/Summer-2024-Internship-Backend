@@ -15,7 +15,7 @@ export async function update({
   screenId,
   timeStart,
   dateStart,
-  price
+  price,
 }) {
   const seatMatrixData = await takeSeatMatrixAndApplyPrice(screenId, price);
   await show.update({

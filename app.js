@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import cinemaRoute from './src/routes/cinemaAdmin.js';
+import cinemaRoute from './src/routes/cinema.js';
 import provinceRoute from './src/routes/provinceCity.js';
 import screenRoute from './src/routes/screen.js';
 import showRoute from './src/routes/show.js';

@@ -9,6 +9,6 @@ export function changeCinemaToDTO({ id, name, address, provinceCity }) {
 }
 
 export function changeCinemaListToDTO(cinemaArr) {
-  const cinemaDTOArr = cinemaArr.map(changeCinemaToDTO(cinema));
+  const cinemaDTOArr = cinemaArr.map(changeCinemaToDTO);
   return cinemaDTOArr;
 }

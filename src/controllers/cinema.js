@@ -8,6 +8,7 @@ export async function getCinemaForAdmin(req, res) {
     res.send(cinemasInfor);
     return;
   } catch (error) {
+    console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
@@ -53,12 +54,22 @@ export async function drop(req, res) {
 
 export async function getByIdAdmin(req, res) {
   try {
-    const cinemaByIdInfor = await cinemaServices.getByIdForAdmin(
-      req.params.cinemaId
-    );
+    const cinemaByIdInfor = await cinemaServices.getByIdForAdmin(req.params.id);
     res.status(API_STATUS.OK.status);
     res.send(cinemaByIdInfor);
   } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function getCinemaForUser(req, res) {
+  try {
+    const cinemaByIdInfor = await cinemaServices.getCinemaForUser(req.query);
+    res.status(API_STATUS.OK.status);
+    res.send(cinemaByIdInfor);
+  } catch (error) {
+    console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
