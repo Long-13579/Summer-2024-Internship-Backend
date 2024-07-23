@@ -3,10 +3,11 @@ import { API_STATUS } from '../models/apiStatus.js';
 
 export async function add(req, res) {
   try {
-    await screenServices.add(req.body.seatMatrix, req.body.cinemaId);
+    await screenServices.add(req.body);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {
+    console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
