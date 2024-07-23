@@ -75,6 +75,10 @@ export async function getAll() {
 
 export async function getById(id) {
   const showByIdInfor = await show.findOne({
+    include: {
+      model: screen,
+      attributes: ['name'],
+    },
     where: {
       id: id,
     },

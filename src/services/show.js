@@ -152,3 +152,9 @@ export async function getShowForAdmin({
   }
   return await getAll();
 }
+
+export async function getShowForUser({ id }) {
+  if (id) {
+    return await getById(id);
+  }
+}

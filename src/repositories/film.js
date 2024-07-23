@@ -38,7 +38,9 @@ export async function add({
   });
 }
 export async function getAll() {
-  const allFilmInfor = await film.findAll();
+  const allFilmInfor = await film.findAll({
+    order: [['id', 'ASC']],
+  });
   return allFilmInfor;
 }
 
@@ -62,6 +64,9 @@ export async function getByIdForUser(filmId) {
             required: true,
             include: {
               model: provinceCity,
+              attributes: {
+                exclude: ['status'],
+              },
             },
           },
         },
@@ -128,8 +133,8 @@ export async function getByCinemaId(cinemaId) {
       },
     ],
     order: [
-      [db.show, 'dateStart', 'ASC'],
-      [db.show, 'timeStart', 'ASC'],
+      [show, 'dateStart', 'ASC'],
+      [show, 'timeStart', 'ASC'],
     ],
   });
   return filmByCinemaIdInfor;

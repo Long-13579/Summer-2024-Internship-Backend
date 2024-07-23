@@ -87,9 +87,9 @@ export async function getFilmAdmin({ id, cinemaId }) {
   return await getAllAdmin();
 }
 
-export async function getFilmForUser({ filmId, cinemaId }) {
-  if (filmId) {
-    return await getByIdForUser(filmId);
+export async function getFilmForUser({ id, cinemaId }) {
+  if (id) {
+    return await getByIdForUser(id);
   }
   if (cinemaId) {
     return await getByCinemaId(cinemaId);

@@ -45,7 +45,7 @@ export async function getAllForUser() {
 
 export async function getCinemaForAdmin({ id, provinceCityId }) {
   if (id) {
-    return await getByIdForAdmin(id);
+    return await getByIdForUser(id);
   }
   if (provinceCityId) {
     return await getByProvinceCityId(provinceCityId);
