@@ -69,12 +69,17 @@ export async function getAll() {
         [Op.gt]: moment(),
       },
     },
+    order: [['id', 'ASC']],
   });
   return allShowInfor;
 }
 
 export async function getById(id) {
   const showByIdInfor = await show.findOne({
+    include: {
+      model: screen,
+      attributes: ['name'],
+    },
     where: {
       id: id,
     },

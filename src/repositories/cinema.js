@@ -6,6 +6,7 @@ export async function add({ name, address, provinceCityId }) {
     name: name,
     address: address,
     provinceCityId: provinceCityId,
+    status: 1,
   });
 }
 
@@ -78,17 +79,18 @@ export async function getAllForUser() {
         attributes: ['name', 'id'],
       },
     ],
+    order: [['id', 'ASC']],
   });
   return allCinemaInfor;
 }
 
 export async function getAllForAdmin() {
   const allCinemaInfor = await cinema.findAll({
+    attributes: ['id', 'name', 'address', 'status'],
     include: [
       {
-        model: screen,
-        attributes: ['name', 'size', 'status'],
-        required: true,
+        model: provinceCity,
+        attributes: ['name', 'id'],
       },
     ],
   });

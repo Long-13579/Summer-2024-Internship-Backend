@@ -48,6 +48,7 @@ export async function getAllForUser() {
         required: true,
       },
     ],
+    order: [['id', 'ASC']],
   });
   return allProvinceHaveCinemaInfor;
 }

@@ -3,8 +3,8 @@ import express from 'express';
 
 const router = express.Router();
 
-router.get('/filmDetail', showController.getShowForUser);
+router.get('/filmDetail', showController.getByFilmIdDateStartProvinceCityId);
 
-router.get('/:showId', showController.getShowById);
+router.get('/', showController.getShowForUser);
 
 export default router;

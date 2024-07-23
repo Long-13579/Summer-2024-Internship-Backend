@@ -6,9 +6,11 @@ export function changeFilmToFilmDetailDto(filmQueryOBJ) {
   });
   const dateList = [...new Set(dateListDuplicate)];
   const provinceListDuplicate = shows.map((show) => {
-    return show.screen.cinema.provinceCity.name;
+    return show.screen.cinema.provinceCity;
   });
-  const provinceList = [...new Set(provinceListDuplicate)];
+  //Set to get unique objects
+  let setObj = new Set(provinceListDuplicate.map(JSON.stringify));
+  let provinceList = Array.from(setObj).map(JSON.parse);
   return { filmInfo, dateList, provinceList };
 }
 
@@ -18,21 +20,21 @@ export function changeCinemasToListShowDto(cinemas) {
     if (!screens.length) {
       return;
     }
-    const shows = [];
-    screens.forEach((screen) => {
+
+    const showFormat = screens.flatMap((screen) => {
       if (!screen.shows.length) {
         return;
       }
-      screen.shows.forEach(({ id, dateStart, timeStart, screenId }) => {
-        shows.push({
+      return screen.shows.map(({ id, dateStart, timeStart, screenId }) => {
+        return {
           id,
           dateStart,
           timeStart,
           screenId,
-        });
+        };
       });
     });
-    return { id, name, address, shows };
+    return { id, name, address, shows: showFormat };
   });
 
   return result;

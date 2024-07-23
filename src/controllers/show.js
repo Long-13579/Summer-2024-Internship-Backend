@@ -61,7 +61,7 @@ export async function getShowForAdmin(req, res) {
   }
 }
 
-export async function getShowForUser(req, res) {
+export async function getByFilmIdDateStartProvinceCityId(req, res) {
   try {
     const showInfor = await showServices.getByFilmIdDateStartProvinceCityId(
       req.query
@@ -74,9 +74,9 @@ export async function getShowForUser(req, res) {
   }
 }
 
-export async function getShowById(req, res) {
+export async function getShowForUser(req, res) {
   try {
-    const showInfor = await showServices.getById(req.params.showId);
+    const showInfor = await showServices.getShowForUser(req.query);
     res.status(API_STATUS.OK.status);
     res.send(showInfor);
   } catch (error) {
