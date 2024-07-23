@@ -75,3 +75,14 @@ export async function getShowForUser(req, res) {
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
+
+export async function getShowById(req, res) {
+  try {
+    const show = await showServices.getById(req.params.showId);
+    res.status(API_STATUS.OK.status);
+    res.send(show);
+  } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
