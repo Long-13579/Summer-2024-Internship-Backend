@@ -1,80 +1,49 @@
-export function changeFilmToFilmDetailDto(filmInfo) {
-  let result = {};
-
-  result.info = {
-    id: filmInfo.id,
-    filmName: filmInfo.filmName,
-    duration: filmInfo.duration,
-    description: filmInfo.description,
-    dateStart: filmInfo.dateStart,
-    dateEnd: filmInfo.dateEnd,
-    director: filmInfo.director,
-    actor: filmInfo.actor,
-    subtitle: filmInfo.subtitle,
-    dubbing: filmInfo.dubbing,
-    language: filmInfo.language,
-    poster: filmInfo.poster,
-    trailer: filmInfo.trailer,
-    format: filmInfo.format,
-    ageRate: filmInfo.ageRate,
-    category: filmInfo.category,
-  };
-
-  result.dateList = [];
-  result.provinceList = [];
-
-  filmInfo.shows.forEach((show) => {
-    const isDateExist = result.dateList.find(
-      (element) => element === show.dateStart
-    );
-
+export function changeFilmToFilmDetailDto(filmQueryOBJ) {
+  const { shows, ...filmInfo } = JSON.parse(JSON.stringify(filmQueryOBJ));
+  
+  var dateList = [];
+  dateList = shows.map((show) => {
+    const isDateExist = dateList.find((element) => element === show.dateStart);
     if (!isDateExist) {
-      result.dateList.push(show.dateStart);
+      return show.dateStart;
     }
+  });
 
-    const isProvinceExist = result.provinceList.find(
+  var provinceList = [];
+  provinceList = shows.map((show) => {
+    const isProvinceExist = provinceList.find(
       (element) => element.id === show.screen.cinema.provinceCityId
     );
 
     if (!isProvinceExist) {
-      result.provinceList.push(show.screen.cinema.provinceCity);
+      return show.screen.cinema.provinceCity;
     }
   });
-  console.log(result);
-  return result;
+  return { filmInfo, dateList, provinceList };
 }
 
 export function changeCinemasToListShowDto(cinemas) {
-  const result = [];
-  cinemas.forEach((cinema) => {
-    if (!cinema.screens.length) {
+  const result = cinemas.map((cinema) => {
+    const { id, name, address, screens } = cinema;
+    if (!screens.length) {
       return;
     }
-
-    let cinemaForm = {
-      cinemaId: cinema.id,
-      cinemaName: cinema.name,
-      cinemaAddress: cinema.address,
-      shows: [],
-    };
-
-    cinema.screens.forEach((screen) => {
+    const shows = screens.map((screen) => {
       if (!screen.shows.length) {
         return;
       }
-      screen.shows.forEach((show) => {
-        let showForm = {
-          showId: show.id,
-          date: show.dateStart,
-          time: show.timeStart,
-          screenId: show.screenId,
+      const showForm = screen.shows.map((show) => {
+        const { id, dateStart, timeStart, screenId } = show;
+        return {
+          id,
+          dateStart,
+          timeStart,
+          screenId,
         };
-
-        cinemaForm.shows.push(showForm);
       });
+      return showForm;
     });
-
-    result.push(cinemaForm);
+    return { id, name, address, shows };
   });
 
   return result;

@@ -9,14 +9,14 @@ export async function add(filmId, screenId, timeStart, dateStart, price) {
   await show.add(filmId, screenId, timeStart, dateStart, price, seatMatrixData);
 }
 
-export async function update(
+export async function update({
   id,
   filmId,
   screenId,
   timeStart,
   dateStart,
   price
-) {
+}) {
   const seatMatrixData = await takeSeatMatrixAndApplyPrice(screenId, price);
   await show.update({
     id,

@@ -1,4 +1,5 @@
 import * as cinema from '../repositories/cinema.js';
+import { changeCinemaListToDTO } from '../utils/cinemaByProvinceCityDTO.js';
 
 export async function add({ name, address, provinceCityId }) {
   await cinema.add({ name, address, provinceCityId });

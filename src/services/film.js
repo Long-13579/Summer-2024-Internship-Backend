@@ -43,8 +43,9 @@ export async function getAll() {
   return allFilmInfor;
 }
 
-export async function getByIdFilmDetail(filmId) {
-  const filmByIdInfor = await film.getByIdFilmDetail(filmId);
+export async function getByIdForUser(filmId) {
+  const filmByIdInfor = await film.getByIdForUser(filmId);
+  console.log();
   const filmByIdDTO = changeFilmToFilmDetailDto(filmByIdInfor);
   return filmByIdDTO;
 }
@@ -87,10 +88,9 @@ export async function getFilmAdmin({ id, cinemaId }) {
   return await getAllAdmin();
 }
 
-export async function getFilmUser({ id, cinemaId }) {
-  console.log(id);
+export async function getFilmForUser({ id, cinemaId }) {
   if (id) {
-    return await getByIdFilmDetail(id);
+    return await getByIdForUser(id);
   }
   if (cinemaId) {
     return await getByCinemaId(cinemaId);

@@ -39,12 +39,12 @@ export async function getById(id) {
   return screenByIdInfor;
 }
 
-export async function getScreen(params) {
-  if (params.id) {
-    return await getById(params.id);
+export async function getScreen({ id, cinemaId }) {
+  if (id) {
+    return await getById(id);
   }
-  if (params.cinemaId) {
-    return await getByCinemaId(params.cinemaId);
+  if (cinemaId) {
+    return await getByCinemaId(cinemaId);
   }
   return await getAll();
 }

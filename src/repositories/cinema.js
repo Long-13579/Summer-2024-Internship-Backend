@@ -1,5 +1,5 @@
 import { db } from '../models/index.js';
-const { cinema, screen, ...rest } = db;
+const { cinema, screen, provinceCity,...rest } = db;
 
 export async function add({ name, address, provinceCityId }) {
   await cinema.create({
@@ -31,10 +31,10 @@ export async function update({ id, name, address, provinceCityId }) {
 }
 
 export async function getById(id) {
-  const getCinemaByIdInfor = await db.cinema.findOne({
+  const getCinemaByIdInfor = await cinema.findOne({
     include: {
-      model: db.provinceCity,
-      attributes: ['name', 'id'],
+      model: provinceCity,
+      attributes: ['name' ,'id'],
     },
     where: {
       id: id,
@@ -57,7 +57,11 @@ export async function getByIdAdmin(id) {
 }
 
 export async function getByProvinceCityId(provinceCityId) {
-  const getCinemaByProvinceIdInfor = await cinema.findOne({
+  const getCinemaByProvinceIdInfor = await cinema.findAll({
+    include: {
+      model: provinceCity,
+      attributes: ['name'],
+    },
     where: {
       provinceCityId: provinceCityId,
     },

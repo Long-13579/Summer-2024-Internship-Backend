@@ -1,7 +1,6 @@
 import { db } from '../models/index.js';
-import { Op } from 'sequelize';
+const { film, show, screen, cinema, provinceCity, ...rest } = db;
 
-//add films
 export async function add({
   filmName,
   duration,
@@ -19,53 +18,48 @@ export async function add({
   ageRate,
   category,
 }) {
-  await db.film.create({
-    filmName: filmName,
-    duration: duration,
-    description: description,
-    dateStart: dateStart,
-    dateEnd: dateEnd,
-    director: director,
-    actor: actor,
-    subtitle: subtitle,
-    dubbing: dubbing,
-    language: language,
-    poster: poster,
-    trailer: trailer,
-    format: format,
-    ageRate: ageRate,
-    category: category,
+  await film.create({
+    filmName,
+    duration,
+    description,
+    dateStart,
+    dateEnd,
+    director,
+    actor,
+    subtitle,
+    dubbing,
+    language,
+    poster,
+    trailer,
+    format,
+    ageRate,
+    category,
   });
 }
 export async function getAll() {
-  const allFilmInfor = await db.film.findAll();
+  const allFilmInfor = await film.findAll();
   return allFilmInfor;
 }
 
-export async function getByIdFilmDetail(filmId) {
-  const filmByIdInfor = await db.film.findOne({
+export async function getByIdForUser(filmId) {
+  const filmByIdInfor = await film.findOne({
     include: [
       {
-        model: db.show,
+        model: show,
+        required: true,
         include: {
-          model: db.screen,
+          model: screen,
+          required: true,
           include: {
-            model: db.cinema,
+            model: cinema,
+            required: true,
             include: {
-              model: db.provinceCity,
+              model: provinceCity,
             },
           },
         },
       },
     ],
-    where: {
-      id: filmId,
-    },
-  });
-  return filmByIdInfor;
-}
-export async function getById(filmId) {
-  const filmByIdInfor = await db.film.findAll({
     where: {
       id: filmId,
     },
@@ -132,4 +126,13 @@ export async function getByCinemaId(cinemaId) {
     ],
   });
   return filmByCinemaIdInfor;
+}
+
+export async function getByIdForAdmin(filmId) {
+  const filmByIdInfor = await film.findOne({
+    where: {
+      id: filmId,
+    },
+  });
+  return filmByIdInfor;
 }
