@@ -1,24 +1,14 @@
 export function changeFilmToFilmDetailDto(filmQueryOBJ) {
   const { shows, ...filmInfo } = JSON.parse(JSON.stringify(filmQueryOBJ));
-  
-  var dateList = [];
-  dateList = shows.map((show) => {
-    const isDateExist = dateList.find((element) => element === show.dateStart);
-    if (!isDateExist) {
-      return show.dateStart;
-    }
-  });
 
-  var provinceList = [];
-  provinceList = shows.map((show) => {
-    const isProvinceExist = provinceList.find(
-      (element) => element.id === show.screen.cinema.provinceCityId
-    );
-
-    if (!isProvinceExist) {
-      return show.screen.cinema.provinceCity;
-    }
+  const dateListDuplicate = shows.map((show) => {
+    return show.dateStart;
   });
+  const dateList = [...new Set(dateListDuplicate)];
+  const provinceListDuplicate = shows.map((show) => {
+    return show.screen.cinema.provinceCity.name;
+  });
+  const provinceList = [...new Set(provinceListDuplicate)];
   return { filmInfo, dateList, provinceList };
 }
 
@@ -28,20 +18,19 @@ export function changeCinemasToListShowDto(cinemas) {
     if (!screens.length) {
       return;
     }
-    const shows = screens.map((screen) => {
+    const shows = [];
+    screens.forEach((screen) => {
       if (!screen.shows.length) {
         return;
       }
-      const showForm = screen.shows.map((show) => {
-        const { id, dateStart, timeStart, screenId } = show;
-        return {
+      screen.shows.forEach(({ id, dateStart, timeStart, screenId }) => {
+        shows.push({
           id,
           dateStart,
           timeStart,
           screenId,
-        };
+        });
       });
-      return showForm;
     });
     return { id, name, address, shows };
   });

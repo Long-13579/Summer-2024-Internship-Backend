@@ -1,21 +1,14 @@
-export function changeToCinemaByIdAdminDTO(
-  screenByCinemaIdInfor,
-  cinemaByIdInfor
-) {
-  const cinemaByIdAdminDTO = {
-    id: cinemaByIdInfor.id,
-    seatMatrix: cinemaByIdInfor.seatMatrix,
-    cinemaId: cinemaByIdInfor.cinemaId,
-    name: cinemaByIdInfor.name,
-    address: cinemaByIdInfor.address,
-    provinceCityId: cinemaByIdInfor.provinceCityId,
-    provinceCityName: cinemaByIdInfor.provinceCity.name,
+export function changeCinemaToDTO({ id, name, address, provinceCity }) {
+  const DTO = {
+    id,
+    name,
+    address,
+    provinceCity: provinceCity.name,
   };
-  const screenArr = [];
-  const screenArrLen = screenByCinemaIdInfor.length;
-  for (let i = 0; i < screenArrLen; i++) {
-    screenArr.push(screenByCinemaIdInfor[i]);
-  }
-  cinemaByIdAdminDTO.screenList = screenArr;
-  return cinemaByIdAdminDTO;
+  return DTO;
+}
+
+export function changeCinemaListToDTO(cinemaArr) {
+  const cinemaDTOArr = cinemaArr.map(changeCinemaToDTO(cinema));
+  return cinemaDTOArr;
 }

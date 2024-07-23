@@ -17,6 +17,11 @@ export async function getAllForUser() {
   return allProvinceUser;
 }
 
+export async function getById(id) {
+  const provinceCityByIdInfor = await provinceCity.getById(id);
+  return provinceCityByIdInfor;
+}
+
 //get all province
 export async function getAllForAdmin() {
   const allProvince = await provinceCity.getAllForAdmin();
@@ -24,7 +29,7 @@ export async function getAllForAdmin() {
 }
 
 export async function getProvinceCityForUser(params) {
-  const {id} = params;
+  const { id } = params;
   if (id) {
     return await getById(id);
   }

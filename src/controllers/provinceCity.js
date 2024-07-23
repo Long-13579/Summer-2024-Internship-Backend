@@ -46,6 +46,7 @@ export async function getProvinceCityForAdmin(req, res) {
     res.send(provinceCityForAdmin);
     return;
   } catch (error) {
+    console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }

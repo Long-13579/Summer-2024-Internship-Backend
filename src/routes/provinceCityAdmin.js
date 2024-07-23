@@ -6,7 +6,6 @@ var router = express.Router();
 
 router.get(
   '/',
-  validateProvinceCityId,
   provinceCityController.getProvinceCityForAdmin
 );
 

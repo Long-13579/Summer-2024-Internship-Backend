@@ -99,8 +99,16 @@ export async function getByFilmIdDateStartProvinceCityId({
   const showByFilmIdInfor = await db.cinema.findAll({
     include: {
       model: db.screen,
+      required: true,
+      attributes: {
+        exclude: ['seatMatrix'],
+      },
       include: {
         model: db.show,
+        required: true,
+        attributes: {
+          exclude: ['seatMatrix'],
+        },
         where: {
           filmId: filmId,
           dateStart: dateStart,

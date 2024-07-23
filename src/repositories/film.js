@@ -48,8 +48,14 @@ export async function getByIdForUser(filmId) {
       {
         model: show,
         required: true,
+        attributes: {
+          exclude: ['seatMatrix'],
+        },
         include: {
           model: screen,
+          attributes: {
+            exclude: ['seatMatrix'],
+          },
           required: true,
           include: {
             model: cinema,
