@@ -66,11 +66,20 @@ export async function getShowForUser(req, res) {
     const showInfor = await showServices.getByFilmIdDateStartProvinceCityId(
       req.query
     );
-    console.log(JSON.stringify(showInfor, null, 2));
     res.status(API_STATUS.OK.status);
     res.send(showInfor);
   } catch (error) {
-    console.log(error);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function getShowById(req, res) {
+  try {
+    const showInfor = await showServices.getById(req.params.showId);
+    res.status(API_STATUS.OK.status);
+    res.send(showInfor);
+  } catch (error) {
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }

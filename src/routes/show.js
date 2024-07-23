@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.get('/filmDetail', showController.getShowForUser);
 
+router.get('/:showId', showController.getShowById);
+
 export default router;
