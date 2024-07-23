@@ -46,6 +46,7 @@ export async function getUpComing(req, res) {
     res.status(API_STATUS.OK.status);
     res.send(upComingFilm);
   } catch (error) {
+    console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
@@ -75,11 +76,12 @@ export async function getFilmAdmin(req, res) {
 
 export async function getFilmUser(req, res) {
   try {
-    const filmsInfor = await filmServices.getFilmUser(req.query);
+    const filmsInfor = await filmServices.getFilmForUser(req.query);
     res.status(API_STATUS.OK.status);
     res.send(filmsInfor);
   } catch (error) {
-    res.status(API.INTERNAL_SERVER_ERROR.status);
+    console.log(error);
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }

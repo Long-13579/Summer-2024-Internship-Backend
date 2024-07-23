@@ -7,11 +7,10 @@ export async function getToken({ userName, password }) {
   const userNameReq = userName;
   const passwordReq = password;
   const dbUserInfor = await user.getByUserName(userNameReq);
-  const { roleId, password } = dbUserInfor;
-  if (!roleId || dbUserInfor === null) {
+  if (!dbUserInfor.roleId || dbUserInfor === null) {
     return;
   }
-  const validPassword = await bcrypt.compare(passwordReq, password);
+  const validPassword = await bcrypt.compare(passwordReq, dbUserInfor.password);
 
   if (validPassword) {
     const token = jwt.sign({ data: dbUserInfor }, process.env.TOKEN_SECRET, {

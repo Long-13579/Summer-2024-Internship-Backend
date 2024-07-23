@@ -53,7 +53,7 @@ export async function drop(req, res) {
 
 export async function getByIdAdmin(req, res) {
   try {
-    const cinemaByIdInfor = await cinemaServices.getByIdAdmin(
+    const cinemaByIdInfor = await cinemaServices.getByIdForAdmin(
       req.params.cinemaId
     );
     res.status(API_STATUS.OK.status);
