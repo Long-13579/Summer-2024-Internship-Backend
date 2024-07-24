@@ -93,6 +93,7 @@ export async function getAllForAdmin() {
         attributes: ['name', 'id'],
       },
     ],
+    order: [['id', 'ASC']],
   });
   return allCinemaInfor;
 }
