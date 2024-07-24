@@ -1,5 +1,5 @@
 import { db } from '../models/index.js';
-const {show, ...rest} = db;
+const { show, ...rest } = db;
 export async function add({
   filmId,
   screenId,
@@ -9,12 +9,13 @@ export async function add({
   seatMatrix,
 }) {
   await show.create({
-    filmId: filmId,
-    screenId: screenId,
-    timeStart: timeStart,
-    dateStart: dateStart,
-    price: price,
-    seatMatrix: seatMatrix,
+    filmId,
+    screenId,
+    timeStart,
+    dateStart,
+    price,
+    seatMatrix,
+    status: 1,
   });
 }
 
@@ -40,12 +41,12 @@ export async function update({
 }) {
   await show.update(
     {
-      filmId: filmId,
-      screenId: screenId,
-      timeStart: timeStart,
-      dateStart: dateStart,
-      price: price,
-      seatMatrix: seatMatrix,
+      filmId,
+      screenId,
+      timeStart,
+      dateStart,
+      price,
+      seatMatrix,
     },
     {
       where: {
