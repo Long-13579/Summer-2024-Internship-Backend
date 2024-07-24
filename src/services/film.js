@@ -1,7 +1,10 @@
 import * as film from '../repositories/film.js';
 import { changeFilmListToDTO } from '../utils/mainPageFilmDTO.js';
 import { changeFilmToFilmDetailDto } from '../utils/filmDetailDTO.js';
-import { eliminateNoShowFilm, DTO } from '../utils/filmByCinemaSiteDTO.js';
+import {
+  eliminateNoShowFilm,
+  transformToDTO,
+} from '../utils/filmByCinemaSiteDTO.js';
 //add films
 export async function add(
   filmName,
@@ -73,7 +76,9 @@ export async function getOnCasting() {
 
 export async function getByCinemaId(cinemaId) {
   const filmByCinemaIdInfor = await film.getByCinemaId(cinemaId);
-  const filmByCinemaIdDTO = DTO(eliminateNoShowFilm(filmByCinemaIdInfor));
+  const filmByCinemaIdDTO = transformToDTO(
+    eliminateNoShowFilm(filmByCinemaIdInfor)
+  );
   return filmByCinemaIdDTO;
 }
 

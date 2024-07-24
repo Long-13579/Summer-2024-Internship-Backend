@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.post('/', filmController.add);
 
-router.get('/', filmController.getFilmUser);
+router.get('/', filmController.getFilmForUser);
 
 router.get('/upComing', filmController.getUpComing);
 

@@ -92,7 +92,14 @@ export async function getAllForAdmin() {
         model: provinceCity,
         attributes: ['name', 'id'],
       },
+      {
+        model: screen,
+        attributes: {
+          exclude: ['seatMatrix'],
+        },
+      },
     ],
+    order: [['id', 'ASC']],
   });
   return allCinemaInfor;
 }

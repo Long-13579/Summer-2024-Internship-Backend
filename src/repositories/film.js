@@ -89,12 +89,14 @@ export async function getByIdAdmin(filmId) {
 }
 
 export async function getAllAdmin() {
-  const filmByIdInfor = await db.film.findAll();
+  const filmByIdInfor = await db.film.findAll({
+    order: [['id', 'ASC']],
+  });
   return filmByIdInfor;
 }
 
 export async function getUpComing() {
-  const upcomingFilmInfor = await db.film.findAll({
+  const upcomingFilmInfor = await film.findAll({
     where: {
       dateStart: {
         [Op.gt]: new Date(),
@@ -105,7 +107,7 @@ export async function getUpComing() {
 }
 
 export async function getOnCasting() {
-  const onCastingFilmInfor = await db.film.findAll({
+  const onCastingFilmInfor = await film.findAll({
     where: {
       dateEnd: {
         [Op.gt]: new Date(),
@@ -132,6 +134,9 @@ export async function getByCinemaId(cinemaId) {
         ],
       },
     ],
+    attributes: {
+      exclude: ['status'],
+    },
     order: [
       [show, 'dateStart', 'ASC'],
       [show, 'timeStart', 'ASC'],

@@ -7,7 +7,7 @@ export async function getToken({ userName, password }) {
   const userNameReq = userName;
   const passwordReq = password;
   const dbUserInfor = await user.getByUserName(userNameReq);
-  if (!dbUserInfor.roleId || dbUserInfor === null) {
+  if (dbUserInfor === null || !dbUserInfor.roleId) {
     return;
   }
   const validPassword = await bcrypt.compare(passwordReq, dbUserInfor.password);
