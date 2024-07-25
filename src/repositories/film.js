@@ -1,5 +1,6 @@
 import { db } from '../models/index.js';
 import { Op } from 'sequelize';
+const { film, ...rest } = db;
 
 //add films
 export async function add({
@@ -19,31 +20,32 @@ export async function add({
   ageRate,
   category,
 }) {
-  await db.film.create({
-    filmName: filmName,
-    duration: duration,
-    description: description,
-    dateStart: dateStart,
-    dateEnd: dateEnd,
-    director: director,
-    actor: actor,
-    subtitle: subtitle,
-    dubbing: dubbing,
-    language: language,
-    poster: poster,
-    trailer: trailer,
-    format: format,
-    ageRate: ageRate,
-    category: category,
+  await film.create({
+    filmName,
+    duration,
+    description,
+    dateStart,
+    dateEnd,
+    director,
+    actor,
+    subtitle,
+    dubbing,
+    language,
+    poster,
+    trailer,
+    format,
+    ageRate,
+    category,
+    status: 1,
   });
 }
 export async function getAll() {
-  const allFilmInfor = await db.film.findAll();
+  const allFilmInfor = await film.findAll();
   return allFilmInfor;
 }
 
 export async function getById(filmId) {
-  const filmByIdInfor = await db.film.findAll({
+  const filmByIdInfor = await film.findAll({
     where: {
       id: filmId,
     },
@@ -52,7 +54,7 @@ export async function getById(filmId) {
 }
 
 export async function getUpComing() {
-  const upcomingFilmInfor = await db.film.findAll({
+  const upcomingFilmInfor = await film.findAll({
     where: {
       dateStart: {
         [Op.gt]: new Date(),
@@ -63,7 +65,7 @@ export async function getUpComing() {
 }
 
 export async function getOnCasting() {
-  const onCastingFilmInfor = await db.film.findAll({
+  const onCastingFilmInfor = await film.findAll({
     where: {
       dateEnd: {
         [Op.gt]: new Date(),
