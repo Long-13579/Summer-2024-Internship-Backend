@@ -11,3 +11,16 @@ export async function inactive(req, res) {
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
+
+export async function add(req, res) {
+  try {
+    const { filmId, screenId, timeStart, dateStart, price } = req.body;
+    await showServices.add({ filmId, screenId, timeStart, dateStart, price });
+    res.status(API_STATUS.OK.status);
+    res.send(API_STATUS.OK);
+    return;
+  } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
