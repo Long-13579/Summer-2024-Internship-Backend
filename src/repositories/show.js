@@ -130,6 +130,20 @@ export async function getByFilmIdDateStartProvinceCityId({
 
 export async function getByScreenId(screenId) {
   const showByScreenIdInfor = await show.findAll({
+    include: {
+      model: screen,
+      required: true,
+      attributes: ['name', 'status', 'id'],
+      include: {
+        model: show,
+        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+        required: true,
+        include: {
+          model: film,
+          attributes: ['filmName'],
+        },
+      },
+    },
     where: {
       screenId: screenId,
     },
@@ -248,6 +262,11 @@ export async function getByCinemaId(cinemaId) {
       attributes: ['id'],
       include: {
         model: show,
+        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+        include: {
+          model: film,
+          attributes: ['filmName'],
+        },
       },
     },
   });
@@ -268,6 +287,10 @@ export async function getByCinemaScreenDate({ cinemaId, screenId, dateStart }) {
       include: {
         model: show,
         attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
+        include: {
+          model: film,
+          attributes: ['filmName'],
+        },
         where: {
           dateStart: dateStart,
         },

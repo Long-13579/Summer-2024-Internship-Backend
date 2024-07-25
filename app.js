@@ -8,6 +8,7 @@ import userRoute from './src/routes/user.js';
 import filmRoute from './src/routes/film.js';
 import adminRoute from './src/routes/admin.js';
 import ticketRoute from './src/routes/ticket.js';
+import seatMatrixRoute from './src/routes/seatMatrix.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -25,6 +26,7 @@ app.use('/screen', screenRoute);
 app.use('/show', showRoute);
 app.use('/film', filmRoute);
 app.use('/ticket', ticketRoute);
+app.use('/seatMatrix', seatMatrixRoute);
 app.use('/user', userRoute);
 app.use('/admin', adminRoute);
 

@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/setOnHold', seatMatrixController.setOnHoldStatus);
 
-router.post('/setIsSold', verifyToken, seatMatrixController.setIsSoldStatus);
+router.post('/setIsSold', seatMatrixController.setIsSoldStatus);
 
 router.post(
   '/setAvailability',
