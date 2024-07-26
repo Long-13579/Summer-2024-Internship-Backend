@@ -23,3 +23,18 @@ export function creatSeatMatrix(size) {
   });
   return JSON.stringify({ data: seatMatrixData });
 }
+
+export function applyPriceToSeatMatrix(seatMatrix, showPrice) {
+  const seatMatrixParsed = JSON.parse(seatMatrix);
+  const seatMatrixPriceAppliedData = seatMatrixParsed.data.map(
+    ({ rowName, rowSeats }) => {
+      const rowSeatsPriceApplied = rowSeats.map(
+        ({ price, ...restSeatInfor }) => {
+          return { price: showPrice, ...restSeatInfor };
+        }
+      );
+      return { rowName, rowSeats: rowSeatsPriceApplied };
+    }
+  );
+  return JSON.stringify({ data: seatMatrixPriceAppliedData });
+}

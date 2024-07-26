@@ -18,10 +18,11 @@ export async function add({
     dateStart,
     price,
     seatMatrix,
+    status: 1,
   });
 }
 
-export async function deactivate(id) {
+export async function inactive(id) {
   await show.update(
     { status: 0 },
     {

@@ -1,18 +1,26 @@
 import * as show from '../repositories/show.js';
+import * as seatMatrix from '../repositories/seatMatrix.js';
+import * as screenServices from './screen.js';
 import * as screen from '../repositories/screen.js';
 import { changeCinemasToListShowDto } from '../utils/filmDetailDTO.js';
 import { changeAllShowToDTO } from '../utils/showDTO.js';
 import { seat } from '../constants/seatMetrics.js';
 
-export async function add({
-  filmId,
-  screenId,
-  timeStart,
-  dateStart,
-  price,
-  seatMatrix,
-}) {
-  await show.add(filmId, screenId, timeStart, dateStart, price, seatMatrix);
+export async function add({ filmId, screenId, timeStart, dateStart, price }) {
+  const screenByIdInfor = await screenServices.getById(screenId);
+  const seatMatrixByScreenId = screenByIdInfor.seatMatrix;
+  const seatMatrixPriceApplied = seatMatrix.applyPriceToSeatMatrix(
+    seatMatrixByScreenId,
+    price
+  );
+  await show.add({
+    filmId,
+    screenId,
+    timeStart,
+    dateStart,
+    price,
+    seatMatrix: seatMatrixPriceApplied,
+  });
 }
 
 export async function update({
