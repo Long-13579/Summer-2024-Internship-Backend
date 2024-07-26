@@ -1,4 +1,5 @@
 import * as ticketService from '../services/ticket.js';
+import { SendEmail } from '../services/mail.js'
 import { API_STATUS } from '../models/apiStatus.js';
 
 export async function getTicket(req, res) {
@@ -126,6 +127,8 @@ export async function successPayment(req, res) {
 
         await ticketService.updatePaymentStatus(ticketId, true);
         const ticketInfo = await ticketService.getById(ticketId);
+
+        await SendEmail(ticketId);
 
         res.status(API_STATUS.OK.status);
         res.send(ticketInfo);
