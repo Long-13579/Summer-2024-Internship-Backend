@@ -13,6 +13,16 @@ export const configPathEnv = {
       vnp_HashSecret: process.env.VNP_HASHSECRET,
       vnp_Url: process.env.VNP_URL,
       vnp_Api: process.env.VNP_API,
+    },
+    email: {
+      service: process.env.MAIL_SERVICE,
+      host: process.env.MAIL_HOST,
+      port: process.env.MAIL_PORT,
+      secure: process.env.MAIL_SECURE,
+      auth: {
+        user: process.env.USER_MAIL,
+        pass: process.env.USER_MAIL_PASSWORD,
+      }
     }
   },
   test: {
@@ -29,7 +39,23 @@ export const configPathEnv = {
     database: process.env.PRODUCTION_DATABASE,
     host: process.env.PRODUCTION_HOST,
     dialect: process.env.PRODUCTION_DIALECT,
-    port: process.env.PRODUCTION_PORT
+    port: process.env.PRODUCTION_PORT,
+    vnp: {
+      vnp_TmnCode: process.env.VNP_TMNCODE,
+      vnp_HashSecret: process.env.VNP_HASHSECRET,
+      vnp_Url: process.env.VNP_URL,
+      vnp_Api: process.env.VNP_API,
+    },
+    email: {
+      service: process.env.MAIL_SERVICE,
+      host: process.env.MAIL_HOST,
+      port: process.env.MAIL_PORT,
+      secure: process.env.MAIL_SECURE,
+      auth: {
+        user: process.env.USER_MAIL,
+        pass: process.env.USER_MAIL_PASSWORD,
+      }
+    }
   },
   
 };
