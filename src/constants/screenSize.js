@@ -1,4 +1,4 @@
-export const screenSize = {
+export const SCREEN_SIZE = {
   S: {
     rows: 6,
     cols: 6,

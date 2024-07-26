@@ -4,7 +4,7 @@ import express from 'express';
 
 const router = express.Router();
 
-router.post('/', validateScreenId,screenController.add);
+router.post('/', screenController.add);
 
 //update screen
 router.put('/', validateScreenId, screenController.update);

@@ -1,10 +1,9 @@
 import * as screen from '../repositories/screen.js';
-import * as seatMatrixServices from '../services/seatMatrix.js';
-import * as showServices from './show.js';
+import * as seatMatrixRepo from '../repositories/seatMatrix.js';
 
-export async function add(cinemaId, name, width, len) {
-  const seatMatrixData = seatMatrixServices.add(width, len);
-  await screen.add(seatMatrixData, cinemaId, name, width, len);
+export async function add({ cinemaId, name, size }) {
+  const seatMatrix = seatMatrixRepo.creatSeatMatrix(size);
+  await screen.add({ seatMatrix, cinemaId, name, size });
 }
 
 
@@ -15,13 +14,8 @@ export async function deactivate(id) {
   await screen.deactivate(id);
 }
 
-export async function update(id, cinemaId, name, width, len) {
-  const seatMatrix = seatMatrixServices.add(width, len);
-  await screen.update(id, seatMatrix, cinemaId, name, width, len);
-}
-
-export async function updateSeatMatrix(id, seatMatrixData) {
-  await screen.update(id, seatMatrixData);
+export async function update({ id, seatMatrix, cinemaId }) {
+  await screen.update({ id, seatMatrix, cinemaId });
 }
 
 export async function getAll() {

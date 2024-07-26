@@ -4,9 +4,15 @@ import { changeCinemasToListShowDto } from '../utils/filmDetailDTO.js';
 import { changeAllShowToDTO } from '../utils/showDTO.js';
 import { seat } from '../constants/seatMetrics.js';
 
-export async function add(filmId, screenId, timeStart, dateStart, price) {
-  const seatMatrixData = await takeSeatMatrixAndApplyPrice(screenId, price);
-  await show.add(filmId, screenId, timeStart, dateStart, price, seatMatrixData);
+export async function add({
+  filmId,
+  screenId,
+  timeStart,
+  dateStart,
+  price,
+  seatMatrix,
+}) {
+  await show.add(filmId, screenId, timeStart, dateStart, price, seatMatrix);
 }
 
 export async function update({
@@ -16,8 +22,8 @@ export async function update({
   timeStart,
   dateStart,
   price,
+  seatMatrix,
 }) {
-  const seatMatrixData = await takeSeatMatrixAndApplyPrice(screenId, price);
   await show.update({
     id,
     filmId,
@@ -29,8 +35,8 @@ export async function update({
   });
 }
 
-export async function deactivate(id) {
-  await show.deactivate(id);
+export async function inactive(id) {
+  await show.inactive(id);
 }
 
 export async function getAll() {
