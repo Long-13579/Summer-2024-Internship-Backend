@@ -8,7 +8,7 @@ export function creatSeatMatrix(size) {
     const colData = [...Array(SCREEN_SIZE[size].cols)].fill(0);
     const rowName = ROW_NAME[rowIndex];
 
-    return colData.map((col, colIndex) => {
+    const rowSeats = colData.map((col, colIndex) => {
       return {
         price: 0,
         isSeat: true,
@@ -16,10 +16,11 @@ export function creatSeatMatrix(size) {
         isOff: false,
         isSold: false,
         onHold: '',
-        colId: 0,
+        colId: colIndex,
         seatId: 0,
       };
     });
+    return { rowName: ROW_NAME[rowIndex], rowSeats };
   });
   return JSON.stringify({ data: seatMatrixData });
 }

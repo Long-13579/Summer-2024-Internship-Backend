@@ -35,6 +35,6 @@ export async function setOnHoldStatus(req, res) {
   } catch (error) {
     console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
-    res.send(error);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }

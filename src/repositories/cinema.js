@@ -46,10 +46,16 @@ export async function getByIdForUser(id) {
 
 export async function getByIdAdmin(id) {
   const getCinemaByIdInfor = await cinema.findOne({
-    include: {
-      model: screen,
-      attributes: ['name', 'size', 'status', 'seatMatrix', 'id'],
-    },
+    include: [
+      {
+        model: screen,
+        attributes: ['name', 'size', 'status', 'seatMatrix', 'id'],
+      },
+      {
+        model: provinceCity,
+        attributes: ['name', 'id'],
+      },
+    ],
     where: {
       id: id,
     },
