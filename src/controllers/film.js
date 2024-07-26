@@ -22,3 +22,15 @@ export async function getOnCasting(req, res) {
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
+
+export async function getFilmForUser(req, res) {
+  try {
+    const allFilmInfor = await filmServices.getFilmForUser(req.query);
+    res.status(API_STATUS.OK.status);
+    res.send(allFilmInfor);
+    return;
+  } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
