@@ -34,7 +34,7 @@ const ticketValidator = checkSchema({
             }
         }
     },
-    "ticketInfo.seatName": {
+    "ticketInfo.seatData": {
         isString: {
             errorMessage: 'Seat Name must be string'
         }

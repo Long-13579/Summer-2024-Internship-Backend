@@ -1,4 +1,5 @@
 import * as ticketService from '../services/ticket.js';
+import * as seatMatrixService from '../services/seatMatrix.js';
 import { SendEmail } from '../services/mail.js'
 import { API_STATUS } from '../models/apiStatus.js';
 
@@ -19,7 +20,7 @@ export async function payTicket(req, res) {
             userId, 
             showId, 
             seatId, 
-            seatName, 
+            seatData, 
             voucherId, 
             clientName, 
             email, 
@@ -43,7 +44,7 @@ export async function payTicket(req, res) {
             userId, 
             showId, 
             seatId, 
-            seatName, 
+            seatData, 
             voucherId, 
             isPaid: false, 
             clientName, 
@@ -76,7 +77,7 @@ export async function create(req, res) {
             userId, 
             showId, 
             seatId, 
-            seatName, 
+            seatData, 
             voucherId, 
             isPaid, 
             clientName, 
@@ -89,7 +90,7 @@ export async function create(req, res) {
             userId,
             showId,
             seatId,
-            seatName,
+            seatData,
             voucherId,
             isPaid,
             clientName,
@@ -127,6 +128,13 @@ export async function successPayment(req, res) {
 
         await ticketService.updatePaymentStatus(ticketId, true);
         const ticketInfo = await ticketService.getById(ticketId);
+
+        const { showId, seatData } = ticketInfo;
+        const seatDataObject = JSON.parse(seatData);
+        seatMatrixService.setIsSoldStatus({
+            showId,
+            data: seatDataObject
+        });
 
         await SendEmail(ticketId);
 
