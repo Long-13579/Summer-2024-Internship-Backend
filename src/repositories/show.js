@@ -28,7 +28,6 @@ export async function deactivate(id) {
     }
   );
 }
-
 export async function update({
   id,
   filmId,
