@@ -5,6 +5,7 @@ import provinceRoute from './src/routes/provinceCity.js';
 import screenRoute from './src/routes/screen.js';
 import filmRoute from './src/routes/film.js';
 import ticketRoute from './src/routes/ticket.js';
+import seatMatrixRoute from './src/routes/seatMatrix.js';
 import userRoute from './src/routes/user.js';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -23,6 +24,7 @@ app.use('/screen', screenRoute);
 app.use('/film', filmRoute);
 app.use('/ticket', ticketRoute);
 app.use('/user', userRoute);
+app.use('/seatMatrix', seatMatrixRoute);
 
 app.listen(PORT, (error) => {
   if (error) console.log("Error occurred, server can't start", error);
