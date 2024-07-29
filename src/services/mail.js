@@ -1,6 +1,7 @@
 import transporter from "../models/mail.js";
 import * as ticketRepository from '../repositories/ticket.js';
 import HTML_TEMPLATE from '../constants/emailTemplate.js';
+import { changeSeatDataToSeatName } from "../utils/changeSeatDataToSeatName.js";
 import QRCode from 'qrcode';
 
 export async function SendEmail(ticketId) {
@@ -16,10 +17,11 @@ export async function SendEmail(ticketId) {
 
     const {
         clientName, 
-        seatName, 
+        seatData, 
         price,
         email
     } = ticketInfo;
+    const seatName = changeSeatDataToSeatName(seatData);
 
     const {
         dateStart: day, 

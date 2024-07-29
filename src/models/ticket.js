@@ -19,9 +19,9 @@ export function ticket(sequelize, DataTypes){
       },
       seatId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
-      seatName: {
+      seatData: {
         type: DataTypes.STRING,
         allowNull: false,
       },

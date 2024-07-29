@@ -1,7 +1,11 @@
 import { ticket } from '../models/index.js';
 
 export async function getAll() {
-    return await ticket.findAll();
+    return await ticket.findAll({
+        where: {
+            isPaid: true
+        }
+    });
 }
 
 export async function getById(ticketId) {
@@ -40,7 +44,8 @@ export async function drop(ticketId) {
 export async function getByUserId(userId) {
     return await ticket.findAll({
         where: {
-            userId: userId
+            userId: userId,
+            isPaid: true
         }
     });
 }
