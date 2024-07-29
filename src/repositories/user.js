@@ -1,7 +1,7 @@
-import { db } from '../models/index.js';
+import { user } from '../models/index.js';
 
 export async function getByUserName(userName) {
-  const userInfor = await db.user.findOne({
+  const userInfor = await user.findOne({
     where: {
       userName,
     },

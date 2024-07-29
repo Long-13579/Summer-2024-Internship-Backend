@@ -1,5 +1,4 @@
-import { db } from '../models/index.js';
-const ticket = db.ticket;
+import { ticket } from '../models/index.js';
 
 export async function getAll() {
     return await ticket.findAll();

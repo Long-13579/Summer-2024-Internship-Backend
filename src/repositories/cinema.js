@@ -1,6 +1,5 @@
 import { STATUS } from '../constants/modelStatus.js';
-import { db } from '../models/index.js';
-const { cinema, screen, provinceCity, ...rest } = db;
+import { cinema, screen, provinceCity, } from '../models/index.js';
 
 export async function add({ name, address, provinceCityId }) {
   await cinema.create({

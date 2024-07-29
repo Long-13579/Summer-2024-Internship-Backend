@@ -18,6 +18,10 @@ export function screen(sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       size: {
         type: DataTypes.ENUM({
           values: SCREEN_SIZE_LIST,
