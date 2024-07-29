@@ -11,3 +11,14 @@ export async function setOnHoldStatus(req, res) {
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
+
+export async function setIsSoldStatus(req, res) {
+  try {
+    await seatMatrixServices.setIsSoldStatus(req.body);
+    res.status(API_STATUS.OK.status);
+    res.send(API_STATUS.OK);
+  } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}

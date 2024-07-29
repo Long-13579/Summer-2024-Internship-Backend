@@ -13,3 +13,16 @@ export async function setOnHoldStatus({ showId, data }) {
     seatMatrix: seatMatrixApplyHold,
   });
 }
+
+export async function setIsSoldStatus({ showId, data }) {
+  const seatMatrixApplySold = await seatMatrixRepo.setIsSoldStatus({
+    showId,
+    data,
+  });
+  const { seatMatrix, status, ...rest } = showServices.getById(showId);
+  await showServices.update({
+    id: showId,
+    ...rest,
+    seatMatrix: seatMatrixApplySold,
+  });
+}
