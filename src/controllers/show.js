@@ -59,3 +59,22 @@ export async function add(req, res) {
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }
 }
+export async function update(req, res) {
+  try {
+    const { id, filmId, screenId, timeStart, dateStart, price } = req.body;
+    await showServices.update({
+      id,
+      filmId,
+      screenId,
+      timeStart,
+      dateStart,
+      price,
+    });
+    res.status(API_STATUS.OK.status);
+    res.send(API_STATUS.OK);
+    return;
+  } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
