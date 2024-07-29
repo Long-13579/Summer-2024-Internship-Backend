@@ -25,6 +25,7 @@ app.use('/film', filmRoute);
 app.use('/ticket', ticketRoute);
 app.use('/admin', adminRoute);
 app.use('/user', userRoute);
+app.use('/admin', adminRoute);
 
 app.listen(PORT, (error) => {
   if (error) console.log("Error occurred, server can't start", error);
