@@ -12,8 +12,14 @@ export async function deactivate(id) {
   await screen.deactivate(id);
 }
 
-export async function update({id, seatMatrix, cinemaId}) {
-  await screen.update({id, seatMatrix, cinemaId});
+export async function update({ id, seatMatrix, cinemaId, name, size }) {
+  await screen.update({
+    id,
+    seatMatrix,
+    cinemaId,
+    name,
+    size,
+  });
 }
 
 export async function getAll() {

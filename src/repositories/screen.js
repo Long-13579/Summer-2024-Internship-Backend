@@ -7,7 +7,7 @@ export async function add({ seatMatrix, cinemaId, name, size }) {
     cinemaId,
     name,
     size,
-    status: STATUS.INACTIVE,
+    status: STATUS.ACTIVE,
   });
 }
 
@@ -22,9 +22,9 @@ export async function deactivate(ids) {
   );
 }
 
-export async function update({ id, seatMatrix, cinemaId }) {
+export async function update({ id, seatMatrix, cinemaId, name, size }) {
   await screen.update(
-    { seatMatrix: seatMatrix, cinemaId: cinemaId },
+    { seatMatrix, cinemaId, name, size },
     {
       where: {
         id: id,
@@ -39,7 +39,7 @@ export async function getAll() {
 }
 
 export async function getByCinemaId(cinemaId) {
-  const screenByCinemaIdInfor = await db.screen.findAll({
+  const screenByCinemaIdInfor = await screen.findAll({
     include: {
       model: cinema,
     },

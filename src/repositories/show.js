@@ -32,6 +32,7 @@ export async function deactivate(ids) {
     }
   );
 }
+
 export async function update({
   id,
   filmId,
@@ -198,7 +199,7 @@ export async function checkPreviousTimeStart({
       [Op.and]: [
         {
           timeStart: {
-            [Op.lt]: timeStart,
+            [Op.lte]: timeStart,
           },
         },
         {
@@ -238,7 +239,7 @@ export async function checkPostTimeStart({
       [Op.and]: [
         {
           timeStart: {
-            [Op.gt]: timeStart,
+            [Op.gte]: timeStart,
           },
         },
         {

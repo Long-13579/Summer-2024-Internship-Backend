@@ -10,4 +10,6 @@ router.get('/', screenController.getScreen);
 
 router.post('/', screenController.add);
 
+router.put('/', validateScreenId, screenController.updateScreen);
+
 export default router;
