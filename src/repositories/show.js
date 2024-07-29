@@ -1,4 +1,6 @@
+import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
+import { Op } from 'sequelize';
 const { show, ...rest } = db;
 export async function add({
   filmId,
@@ -18,16 +20,17 @@ export async function add({
   });
 }
 
-export async function deactivate(id) {
+export async function deactivate(ids) {
   await show.update(
-    { status: 0 },
+    { status: STATUS.INACTIVE },
     {
       where: {
-        id: id,
+        id: ids,
       },
     }
   );
 }
+
 export async function update({
   id,
   filmId,

@@ -1,11 +1,15 @@
 import * as screen from '../repositories/screen.js';
+import * as show from '../repositories/show.js';
 
 export async function add(seatMatrix, cinemaId) {
   await screen.add(seatMatrix, cinemaId);
 }
 
-export async function drop(id) {
-  await screen.drop(id);
+export async function deactivate(id) {
+  const showsByScreenIdInfor = await show.getByScreenId(id);
+  const showsByScreenIdArrId = showsByScreenIdInfor.map(({id}) => id);
+  await show.deactivate(showsByScreenIdArrId);
+  await screen.deactivate(id);
 }
 
 export async function update({id, seatMatrix, cinemaId}) {

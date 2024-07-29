@@ -1,3 +1,4 @@
+import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
 
 export async function add(seatMatrix, cinemaId) {
@@ -7,12 +8,12 @@ export async function add(seatMatrix, cinemaId) {
   });
 }
 
-export async function deactivate(id) {
+export async function deactivate(ids) {
   await db.screen.update(
-    { status: 0 },
+    { status: STATUS.INACTIVE },
     {
       where: {
-        id: id,
+        id: ids,
       },
     }
   );
