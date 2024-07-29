@@ -1,10 +1,14 @@
 import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
+const { screen, ...rest } = db;
 
-export async function add(seatMatrix, cinemaId) {
-  await db.screen.create({
-    seatMatrix: seatMatrix,
-    cinemaId: cinemaId,
+export async function add({ seatMatrix, cinemaId, name, size }) {
+  await screen.create({
+    seatMatrix,
+    cinemaId,
+    name,
+    size,
+    status: STATUS.INACTIVE,
   });
 }
 
@@ -19,8 +23,8 @@ export async function deactivate(ids) {
   );
 }
 
-export async function update({id, seatMatrix, cinemaId}) {
-  await db.screen.update(
+export async function update({ id, seatMatrix, cinemaId }) {
+  await screen.update(
     { seatMatrix: seatMatrix, cinemaId: cinemaId },
     {
       where: {
@@ -31,12 +35,12 @@ export async function update({id, seatMatrix, cinemaId}) {
 }
 
 export async function getAll() {
-  const allScreenInfor = await db.screen.findAll();
+  const allScreenInfor = await screen.findAll();
   return allScreenInfor;
 }
 
 export async function getByCinemaId(cinemaId) {
-  const screenByCinemaIdInfor = await db.screen.findAll({
+  const screenByCinemaIdInfor = await screen.findAll({
     where: {
       cinemaId: cinemaId,
     },
@@ -45,7 +49,7 @@ export async function getByCinemaId(cinemaId) {
 }
 
 export async function getById(id) {
-  const screenByIdInfor = await db.screen.findOne({
+  const screenByIdInfor = await screen.findOne({
     where: {
       id: id,
     },
