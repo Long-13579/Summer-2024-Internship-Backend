@@ -1,12 +1,12 @@
-import { db } from '../models/index.js';
+import { provinceCity, cinema } from '../models/index.js';
 
 //add provinceCity
 export async function add(name) {
-  await db.provinceCity.create({ name: name });
+  await provinceCity.create({ name: name });
 }
 //delete
 export async function drop(id) {
-  await db.provinceCity.destroy({
+  await provinceCity.destroy({
     where: {
       id: id,
     },
@@ -14,7 +14,7 @@ export async function drop(id) {
 }
 //update
 export async function update(id, name) {
-  await db.provinceCity.update(
+  await provinceCity.update(
     { name: name },
     {
       where: {
@@ -26,7 +26,7 @@ export async function update(id, name) {
 
 //get By id
 export async function getById(id) {
-  const provinceCityByIdInfor = await db.provinceCity.findOne({
+  const provinceCityByIdInfor = await provinceCity.findOne({
     where: {
       id: id,
     },
@@ -35,16 +35,16 @@ export async function getById(id) {
 }
 //get all province from db
 export async function getAllForAdmin() {
-  const allProvinceInfor = await db.provinceCity.findAll();
+  const allProvinceInfor = await provinceCity.findAll();
   return allProvinceInfor;
 }
 
 //get all province that have cinema
 export async function getAllForUser() {
-  const allProvinceHaveCinemaInfor = await db.provinceCity.findAll({
+  const allProvinceHaveCinemaInfor = await provinceCity.findAll({
     include: [
       {
-        model: db.cinema,
+        model: cinema,
         required: true,
       },
     ],

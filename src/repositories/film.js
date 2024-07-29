@@ -1,7 +1,6 @@
 import { STATUS } from '../constants/modelStatus.js';
-import { db } from '../models/index.js';
+import { screen, show, film, cinema, provinceCity, } from '../models/index.js';
 import { Op } from 'sequelize';
-const { screen, show, film, cinema, provinceCity, ...rest } = db;
 
 //add films
 export async function add({

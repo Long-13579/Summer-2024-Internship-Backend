@@ -54,4 +54,25 @@ Object.values(modules).forEach((model) => {
 
 modules.sequelize = sequelize;
 modules.Sequelize = Sequelize;
-export { modules as db };
+
+const {
+  cinema: cinemaDB,
+  provinceCity: provinceCityDB,
+  screen: screenDB,
+  show: showDB,
+  film: filmDB,
+  user: userDB,
+  ticket: ticketDB,
+  voucher: voucherDB,
+} = modules;
+
+export {
+  cinemaDB as cinema,
+  provinceCityDB as provinceCity,
+  screenDB as screen,
+  showDB as show,
+  filmDB as film,
+  userDB as user,
+  ticketDB as ticket,
+  voucherDB as voucher,
+};
