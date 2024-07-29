@@ -50,7 +50,7 @@ export async function getAll() {
 }
 
 export async function getById(id) {
-  const showByIdInfor = await db.show.findAll({
+  const showByIdInfor = await db.show.findOne({
     where: {
       id: id,
     },
