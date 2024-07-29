@@ -12,4 +12,6 @@ router.get('/', showController.getShowForAdmin);
 
 router.post('/', validateFilmId, validateDateFilm, showController.add);
 
+router.put('/', validateShowId, showController.update);
+
 export default router;

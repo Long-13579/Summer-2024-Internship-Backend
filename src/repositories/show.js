@@ -1,7 +1,7 @@
 import { STATUS } from '../constants/modelStatus.js';
 import { show, screen, cinema, film } from '../models/index.js';
 import { Op } from 'sequelize';
-import * as filmRepo from './film.js'
+import * as filmRepo from './film.js';
 import moment from 'moment';
 export async function add({
   filmId,
@@ -40,7 +40,6 @@ export async function update({
   timeStart,
   dateStart,
   price,
-  seatMatrix,
 }) {
   await show.update(
     {
@@ -49,7 +48,6 @@ export async function update({
       timeStart,
       dateStart,
       price,
-      seatMatrix,
     },
     {
       where: {
@@ -77,7 +75,7 @@ export async function getAll() {
 
 export async function getById(id) {
   const showByIdInfor = await show.findOne({
-    raw:true,
+    raw: true,
     where: {
       id,
     },
@@ -134,15 +132,15 @@ export async function getByCinemaScreenDateStart({
   const showsInfor = await cinema.findAll({
     include: {
       model: screen,
-      required:true,
+      required: true,
       attributes: ['name', 'status', 'id'],
       include: {
         model: show,
-        required:true,
+        required: true,
         attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
         include: {
           model: film,
-          required:true,
+          required: true,
           attributes: ['filmName', 'duration'],
         },
         ...(dateStart
