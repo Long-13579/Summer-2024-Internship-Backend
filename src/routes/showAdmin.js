@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.delete('/:showId', validateShowId, showController.deactivateShow);
 
+router.post('/', showController.add);
+
 export default router;

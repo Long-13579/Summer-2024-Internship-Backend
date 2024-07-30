@@ -1,6 +1,7 @@
 import express from 'express';
 import showAdminRoutes from './showAdmin.js';
 import screenAdminRoutes from './screenAdmin.js';
+import showAdminRoutes from './showAdmin.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
 
 const router = express.Router();
