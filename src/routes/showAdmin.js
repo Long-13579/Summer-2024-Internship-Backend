@@ -10,6 +10,6 @@ router.post('/', showController.add);
 
 router.put('/', validateShowId, showController.update);
 
-router.delete('/:showId', validateShowId, showController.deactive);
+router.delete('/:showId', validateShowId, showController.deactivateShow);
 
 export default router;

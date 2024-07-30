@@ -1,9 +1,9 @@
 import * as showServices from '../services/show.js';
 import { API_STATUS } from '../models/apiStatus.js';
 
-export async function deactive(req, res) {
+export async function deactivateShow(req, res) {
   try {
-    await showServices.inactive(req.params.showId);
+    await showServices.deactivate(req.params.showId);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {

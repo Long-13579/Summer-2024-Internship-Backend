@@ -1,5 +1,6 @@
 import * as showServices from '../services/show.js';
 import { API_STATUS } from '../models/apiStatus.js';
+import { getNotFoundErrorMessage } from '../utils/getErrorMessage.js';
 
 export async function validateShowId(req, res, next) {
   try {
@@ -9,18 +10,17 @@ export async function validateShowId(req, res, next) {
       req.params.showId ||
       req.body.showId ||
       req.query.showId;
-    if (showIdRequest == undefined) {
-      req.noshowId = true;
-      next();
-      return;
-    }
 
     const showByIdInfor = await showServices.getById(showIdRequest);
-    if (showByIdInfor == null) {
-      res.status(API_STATUS.NOT_FOUND.status);
-      res.send(
-        API_STATUS.NOT_FOUND.getErrorMessage('show', 'show', showIdRequest)
-      );
+    if (showByIdInfor === null) {
+      const errorObj = {
+        model: 'show',
+        modelQuery: 'show',
+        modelQueryId: showIdRequest,
+      };
+      const errorNotFound = getNotFoundErrorMessage(errorObj);
+      res.status(errorNotFound.status);
+      res.send(errorNotFound);
       return;
     }
     next();

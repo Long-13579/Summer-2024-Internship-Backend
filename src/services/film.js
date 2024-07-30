@@ -5,42 +5,7 @@ import {
   eliminateNoShowFilm,
   transformToDTO,
 } from '../utils/filmByCinemaSiteDTO.js';
-//add films
-export async function add(
-  filmName,
-  duration,
-  description,
-  dateStart,
-  dateEnd,
-  director,
-  actor,
-  subtitle,
-  dubbing,
-  language,
-  poster,
-  trailer,
-  format,
-  ageRate,
-  category
-) {
-  await film.add(
-    filmName,
-    duration,
-    description,
-    dateStart,
-    dateEnd,
-    director,
-    actor,
-    subtitle,
-    dubbing,
-    language,
-    poster,
-    trailer,
-    format,
-    ageRate,
-    category
-  );
-}
+
 export async function getAll() {
   const allFilmInfor = await film.getAll();
   return allFilmInfor;
@@ -100,4 +65,78 @@ export async function getFilmForUser({ id, cinemaId }) {
     return await getByCinemaId(cinemaId);
   }
   return await getAll();
+}
+
+export async function add({
+  filmName,
+  duration,
+  description,
+  dateStart,
+  dateEnd,
+  director,
+  actor,
+  subtitle,
+  dubbing,
+  language,
+  poster,
+  trailer,
+  format,
+  ageRate,
+  category,
+}) {
+  await film.add({
+    filmName,
+    duration,
+    description,
+    dateStart,
+    dateEnd,
+    director,
+    actor,
+    subtitle,
+    dubbing,
+    language,
+    poster,
+    trailer,
+    format,
+    ageRate,
+    category,
+  });
+}
+
+export async function update({
+  id,
+  filmName,
+  duration,
+  description,
+  dateStart,
+  dateEnd,
+  director,
+  actor,
+  subtitle,
+  dubbing,
+  language,
+  poster,
+  trailer,
+  format,
+  ageRate,
+  category,
+}) {
+  await film.update({
+    id,
+    filmName,
+    duration,
+    description,
+    dateStart,
+    dateEnd,
+    director,
+    actor,
+    subtitle,
+    dubbing,
+    language,
+    poster,
+    trailer,
+    format,
+    ageRate,
+    category,
+  });
 }

@@ -1,4 +1,5 @@
 import * as filmServices from '../services/film.js';
+import { getNotFoundErrorMessage } from '../utils/getErrorMessage.js';
 import { API_STATUS } from '../models/apiStatus.js';
 
 export async function validateFilmId(req, res, next) {
@@ -9,18 +10,17 @@ export async function validateFilmId(req, res, next) {
       req.params.filmId ||
       req.body.filmId ||
       req.query.filmId;
-    if (filmIdRequest == undefined) {
-      req.noFilmId = true;
-      next();
-      return;
-    }
 
-    const filmByIdInfor = await filmServices.getByIdAdmin(filmIdRequest);
-    if (filmByIdInfor == null) {
-      res.status(API_STATUS.NOT_FOUND.status);
-      res.send(
-        API_STATUS.NOT_FOUND.getErrorMessage('film', 'film', filmIdRequest)
-      );
+    const filmByIdInfor = await filmServices.getById(filmIdRequest);
+    if (filmByIdInfor === null) {
+      const errorObj = {
+        model: 'film',
+        modelQuery: 'film',
+        modelQueryId: filmIdRequest,
+      };
+      const errorNotFound = getNotFoundErrorMessage(errorObj);
+      res.status(errorNotFound.status);
+      res.send(errorNotFound);
       return;
     }
     next();

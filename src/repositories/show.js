@@ -22,7 +22,7 @@ export async function add({
   });
 }
 
-export async function inactive(id) {
+export async function deactivate(id) {
   await show.update(
     { status: 0 },
     {
@@ -32,7 +32,6 @@ export async function inactive(id) {
     }
   );
 }
-
 export async function update({
   id,
   filmId,

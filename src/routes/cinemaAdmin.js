@@ -11,12 +11,12 @@ router.post('/', cinemaController.add);
 router.put('/', validateCinemaId, cinemaController.update);
 
 //delete
-router.delete('/:cinemaId', validateCinemaId, cinemaController.drop);
-
-router.get(
-  '/',
-  cinemaController.getCinemaForAdmin
+router.delete(
+  '/:cinemaId',
+  validateCinemaId,
+  cinemaController.deactivateCinema
 );
 
+router.get('/', cinemaController.getCinemaForAdmin);
 
 export default router;
