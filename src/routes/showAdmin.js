@@ -12,4 +12,6 @@ router.put('/', validateShowId, showController.update);
 
 router.delete('/:showId', validateShowId, showController.deactivateShow);
 
+router.post('/', showController.add);
+
 export default router;
