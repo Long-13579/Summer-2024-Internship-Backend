@@ -15,7 +15,7 @@ export async function validateTicketPayment(req, res, next) {
         }
 
         res.status(API_STATUS.BAD_REQUEST.status);
-        res.send(API_STATUS.BAD_REQUEST)
+        res.send(result)
     } catch (error) {
         res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
         res.send(API_STATUS.INTERNAL_SERVER_ERROR);
@@ -24,10 +24,7 @@ export async function validateTicketPayment(req, res, next) {
 
 export async function validateTicketId(req, res, next) {
     try {
-        const ticketId = 
-            req.body.ticketId ||
-            req.params.ticketId || 
-            req.query.ticketId;
+        const ticketId = req.params.ticketId;
 
         const ticket = await ticketService.getById(ticketId);
 

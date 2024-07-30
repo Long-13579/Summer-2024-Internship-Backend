@@ -1,6 +1,8 @@
 import transporter from "../models/mail.js";
 import * as ticketRepository from '../repositories/ticket.js';
-import HTML_TEMPLATE from '../constants/emailTemplate.js'
+import HTML_TEMPLATE from '../constants/emailTemplate.js';
+import { changeSeatDataToSeatName } from "../utils/changeSeatDataToSeatName.js";
+import QRCode from 'qrcode';
 
 export async function SendEmail(ticketId) {
     const ticketInfo = await ticketRepository.getById(ticketId);
@@ -12,24 +14,70 @@ export async function SendEmail(ticketId) {
     const screenInfo = await showInfo.getScreen();
     const cinemaInfo = await screenInfo.getCinema();
     const filmInfo = await showInfo.getFilm();
+
+    const {
+        clientName, 
+        seatData, 
+        price,
+        email
+    } = ticketInfo;
+    const seatName = changeSeatDataToSeatName(seatData);
+
+    const {
+        dateStart: day, 
+        timeStart: time
+    } = showInfo;
+
+    const { name: screenName } = screenInfo;
+
+    const {
+        name: cinemaName, 
+        address
+    } = cinemaInfo;
     
-    const emailContent = HTML_TEMPLATE({
-        clientName: ticketInfo.clientName,
-        cinemaName: cinemaInfo.name,
-        address: cinemaInfo.address,
-        filmName: filmInfo.filmName,
-        screenName: screenInfo.name,
-        day: showInfo.dateStart,
-        time: showInfo.timeStart,
-        seatName: ticketInfo.seatName,
-        price: ticketInfo.price
+    const { filmName } = filmInfo;
+
+    const qrCodeErrorCorrectionLevel = 'H';
+    const qrCodeWidth = 250;
+    const qrCodeMargin = 1;
+    
+    const emailContent = await HTML_TEMPLATE({
+        clientName,
+        cinemaName,
+        address,
+        filmName,
+        screenName,
+        day,
+        time,
+        seatName,
+        price
     });
+    
+    const qrCode = await QRCode.toDataURL(
+        ticketId.toString(),
+        {
+            errorCorrectionLevel: qrCodeErrorCorrectionLevel,
+            width: qrCodeWidth,
+            margin: qrCodeMargin,
+        }
+    );
+
+    const qrCodeAttachment = {
+        filename: "qrCode.png",
+        cid: "qrcode@ces",
+        contentType: "image/png",
+        contentDesposition: "inline",
+        path: qrCode,
+    };
 
     const message = {
-        from: 'cesinternship2024@gmail.com',
-        to: ticketInfo.email,
+        from: process.env.USER_MAIL,
+        to: email,
         subject: 'Booking ticket information',
-        html: emailContent
+        html: emailContent,
+        attachments: [
+            qrCodeAttachment
+        ]
     };
     
     await transporter.sendMail(message);

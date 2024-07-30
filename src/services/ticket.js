@@ -52,8 +52,8 @@ export async function getPaymentUrl({
     process.env.TZ = 'Asia/Ho_Chi_Minh';
 
     const tmnCode = config.vnp_TmnCode;
-    let vnpUrl = config.vnp_Url;
-    let orderType = 'other';
+    const vnpUrl = config.vnp_Url;
+    const orderType = 'other';
     
     const date = new Date();
 
@@ -63,7 +63,7 @@ export async function getPaymentUrl({
     const locale = 'vn';
     const currCode = 'VND';
 
-    let vnp_Params = {
+    const vnp_Params = {
         vnp_Version: '2.1.0',
         vnp_Command: 'pay',
         vnp_TmnCode: tmnCode,
@@ -79,29 +79,24 @@ export async function getPaymentUrl({
         vnp_CreateDate: createDate,
     };
     
-    vnp_Params = sortObject(vnp_Params);
+    const newVnp_Params = sortObject(vnp_Params);
 
-    const signed = generateSecretKey(vnp_Params);
+    const signed = generateSecretKey(newVnp_Params);
     
-    vnp_Params['vnp_SecureHash'] = signed;
-    vnpUrl += '?' + querystring.stringify(vnp_Params, {encode: false});
+    newVnp_Params['vnp_SecureHash'] = signed;
+    const newVnpUrl = vnpUrl + '?' + querystring.stringify(newVnp_Params, {encode: false});
 
-    return vnpUrl;
+    return newVnpUrl;
 }
 
 function sortObject(obj) {
-	let sorted = {};
-	let str = [];
-	let key;
-	for (key in obj){
-		if (obj.hasOwnProperty(key)) {
-		    str.push(encodeURIComponent(key));
-		}
-	}
-	str.sort();
-    for (key = 0; key < str.length; key++) {
-        sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+");
-    }
+    const sorted = {};
+    const keys = Object.keys(obj).map(encodeURIComponent).sort();
+
+    keys.forEach(key => {
+        sorted[key] = encodeURIComponent(obj[decodeURIComponent(key)]).replace(/%20/g, "+")
+    });
+
     return sorted;
 }
 
