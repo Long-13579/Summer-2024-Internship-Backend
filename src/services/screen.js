@@ -10,8 +10,8 @@ export async function drop(id) {
   await screen.drop(id);
 }
 
-export async function update({id, seatMatrix, cinemaId}) {
-  await screen.update({id, seatMatrix, cinemaId});
+export async function update({ id, seatMatrix, cinemaId }) {
+  await screen.update({ id, seatMatrix, cinemaId });
 }
 
 export async function getAll() {

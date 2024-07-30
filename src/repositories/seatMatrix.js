@@ -24,3 +24,4 @@ export function creatSeatMatrix(size) {
   });
   return JSON.stringify({ data: seatMatrixData });
 }
+

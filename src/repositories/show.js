@@ -15,6 +15,7 @@ export async function add({
     dateStart,
     price,
     seatMatrix,
+    status: 1,
   });
 }
 
