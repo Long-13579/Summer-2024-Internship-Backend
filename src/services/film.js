@@ -1,4 +1,5 @@
 import * as film from '../repositories/film.js';
+import * as show from '../repositories/show.js';
 import { changeFilmListToDTO } from '../utils/mainPageFilmDTO.js';
 import { changeFilmToFilmDetailDto } from '../utils/filmDetailDTO.js';
 import {
@@ -36,11 +37,27 @@ export async function getAll() {
   return allFilmInfor;
 }
 
+export async function getAllAdmin() {
+  const allFilmInfor = await film.getAllAdmin();
+  return allFilmInfor;
+}
+
 export async function getByIdForUser(filmId) {
   const filmByIdInfor = await film.getByIdForUser(filmId);
   const filmByIdDTO = changeFilmToFilmDetailDto(filmByIdInfor);
   return filmByIdDTO;
 }
+
+export async function getFilmAdmin({ id, cinemaId }) {
+  if (id) {
+    return await getByIdForAdmin(id);
+  }
+  if (cinemaId) {
+    return await getByCinemaId(cinemaId);
+  }
+  return await getAllAdmin();
+}
+
 
 export async function getFilmForUser({ id, cinemaId }) {
   if (id) {
@@ -124,4 +141,11 @@ export async function update({
     ageRate,
     category,
   });
+}
+
+export async function deactivate(id) {
+  const showsByFilmIdInfor = await show.getByFilmId(id);
+  const showsByFilmIdArrId = showsByFilmIdInfor.map(({ id }) => id);
+  await show.deactivate(showsByFilmIdArrId);
+  await film.deactivate(id);
 }

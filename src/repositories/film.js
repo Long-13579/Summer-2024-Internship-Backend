@@ -84,10 +84,29 @@ export async function update({
   );
 }
 
+export async function deactivate(ids) {
+  await film.update(
+    { status: STATUS.INACTIVE },
+    {
+      where: {
+        id: ids,
+      },
+    }
+  );
+}
+
 export async function getAll() {
   const allFilmInfor = await film.findAll();
   return allFilmInfor;
 }
+
+export async function getAllAdmin() {
+  const filmByIdInfor = await film.findAll({
+    order: [['id', 'ASC']],
+  });
+  return filmByIdInfor;
+}
+
 
 export async function getByIdForUser(filmId) {
   const filmByIdInfor = await film.findOne({
