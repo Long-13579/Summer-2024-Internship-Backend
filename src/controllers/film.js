@@ -35,6 +35,17 @@ export async function getFilmForUser(req, res) {
   }
 }
 
+export async function getFilmAdmin(req, res) {
+  try {
+    const filmsInfor = await filmServices.getFilmAdmin(req.query);
+    res.status(API_STATUS.OK.status);
+    res.send(filmsInfor);
+  } catch (error) {
+    res.status(API.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
+
 export async function add(req, res) {
   try {
     const {
@@ -117,6 +128,17 @@ export async function update(req, res) {
       ageRate,
       category,
     });
+    res.status(API_STATUS.OK.status);
+    res.send(API_STATUS.OK);
+  } catch (error) {
+    res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
+    res.send(API_STATUS.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function deactivateFilm(req, res) {
+  try {
+    await filmServices.deactivate(req.params.filmId);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {

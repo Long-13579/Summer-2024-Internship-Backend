@@ -23,6 +23,7 @@ export async function update({
   timeStart,
   dateStart,
   price,
+  seatMatrix
 }) {
   await show.update({
     id,
@@ -31,6 +32,7 @@ export async function update({
     timeStart,
     dateStart,
     price,
+    seatMatrix
   });
 }
 

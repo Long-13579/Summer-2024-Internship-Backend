@@ -40,6 +40,7 @@ export async function update({
   timeStart,
   dateStart,
   price,
+  seatMatrix,
 }) {
   await show.update(
     {
@@ -48,6 +49,7 @@ export async function update({
       timeStart,
       dateStart,
       price,
+      seatMatrix,
     },
     {
       where: {
