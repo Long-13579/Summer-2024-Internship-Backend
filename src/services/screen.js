@@ -1,8 +1,8 @@
 import * as screen from '../repositories/screen.js';
 import * as show from '../repositories/show.js';
 
-export async function add(seatMatrix, cinemaId) {
-  await screen.add(seatMatrix, cinemaId);
+export async function add({ seatMatrix, cinemaId, name, size }) {
+  await screen.add({ seatMatrix, cinemaId, name, size });
 }
 
 export async function deactivate(id) {
