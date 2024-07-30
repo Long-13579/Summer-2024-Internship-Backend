@@ -1,7 +1,7 @@
 import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
 import { Op } from 'sequelize';
-const { screen, show, film, ...rest } = db;
+const { screen, show, film, cinema, provinceCity, ...rest } = db;
 
 //add films
 export async function add({
@@ -90,8 +90,34 @@ export async function getAll() {
   return allFilmInfor;
 }
 
-export async function getById(filmId) {
-  const filmByIdInfor = await film.findAll({
+export async function getByIdForUser(filmId) {
+  const filmByIdInfor = await film.findOne({
+    include: [
+      {
+        model: show,
+        required: true,
+        include: {
+          model: screen,
+          required: true,
+          include: {
+            model: cinema,
+            required: true,
+            include: {
+              model: provinceCity,
+            },
+          },
+        },
+      },
+    ],
+    where: {
+      id: filmId,
+    },
+  });
+  return filmByIdInfor;
+}
+
+export async function getByIdFormAdmin(filmId) {
+  const filmByIdInfor = await film.findOne({
     where: {
       id: filmId,
     },
@@ -101,6 +127,11 @@ export async function getById(filmId) {
 
 export async function getUpComing() {
   const upcomingFilmInfor = await film.findAll({
+    include: {
+      model: show,
+      required: true,
+      attributes: [],
+    },
     where: {
       dateStart: {
         [Op.gt]: new Date(),
@@ -112,10 +143,24 @@ export async function getUpComing() {
 
 export async function getOnCasting() {
   const onCastingFilmInfor = await film.findAll({
+    include: {
+      model: show,
+      required: true,
+      attributes: [],
+    },
     where: {
-      dateEnd: {
-        [Op.gt]: new Date(),
-      },
+      [Op.and]: [
+        {
+          dateEnd: {
+            [Op.gt]: new Date(),
+          },
+        },
+        {
+          dateStart: {
+            [Op.lt]: new Date(),
+          },
+        },
+      ],
     },
   });
   return onCastingFilmInfor;

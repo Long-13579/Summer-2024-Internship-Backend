@@ -1,5 +1,6 @@
 import * as film from '../repositories/film.js';
 import { changeFilmListToDTO } from '../utils/mainPageFilmDTO.js';
+import { changeFilmToFilmDetailDto } from '../utils/filmDetailDTO.js';
 import {
   eliminateFilmWithoutShow,
   transformToDTO,
@@ -35,7 +36,16 @@ export async function getAll() {
   return allFilmInfor;
 }
 
-export async function getFilmForUser({ cinemaId }) {
+export async function getByIdForUser(filmId) {
+  const filmByIdInfor = await film.getByIdForUser(filmId);
+  const filmByIdDTO = changeFilmToFilmDetailDto(filmByIdInfor);
+  return filmByIdDTO;
+}
+
+export async function getFilmForUser({ id, cinemaId }) {
+  if (id) {
+    return await getByIdForUser(id);
+  }
   if (cinemaId) {
     return await getByCinemaId(cinemaId);
   }
