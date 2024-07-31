@@ -44,33 +44,17 @@ export async function setIsSoldStatus({ showId, data }) {
   });
 }
 
-export async function setOnHoldStatus(showId, seatsBookedData) {
-  const showByIdInfor = await showServices.getById(showId);
-  const screenIdReq = showByIdInfor.screenId;
-  const screenByIdInfor = await screenServices.getById(screenIdReq);
-  const seatMatrixByScreenId = screenByIdInfor.seatMatrix;
-  const seatMatrixDataByIdParsed = JSON.parse(seatMatrixByScreenId);
-
-  //take index of each Row Name
-  const seatsBookedCount = seatsBookedData.length;
-  const rowNameIndexArr = [];
-  for (var i = 0; i < seatsBookedCount; i++) {
-    rowNameIndexArr.push(
-      seatMatrixDataByIdParsed.data.findIndex((obj) => {
-        return obj.rowName == seatsBookedData[i].rowName;
-      })
-    );
-  }
-  //change status depend on seatsBookData
-  for (let i = 0; i < seatsBookedCount; i++) {
-    const rowNameIndex = rowNameIndexArr[i];
-    const bookedSeatId = seatsBookedData[i].colId;
-    seatMatrixDataByIdParsed.data[rowNameIndex].rowSeats[bookedSeatId].onHold =
-      moment(seatsBookedData[i].onHold).add(5, 'm').format();
-  }
-
-  const seatMatrixDataChanged = JSON.stringify(seatMatrixDataByIdParsed);
-  await show.updateSeatMatrix(showId, seatMatrixDataChanged);
+export async function setOnHoldStatus({ showId, data }) {
+  const seatMatrixApplyHold = await seatMatrixRepo.setOnHoldStatus({
+    showId,
+    data,
+  });
+  const { seatMatrix, status, ...rest } = showServices.getById(showId);
+  await showServices.update({
+    id: showId,
+    rest,
+    seatMatrix: seatMatrixApplyHold,
+  });
 }
 
 export function add(screenWidth, screenLength) {

@@ -8,7 +8,7 @@ export async function add({ seatMatrix, cinemaId, name, size }) {
     cinemaId,
     name,
     size,
-    status: 1,
+    status: STATUS.INACTIVE,
   });
 }
 

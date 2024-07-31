@@ -13,4 +13,6 @@ router.post(
   seatMatrixController.setIsOffStatus
 );
 
+router.post('/setOnHold', seatMatrixController.setOnHoldStatus);
+
 export default router;
