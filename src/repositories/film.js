@@ -102,6 +102,7 @@ export async function getByIdForUser(filmId) {
         },
         include: {
           model: screen,
+          required: true,
           attributes: {
             exclude: ['seatMatrix'],
           },
@@ -111,6 +112,7 @@ export async function getByIdForUser(filmId) {
             required: true,
             include: {
               model: provinceCity,
+              required: true,
               attributes: {
                 exclude: ['status'],
               },
@@ -144,6 +146,11 @@ export async function getAllAdmin() {
 
 export async function getUpComing() {
   const upcomingFilmInfor = await film.findAll({
+    include: {
+      model: show,
+      required: true,
+      attributes: [],
+    },
     where: {
       dateStart: {
         [Op.gt]: new Date(),
@@ -155,6 +162,11 @@ export async function getUpComing() {
 
 export async function getOnCasting() {
   const onCastingFilmInfor = await film.findAll({
+    include: {
+      model: show,
+      required: true,
+      attributes: [],
+    },
     where: {
       dateEnd: {
         [Op.gt]: new Date(),

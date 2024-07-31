@@ -52,7 +52,7 @@ export async function setIsSoldStatus({ showId, data: seatsBookedReq }) {
   const setOnHoldRowIndexArr = seatsBookedReqParsed.map(
     ({ rowName: rowNameReq, colId, status }) => {
       const index = seatMatrixDataByShowIdParsed.data.findIndex(
-        ({ rowName: rowNameData, ...rest }) => (rowNameData = rowNameReq)
+        ({ rowName: rowNameData, ...rest }) => rowNameData === rowNameReq
       );
       return { index, colId, status };
     }
@@ -73,11 +73,14 @@ export async function setOnHoldStatus({ showId, data: seatsBookedReq }) {
   const setOnHoldRowIndexArr = seatsBookedReqParsed.map(
     ({ rowName: rowNameReq, colId, onHold }) => {
       const index = seatMatrixDataByShowIdParsed.data.findIndex(
-        ({ rowName: rowNameData, ...rest }) => (rowNameData = rowNameReq)
+        ({ rowName: rowNameData, ...rest }) => {
+          return rowNameData === rowNameReq;
+        }
       );
       return { index, colId, onHold };
     }
   );
+  console.log(setOnHoldRowIndexArr);
   setOnHoldRowIndexArr.map(({ index, colId, onHold }) => {
     const onHoldAddFiveMin = moment(onHold).add(HOLD_SEAT_TIME, 'm').format();
     seatMatrixDataByShowIdParsed.data[index].rowSeats[colId].onHold =
