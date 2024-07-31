@@ -11,7 +11,7 @@ export async function validateFilmId(req, res, next) {
       req.body.filmId ||
       req.query.filmId;
 
-    const filmByIdInfor = await filmServices.getById(filmIdRequest);
+    const filmByIdInfor = await filmServices.getByIdAdmin(filmIdRequest);
     if (filmByIdInfor === null) {
       const errorObj = {
         model: 'film',
