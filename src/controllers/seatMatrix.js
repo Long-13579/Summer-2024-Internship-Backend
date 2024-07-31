@@ -15,8 +15,7 @@ export async function setIsOffStatus(req, res) {
 
 export async function setIsSoldStatus(req, res) {
   try {
-    const bodyShowId = req.body.showId;
-    await seatMatrixServices.setIsSoldStatus(bodyShowId, req.body.data);
+    await seatMatrixServices.setIsSoldStatus(req.body);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {
@@ -28,8 +27,7 @@ export async function setIsSoldStatus(req, res) {
 
 export async function setOnHoldStatus(req, res) {
   try {
-    const bodyShowId = req.body.showId;
-    await seatMatrixServices.setOnHoldStatus(bodyShowId, req.body.data);
+    await seatMatrixServices.setOnHoldStatus(req.body);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {

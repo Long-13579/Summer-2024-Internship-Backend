@@ -102,15 +102,15 @@ export async function getByFilmIdDateStartProvinceCityId({
   dateStart,
   provinceCityId,
 }) {
-  const showByFilmIdInfor = await db.cinema.findAll({
+  const showByFilmIdInfor = await cinema.findAll({
     include: {
-      model: db.screen,
+      model: screen,
       required: true,
       attributes: {
         exclude: ['seatMatrix'],
       },
       include: {
-        model: db.show,
+        model: show,
         required: true,
         attributes: {
           exclude: ['seatMatrix'],
@@ -124,131 +124,9 @@ export async function getByFilmIdDateStartProvinceCityId({
     where: {
       provinceCityId,
     },
-    order: [[db.screen, db.show, 'timeStart', 'ASC']],
+    order: [[screen, show, 'timeStart', 'ASC']],
   });
   return showByFilmIdInfor;
-}
-
-export async function getByScreenId(screenId) {
-  const showByScreenIdInfor = await show.findAll({
-    include: {
-      model: screen,
-      required: true,
-      attributes: ['name', 'status', 'id'],
-      include: {
-        model: show,
-        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
-        required: true,
-        include: {
-          model: film,
-          attributes: ['filmName', 'duration'],
-        },
-      },
-    },
-    where: {
-      screenId,
-    },
-  });
-  return showByScreenIdInfor;
-}
-
-export async function getByDateStart(dateStart) {
-  const showByCinemaIdInfor = await cinema.findAll({
-    include: {
-      model: screen,
-      required: true,
-      attributes: ['name', 'status', 'id'],
-      include: {
-        model: show,
-        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
-        required: true,
-        include: {
-          model: film,
-          attributes: ['filmName', 'duration'],
-        },
-        where: {
-          dateStart,
-        },
-      },
-    },
-    order: [[screen, show, 'timeStart', 'ASC']],
-  });
-  return showByCinemaIdInfor;
-}
-
-export async function getByDateStartScreenId(dateStart, screenId) {
-  const showByCinemaIdInfor = await cinema.findAll({
-    include: {
-      model: screen,
-      required: true,
-      attributes: ['name', 'status', 'id'],
-      include: {
-        model: show,
-        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
-        required: true,
-        include: {
-          model: film,
-          attributes: ['filmName', 'duration'],
-        },
-        where: {
-          dateStart,
-        },
-      },
-      where: {
-        id: screenId,
-      },
-    },
-    order: [[screen, show, 'timeStart', 'ASC']],
-  });
-  return showByCinemaIdInfor;
-}
-
-export async function getByDateStartCinemaId(dateStart, cinemaId) {
-  const showByCinemaIdInfor = await cinema.findAll({
-    include: {
-      model: screen,
-      required: true,
-      attributes: ['name', 'status', 'id'],
-      include: {
-        model: show,
-        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
-        required: true,
-        include: {
-          model: film,
-          attributes: ['filmName', 'duration'],
-        },
-        where: {
-          dateStart,
-        },
-      },
-    },
-    where: {
-      id: cinemaId,
-    },
-    order: [[screen, show, 'timeStart', 'ASC']],
-  });
-  return showByCinemaIdInfor;
-}
-
-export async function getByCinemaId(cinemaId) {
-  const showByCinemaIdInfor = await cinema.findAll({
-    where: {
-      id: cinemaId,
-    },
-    include: {
-      model: screen,
-      attributes: ['id'],
-      include: {
-        model: show,
-        attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
-        include: {
-          model: film,
-          attributes: ['filmName', 'duration'],
-        },
-      },
-    },
-  });
-  return showByCinemaIdInfor;
 }
 
 export async function getByCinemaScreenDateStart({
@@ -257,27 +135,42 @@ export async function getByCinemaScreenDateStart({
   dateStart,
 }) {
   const showsInfor = await cinema.findAll({
-    where: {
-      id: cinemaId,
-    },
     include: {
       model: screen,
+      required: true,
       attributes: ['name', 'status', 'id'],
-      where: {
-        id: screenId,
-      },
       include: {
         model: show,
+        required: true,
         attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
         include: {
           model: film,
+          required: true,
           attributes: ['filmName', 'duration'],
         },
-        where: {
-          dateStart,
-        },
+        ...(dateStart
+          ? {
+              where: {
+                dateStart,
+              },
+            }
+          : {}),
       },
+      ...(screenId
+        ? {
+            where: {
+              id: screenId,
+            },
+          }
+        : {}),
     },
+    ...(cinemaId
+      ? {
+          where: {
+            id: cinemaId,
+          },
+        }
+      : {}),
     order: [[screen, show, 'timeStart', 'ASC']],
   });
   return showsInfor;

@@ -102,6 +102,7 @@ export async function getByIdForUser(filmId) {
         },
         include: {
           model: screen,
+          required: true,
           attributes: {
             exclude: ['seatMatrix'],
           },
@@ -111,6 +112,7 @@ export async function getByIdForUser(filmId) {
             required: true,
             include: {
               model: provinceCity,
+              required: true,
               attributes: {
                 exclude: ['status'],
               },
