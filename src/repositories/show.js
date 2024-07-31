@@ -50,7 +50,7 @@ export async function update({
     },
     {
       where: {
-        id: id,
+        id,
       },
     }
   );
@@ -64,7 +64,7 @@ export async function getAll() {
 export async function getById(id) {
   const showByIdInfor = await show.findOne({
     where: {
-      id: id,
+      id,
     },
   });
   return showByIdInfor;
@@ -73,7 +73,7 @@ export async function getById(id) {
 export async function getByFilmId(filmId) {
   const showByFilmIdInfor = await show.findAll({
     where: {
-      filmId: filmId,
+      filmId,
     },
   });
   return showByFilmIdInfor;
@@ -119,12 +119,15 @@ export async function getByCinemaScreenDateStart({
   const showsInfor = await cinema.findAll({
     include: {
       model: screen,
+      required: true,
       attributes: ['name', 'status', 'id'],
       include: {
         model: show,
+        required: true,
         attributes: ['id', 'timeStart', 'price', 'status', 'filmId'],
         include: {
           model: film,
+          required: true,
           attributes: ['filmName', 'duration'],
         },
         ...(dateStart
