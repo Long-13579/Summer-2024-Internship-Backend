@@ -12,6 +12,6 @@ router.put('/', validateShowId, showController.update);
 
 router.delete('/:showId', validateShowId, showController.deactivateShow);
 
-router.post('/', showController.add);
+router.get('/', showController.getShowForAdmin);
 
 export default router;

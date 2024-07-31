@@ -9,6 +9,6 @@ router.post('/', screenController.add);
 //update screen
 router.put('/', validateScreenId, screenController.update);
 
-router.delete('/:screenId', validateScreenId, screenController.deactivate);
+router.delete('/:screenId', validateScreenId, screenController.deactivateScreen);
 
 export default router;

@@ -1,3 +1,4 @@
+import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
 const { cinema, screen, provinceCity, ...rest } = db;
 
@@ -10,9 +11,9 @@ export async function add({ name, address, provinceCityId }) {
   });
 }
 
-export async function inactive(id) {
-  await db.cinema.update(
-    { status: 0 },
+export async function deactivate(id) {
+  await cinema.update(
+    { status: STATUS.INACTIVE },
     {
       where: {
         id: id,

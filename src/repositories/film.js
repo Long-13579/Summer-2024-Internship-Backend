@@ -1,4 +1,4 @@
-import { MODEL_STATUS } from '../constants/modelStatus.js';
+import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
 import { Op } from 'sequelize';
 const { film, show, screen, cinema, provinceCity, ...rest } = db;
@@ -36,7 +36,7 @@ export async function add({
     format,
     ageRate,
     category,
-    status: MODEL_STATUS.ACTIVE,
+    status: STATUS.ACTIVE,
   });
 }
 

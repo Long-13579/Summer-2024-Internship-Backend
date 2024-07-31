@@ -38,9 +38,9 @@ export async function update(req, res) {
   }
 }
 
-export async function deactivate(req, res) {
+export async function deactivateScreen(req, res) {
   try {
-    await screenServices.deactivate(req.body.screenId);
+    await screenServices.deactivate(req.params.screenId);
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
     return;

@@ -63,11 +63,6 @@ export async function getByFilmIdAdmin(filmId) {
   return showByFilmIdInfor;
 }
 
-export async function getByScreenId(screenId) {
-  const showByScreenIdInfor = await show.getByScreenId(screenId);
-  return showByScreenIdInfor;
-}
-
 export async function getByFilmIdDateStartProvinceCityId({
   filmId,
   dateStart,
@@ -108,6 +103,12 @@ export async function getByDateStart(dateStart) {
   return showByDateStartInfor;
 }
 
+export async function getByScreenId(screenId) {
+  const showByScreenIdInfor = await show.getByScreenId(screenId);
+  return showByScreenIdInfor;
+}
+
+
 export async function getByDateStartScreenId(dateStart, screenId) {
   const showByDateStartScreenIdInfor = await show.getByDateStartScreenId(
     dateStart,
@@ -124,8 +125,8 @@ export async function getByDateStartCinemaId(dateStart, cinemaId) {
   return showByDateStartCinemaIdInfor;
 }
 
-export async function getByCinemaScreenDate({ cinemaId, screenId, dateStart }) {
-  const showsInfor = await show.getByCinemaScreenDate({
+export async function getByCinemaScreenDateStart({ cinemaId, screenId, dateStart }) {
+  const showsInfor = await show.getByCinemaScreenDateStart({
     cinemaId,
     screenId,
     dateStart,
@@ -144,7 +145,7 @@ export async function getShowForAdmin({
     return await getById(showId);
   }
   if (cinemaId && screenId && dateStart) {
-    return await getByCinemaScreenDate({ cinemaId, screenId, dateStart });
+    return await getByCinemaScreenDateStart({ cinemaId, screenId, dateStart });
   }
   if (screenId && dateStart) {
     return await getByDateStartScreenId(dateStart, screenId);
@@ -171,4 +172,5 @@ export async function getShowForUser({ id }) {
   if (id) {
     return await getById(id);
   }
+  return getAll();
 }

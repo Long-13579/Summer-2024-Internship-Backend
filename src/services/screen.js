@@ -1,16 +1,16 @@
 import * as screen from '../repositories/screen.js';
 import * as seatMatrixRepo from '../repositories/seatMatrix.js';
+import * as show from '../repositories/show.js';
 
 export async function add({ cinemaId, name, size }) {
   const seatMatrix = seatMatrixRepo.creatSeatMatrix(size);
   await screen.add({ seatMatrix, cinemaId, name, size });
 }
 
-
 export async function deactivate(id) {
-  const showsByScreenIdInfor = await showServices.getByScreenId(id);
-  const showsByScreenIdArrId = showsByScreenIdInfor.map((index) => index.id);
-  await showServices.deactivate(showsByScreenIdArrId);
+  const showsByScreenIdInfor = await show.getByScreenId(id);
+  const showsByScreenIdArrId = showsByScreenIdInfor.map(({id}) => id);
+  await show.deactivate(showsByScreenIdArrId);
   await screen.deactivate(id);
 }
 
