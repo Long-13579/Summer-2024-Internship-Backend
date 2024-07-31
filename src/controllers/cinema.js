@@ -35,6 +35,7 @@ export async function update(req, res) {
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
   } catch (error) {
+    console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }

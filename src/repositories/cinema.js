@@ -7,7 +7,7 @@ export async function add({ name, address, provinceCityId }) {
     name: name,
     address: address,
     provinceCityId: provinceCityId,
-    status: 1,
+    status: STATUS.ACTIVE,
   });
 }
 
