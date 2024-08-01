@@ -1,6 +1,8 @@
 import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
+import { Op } from 'sequelize';
 const { show, screen, cinema, film, ...rest } = db;
+import moment from 'moment';
 export async function add({
   filmId,
   screenId,
@@ -57,7 +59,18 @@ export async function update({
 }
 
 export async function getAll() {
-  const allShowInfor = await show.findAll();
+  const allShowInfor = await db.show.findAll({
+    include: {
+      model: db.film,
+      attributes: ['filmName'],
+    },
+    where: {
+      dateStart: {
+        [Op.gt]: moment(),
+      },
+    },
+    order: [['id', 'ASC']],
+  });
   return allShowInfor;
 }
 

@@ -10,9 +10,8 @@ export async function validateCinemaId(req, res, next) {
       req.params.cinemaId ||
       req.body.cinemaId ||
       req.query.cinemaId;
-    
 
-    const cinemaByIdInfor = await cinemaServices.getById(cinemaIdRequest);
+    const cinemaByIdInfor = await cinemaServices.getByIdForAdmin(cinemaIdRequest);
     if (cinemaByIdInfor === null) {
       const errorObj = {
         model: 'cinema',
