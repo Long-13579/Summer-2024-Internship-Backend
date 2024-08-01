@@ -6,7 +6,7 @@ export async function add(seatMatrix, cinemaId) {
 }
 
 export async function deactivate(id) {
-  const showsByScreenIdInfor = await show.getByScreenId(id);
+  const showsByScreenIdInfor = await show.getByCinemaScreenDateStart(id);
   const showsByScreenIdArrId = showsByScreenIdInfor.map(({id}) => id);
   await show.deactivate(showsByScreenIdArrId);
   await screen.deactivate(id);

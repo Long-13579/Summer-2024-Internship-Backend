@@ -5,6 +5,7 @@ import provinceRoute from './src/routes/provinceCity.js';
 import screenRoute from './src/routes/screen.js';
 import filmRoute from './src/routes/film.js';
 import ticketRoute from './src/routes/ticket.js';
+import showRoute from './src/routes/show.js';
 import userRoute from './src/routes/user.js';
 import adminRoute from './src/routes/admin.js';
 import bodyParser from 'body-parser';
@@ -23,9 +24,9 @@ app.use('/provinceCity', provinceRoute);
 app.use('/screen', screenRoute);
 app.use('/film', filmRoute);
 app.use('/ticket', ticketRoute);
+app.use('/show', showRoute);
 app.use('/admin', adminRoute);
 app.use('/user', userRoute);
-app.use('/admin', adminRoute);
 
 app.listen(PORT, (error) => {
   if (error) console.log("Error occurred, server can't start", error);
