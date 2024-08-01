@@ -7,6 +7,8 @@ var router = express.Router();
 
 router.post('/', provinceCityController.add);
 
-router.put('/', validateProvinceCityId, provinceCityController.update)
+router.put('/', validateProvinceCityId, provinceCityController.update);
+
+router.get('/', provinceCityController.getProvinceCityForAdmin);
 
 export default router;
