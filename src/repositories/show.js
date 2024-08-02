@@ -2,8 +2,8 @@ import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
 import { Op } from 'sequelize';
 import moment from 'moment';
-
 const { show, screen, cinema, film, ...rest } = db;
+
 export async function add({
   filmId,
   screenId,
@@ -174,4 +174,19 @@ export async function getByCinemaScreenDateStart({
     order: [[screen, show, 'timeStart', 'ASC']],
   });
   return showsInfor;
+}
+
+export async function checkDateFilmIdToAddShow({ dateStart, filmId }) {
+  const filmByIdDateStartInfor = await film.findAll({
+    where: {
+      [Op.and]: [
+        { id: filmId },
+        { dateStart: { [Op.lt]: dateStart } },
+        { dateEnd: { [Op.gt]: dateStart } },
+      ],
+    },
+  });
+  const invalidDate = filmByIdDateStartInfor?.length === 0;
+  console.log(invalidDate);
+  return invalidDate;
 }

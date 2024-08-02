@@ -49,6 +49,7 @@ export async function deactivateCinema(req, res) {
     res.send(API_STATUS.OK);
     return;
   } catch (error) {
+    console.log(error);
     res.status(API_STATUS.INTERNAL_SERVER_ERROR.status);
     res.send(API_STATUS.INTERNAL_SERVER_ERROR);
   }

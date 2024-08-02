@@ -1,4 +1,5 @@
 import * as cinema from '../repositories/cinema.js';
+import * as screenServices from '../services/screen.js';
 import {
   changeCinemaListToDTO,
   changeCinemaToDTO,
@@ -14,6 +15,13 @@ export async function drop(id) {
 
 export async function update({ id, name, address, provinceCityId }) {
   await cinema.update({ id, name, address, provinceCityId });
+}
+
+export async function deactivate(id) {
+  const screenByCinemaIdInfor = await screenServices.getByCinemaId(id);
+  const screenByCinemaIdArrId = screenByCinemaIdInfor.map((index) => index.id);
+  await screenServices.deactivate(screenByCinemaIdArrId);
+  await cinema.deactivate(id);
 }
 
 export async function getByIdForUser(id) {
