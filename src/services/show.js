@@ -1,16 +1,19 @@
 import * as show from '../repositories/show.js';
+import * as screenServices from './screen.js';
 import { changeCinemasToListShowDto } from '../utils/filmDetailDTO.js';
 import { changeAllShowToDTO } from '../utils/showDTO.js';
 
-export async function add({
-  filmId,
-  screenId,
-  timeStart,
-  dateStart,
-  price,
-  seatMatrix,
-}) {
-  await show.add({ filmId, screenId, timeStart, dateStart, price, seatMatrix });
+export async function add({ filmId, screenId, timeStart, dateStart, price }) {
+  const screenByIdInfor = await screenServices.getById(screenId);
+  const seatMatrixByScreenId = screenByIdInfor.seatMatrix;
+  await show.add({
+    filmId,
+    screenId,
+    timeStart,
+    dateStart,
+    price,
+    seatMatrix: seatMatrixByScreenId,
+  });
 }
 
 export async function update({
@@ -105,4 +108,3 @@ export async function getShowForUser({ id }) {
   }
   return getAll();
 }
-
