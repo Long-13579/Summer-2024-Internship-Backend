@@ -2,6 +2,7 @@ import { STATUS } from '../constants/modelStatus.js';
 import { db } from '../models/index.js';
 import { Op } from 'sequelize';
 import moment from 'moment';
+import * as filmRepo from './film.js';
 const { show, screen, cinema, film, ...rest } = db;
 
 export async function add({
@@ -187,6 +188,79 @@ export async function checkDateFilmIdToAddShow({ dateStart, filmId }) {
     },
   });
   const invalidDate = filmByIdDateStartInfor?.length === 0;
-  console.log(invalidDate);
   return invalidDate;
+}
+
+export async function checkPreviousTimeStart({
+  dateStart,
+  timeStart,
+  screenId,
+  filmId,
+}) {
+  const { duration, ...rest } = await filmRepo.getByIdAdmin(filmId);
+  const previousShow = await show.findOne({
+    where: {
+      [Op.and]: [
+        {
+          timeStart: {
+            [Op.lt]: timeStart,
+          },
+        },
+        {
+          screenId,
+        },
+        {
+          dateStart,
+        },
+      ],
+    },
+  });
+  if (previousShow === null) {
+    return true;
+  }
+  const filmByShowId = await previousShow.getFilm();
+  const previousShowTimeStart = moment(
+    previousShow.timeStart,
+    'HHmmss'
+  ).format();
+  const previousShowtimeEnd = moment(previousShowTimeStart)
+    .add(filmByShowId.duration, 'm')
+    .format();
+  const timeStartReq = moment(timeStart, 'HHmmss').format();
+  return moment(timeStartReq).isAfter(previousShowtimeEnd);
+}
+
+export async function checkPostTimeStart({
+  dateStart,
+  timeStart,
+  screenId,
+  filmId,
+}) {
+  const { duration, ...rest } = await filmRepo.getByIdAdmin(filmId);
+  const postShow = await show.findOne({
+    where: {
+      [Op.and]: [
+        {
+          timeStart: {
+            [Op.gt]: timeStart,
+          },
+        },
+        {
+          screenId,
+        },
+        {
+          dateStart,
+        },
+      ],
+    },
+    order: [['timeStart', 'asc']],
+  });
+  if (postShow === null) {
+    return true;
+  }
+  const postShowByShowId = await postShow.getFilm();
+  const postShowTimeStart = moment(postShowByShowId.timeStar, 'HHmmss').format();
+  const reqShowTimeStart = moment(timeStart, 'HHmmss').format();
+  const reqShowTimeEnd = moment(reqShowTimeStart).add(duration, 'm').format();
+  return moment(reqShowTimeEnd, 'HHmmss').isAfter(postShowTimeStart);
 }
