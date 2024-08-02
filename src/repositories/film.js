@@ -115,7 +115,7 @@ export async function getByIdForUser(filmId) {
   return filmByIdInfor;
 }
 
-export async function getByIdFormAdmin(filmId) {
+export async function getByIdForAdmin(filmId) {
   const filmByIdInfor = await film.findOne({
     where: {
       id: filmId,

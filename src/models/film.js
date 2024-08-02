@@ -29,11 +29,11 @@ export function film(sequelize, DataTypes) {
         allowNull: false,
       },
       dateStart: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       dateEnd: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       director: {

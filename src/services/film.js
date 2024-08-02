@@ -26,8 +26,8 @@ export async function getByCinemaId(cinemaId) {
   return filmByCinemaIdDTO;
 }
 
-export async function getById(id){
-  const filmByIdInfor = await film.getById(id);
+export async function getByIdForAdmin(id){
+  const filmByIdInfor = await film.getByIdForAdmin(id);
   return filmByIdInfor;
 }
 
