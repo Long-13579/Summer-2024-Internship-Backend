@@ -168,9 +168,18 @@ export async function getOnCasting() {
       attributes: [],
     },
     where: {
-      dateEnd: {
-        [Op.gt]: new Date(),
-      },
+      [Op.and]: [
+        {
+          dateEnd: {
+            [Op.gt]: new Date(),
+          },
+        },
+        {
+          dateStart: {
+            [Op.lt]: new Date(),
+          },
+        },
+      ],
     },
   });
   return onCastingFilmInfor;
