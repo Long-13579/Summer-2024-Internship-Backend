@@ -54,7 +54,7 @@ export async function getAll() {
 }
 
 export async function getById(id) {
-  const showByIdInfor = await show.getByCinemaScreenDateStart(id);
+  const showByIdInfor = await show.getById(id);
   return showByIdInfor;
 }
 
