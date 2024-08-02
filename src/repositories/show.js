@@ -17,6 +17,7 @@ export async function add({
     dateStart,
     price,
     seatMatrix,
+    status: STATUS.ACTIVE,
   });
 }
 
@@ -30,7 +31,6 @@ export async function deactivate(ids) {
     }
   );
 }
-
 export async function update({
   id,
   filmId,
