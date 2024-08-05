@@ -214,6 +214,7 @@ export async function checkPreviousTimeStart({
         },
       ],
     },
+    order: [['timeStart', 'desc']],
   });
   if (previousShow === null) {
     return true;
@@ -223,11 +224,11 @@ export async function checkPreviousTimeStart({
     previousShow.timeStart,
     'HHmmss'
   ).format();
-  const previousShowtimeEnd = moment(previousShowTimeStart)
+  const previousShowTimeEnd = moment(previousShowTimeStart)
     .add(filmByShowId.duration, 'm')
     .format();
   const timeStartReq = moment(timeStart, 'HHmmss').format();
-  return moment(timeStartReq).isAfter(previousShowtimeEnd);
+  return moment(timeStartReq).isAfter(previousShowTimeEnd);
 }
 
 export async function checkPostTimeStart({
@@ -258,9 +259,8 @@ export async function checkPostTimeStart({
   if (postShow === null) {
     return true;
   }
-  const postShowByShowId = await postShow.getFilm();
-  const postShowTimeStart = moment(postShowByShowId.timeStar, 'HHmmss').format();
+  const postShowTimeStart = moment(postShow.timeStart, 'HHmmss').format();
   const reqShowTimeStart = moment(timeStart, 'HHmmss').format();
   const reqShowTimeEnd = moment(reqShowTimeStart).add(duration, 'm').format();
-  return moment(reqShowTimeEnd, 'HHmmss').isAfter(postShowTimeStart);
+  return moment(reqShowTimeEnd).isBefore(postShowTimeStart);
 }
