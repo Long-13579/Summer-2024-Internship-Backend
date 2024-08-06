@@ -188,6 +188,20 @@ export async function getByCinemaId(cinemaId) {
       [show, 'dateStart', 'ASC'],
       [show, 'timeStart', 'ASC'],
     ],
+    where: {
+      [Op.and]: [
+        {
+          dateStart: {
+            [Op.lte]: new Date(),
+          },
+        },
+        {
+          dateEnd: {
+            [Op.gte]: new Date(),
+          },
+        },
+      ],
+    },
   });
   return filmByCinemaIdInfor;
 }
