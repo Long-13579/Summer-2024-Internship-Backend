@@ -27,8 +27,8 @@ export async function getScreen(req, res) {
 
 export async function update(req, res) {
   try {
-    const { id, seatMatrix, cinemaId } = req.body;
-    await screenServices.update({ id, seatMatrix, cinemaId });
+    const { id, seatMatrix, cinemaId, name, size } = req.body;
+    await screenServices.update({ id, seatMatrix, cinemaId, name, size });
     res.status(API_STATUS.OK.status);
     res.send(API_STATUS.OK);
     return;
