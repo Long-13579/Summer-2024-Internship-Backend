@@ -6,9 +6,7 @@ export async function setOnHoldStatus({ showId, data }) {
     showId,
     data,
   });
-  const { seatMatrix, status, ...rest } = JSON.parse(
-    JSON.stringify(await showServices.getById(showId))
-  );
+  const { seatMatrix, status, ...rest } = await showServices.getById(showId);
   await showServices.update({
     id: showId,
     ...rest,

@@ -76,6 +76,7 @@ export async function getAll() {
 
 export async function getById(id) {
   const showByIdInfor = await show.findOne({
+    raw:true,
     where: {
       id,
     },

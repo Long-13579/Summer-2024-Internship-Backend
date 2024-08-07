@@ -1,5 +1,5 @@
 import { STATUS } from '../constants/modelStatus.js';
-import { screen, show, film, cinema, provinceCity, } from '../models/index.js';
+import { screen, show, film, cinema, provinceCity } from '../models/index.js';
 import { Op } from 'sequelize';
 
 //add films
@@ -108,6 +108,7 @@ export async function getByIdForUser(filmId) {
         },
       },
     ],
+    order: [[show, 'dateStart', 'asc']],
     where: {
       id: filmId,
     },
