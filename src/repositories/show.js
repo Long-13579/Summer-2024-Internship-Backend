@@ -203,7 +203,7 @@ export async function checkPreviousTimeStart({
       [Op.and]: [
         {
           timeStart: {
-            [Op.lt]: timeStart,
+            [Op.lte]: timeStart,
           },
         },
         {
@@ -243,7 +243,7 @@ export async function checkPostTimeStart({
       [Op.and]: [
         {
           timeStart: {
-            [Op.gt]: timeStart,
+            [Op.gte]: timeStart,
           },
         },
         {
