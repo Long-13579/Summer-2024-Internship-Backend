@@ -125,7 +125,10 @@ export async function getByFilmIdDateStartProvinceCityId({
     where: {
       provinceCityId,
     },
-    order: [[screen, show, 'timeStart', 'ASC']],
+    order: [
+      [screen, show, 'timeStart', 'ASC'],
+      [screen, show, 'dateStart', 'ASC'],
+    ],
   });
   return showByFilmIdInfor;
 }

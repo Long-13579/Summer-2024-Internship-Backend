@@ -121,6 +121,7 @@ export async function getByIdForUser(filmId) {
         },
       },
     ],
+    order:[[show, 'dateStart', 'asc']],
     where: {
       id: filmId,
     },
