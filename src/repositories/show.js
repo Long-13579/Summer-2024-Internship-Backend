@@ -85,6 +85,19 @@ export async function getById(id) {
   return showByIdInfor;
 }
 
+export async function getByIdUser(id) {
+  const showByIdInfor = await show.findOne({
+    include: {
+      model: screen,
+      attributes: ['name'],
+    },
+    where: {
+      id,
+    },
+  });
+  return showByIdInfor;
+}
+
 export async function getByFilmId(filmId) {
   const showByFilmIdInfor = await show.findAll({
     where: {
