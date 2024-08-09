@@ -51,6 +51,11 @@ export async function getById(id) {
   return showByIdInfor;
 }
 
+export async function getByIdUser(id) {
+  const showByIdInfor = await show.getByIdUser(id);
+  return showByIdInfor;
+}
+
 export async function getByFilmId(filmId) {
   const showByFilmIdInfor = await show.getByFilmId(filmId);
   return showByFilmIdInfor;
@@ -104,7 +109,7 @@ export async function getShowForAdmin({
 
 export async function getShowForUser({ id }) {
   if (id) {
-    return await getById(id);
+    return await getByIdUser(id);
   }
   return getAll();
 }
