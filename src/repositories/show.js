@@ -191,8 +191,8 @@ export async function checkDateFilmIdToAddShow({ dateStart, filmId }) {
     where: {
       [Op.and]: [
         { id: filmId },
-        { dateStart: { [Op.lt]: dateStart } },
-        { dateEnd: { [Op.gt]: dateStart } },
+        { dateStart: { [Op.lte]: dateStart } },
+        { dateEnd: { [Op.gte]: dateStart } },
       ],
     },
   });
