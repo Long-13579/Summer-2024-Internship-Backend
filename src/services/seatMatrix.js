@@ -19,7 +19,7 @@ export async function setIsSoldStatus({ showId, data }) {
     showId,
     data,
   });
-  const { seatMatrix, status, ...rest } = showServices.getById(showId);
+  const { seatMatrix, status, ...rest } = await showServices.getById(showId);
   await showServices.update({
     id: showId,
     ...rest,
