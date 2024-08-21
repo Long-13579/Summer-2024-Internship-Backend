@@ -1,0 +1,3404 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"CES Internship Project",
+      "version":"1.0",
+      "description": "This is a sample server for cinema website"
+    },
+    "servers": [
+      {
+        "url":"http://localhost:3000",
+        "description": "local host"
+      },
+      {
+        "url": "https://summer-2024-internship-backend-1.onrender.com",
+        "description": "Test server"
+      },
+      {
+        "url": "https://summer-2024-internship-backend-2.onrender.com",
+        "description": "Product server"
+      }
+    ],
+    "components": {
+      "schemas": {
+        "cinema": {
+          "required": ["id", "Name", "Address", "ProvinceCity"],
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The auto-generated id of cinema"
+                }
+              },
+              "example": {
+                "id": 1
+              }
+            },
+            {
+              "$ref": "#/components/schemas/cinemaWithoutId"
+            }
+          ]
+        },
+        "provinceCity": {
+          "type": "object",
+          "required": ["id", "Name"],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The auto-generated id of province/city"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of province/city"
+            }
+          },
+          "example": {
+            "id": 1,
+            "name": "Da Nang"
+          }
+        },
+        "provinceCityWithCinema": {
+          "type": "object",
+          "required": ["id", "Name"],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The auto-generated id of province/city"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of province/city"
+            },
+            "cinemas": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/cinema"
+              }
+            }
+          },
+          "example": {
+            "id": 1,
+            "name": "Da Nang",
+            "cinemas": [
+              {
+                "id": 1,
+                "name": "CGV",
+                "address": "123 Nguyen Ba Hoc",
+                "provinceCityId": 1
+              },
+              {
+                "id": 2,
+                "name": "VGC",
+                "address": "321 Nguyen Ba Hoc",
+                "provinceCityId": 1
+              }
+            ]
+          }
+        },
+        "screen": {
+          "required": ["id"],
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The auto-generated id of screen",
+                  "example": 1
+                }
+              }
+            },
+            {
+              "$ref": "#/components/schemas/screenWithoutId"
+            }
+          ]
+        },
+        "screenWithoutId": {
+          "type": "object",
+          "required": ["name", "seatMatrix", "cinemaId", "width", "len"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of screen",
+              "example": "01"
+            },
+            "cinemaId": {
+              "type": "integer",
+              "description": "The id of cinema",
+              "example": 1
+            },
+            "size": {
+              "type": "string",
+              "description": "Size of sceen",
+              "enum": ["S", "M", "L", "XL"],
+              "example": "L"
+            },
+            "seatMatrix": {
+              "$ref": "#/components/schemas/seatMatrix"
+            }
+          }
+        },
+        "cinemaWithoutId": {
+          "type": "object",
+          "required": ["name", "address", "provinceCityId"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of cinema"
+            },
+            "address": {
+              "type": "string",
+              "description": "Address of cinema"
+            },
+            "provinceCityId": {
+              "type": "integer",
+              "description": "Id of province/city"
+            }
+          },
+          "example": {
+            "name": "CGV",
+            "address": "123 Nguyen Ba Hoc",
+            "provinceCityId": 1
+          }
+        },
+        "show": {
+          "required": ["id"],
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The auto-generated id of show",
+                  "example": 1
+                }
+              }
+            },
+            {
+              "$ref": "#/components/schemas/showWithoutId"
+            }
+          ]
+        },
+        "showWithoutId": {
+          "required": [
+            "filmId",
+            "screenId",
+            "timeStart",
+            "price",
+            "formatId",
+            "subtitle",
+            "dubbing"
+          ],
+          "type": "object",
+          "properties": {
+            "filmId": {
+              "type": "integer",
+              "description": "The film's id of this show",
+              "example": 1
+            },
+            "screenId": {
+              "type": "integer",
+              "description": "The screen's id of this show",
+              "example": 1
+            },
+            "dateStart": {
+              "type": "string",
+              "description": "The start day of show",
+              "example": "2024-06-25"
+            },
+            "timeStart": {
+              "type": "string",
+              "description": "The start time of this show",
+              "example": "12:00:00"
+            },
+            "price": {
+              "type": "integer",
+              "description": "The price of this show",
+              "example": 300
+            }
+          }
+        },
+        "film": {
+          "required": ["id"],
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The auto-generated id of film"
+                }
+              },
+              "example": {
+                "id": 1
+              }
+            },
+            {
+              "$ref": "#/components/schemas/filmWithoutId"
+            }
+          ]
+        },
+        "filmWithoutId": {
+          "required": [
+            "filmName",
+            "duration",
+            "dateStart",
+            "dateEnd",
+            "director",
+            "actor",
+            "subtitle",
+            "dubbing",
+            "language",
+            "rateId",
+            "poster",
+            "trailer",
+            "format",
+            "ageRate",
+            "category"
+          ],
+          "type": "object",
+          "properties": {
+            "filmName": {
+              "type": "string",
+              "description": "The name of film"
+            },
+            "duration": {
+              "type": "integer",
+              "description": "The duration of film"
+            },
+            "dateStart": {
+              "type": "string",
+              "description": "The date start of film"
+            },
+            "dateEnd": {
+              "type": "string",
+              "description": "The date start of film"
+            },
+            "director": {
+              "type": "string",
+              "description": "The director of film"
+            },
+            "actor": {
+              "type": "string",
+              "description": "The actors of film"
+            },
+            "subtitle": {
+              "type": "boolean",
+              "description": "True when film have subtitle"
+            },
+            "dubbing": {
+              "type": "boolean",
+              "description": "True when film have dubbing"
+            },
+            "language": {
+              "type": "string",
+              "description": "The language of film"
+            },
+            "poster": {
+              "type": "string",
+              "description": "The path of the poster file"
+            },
+            "trailer": {
+              "type": "string",
+              "description": "The path of the trailer video"
+            },
+            "format": {
+              "type": "string",
+              "description": "The format of film",
+              "enum": ["2D", "3D", "IMAX"]
+            },
+            "ageRate": {
+              "type": "string",
+              "description": "The age rate of film",
+              "enum": ["U", "PG", "12A", "12", "15", "18"]
+            },
+            "category": {
+              "type": "string",
+              "description": "The category of film",
+              "enum": [
+                "Action",
+                "Adventure",
+                "Animated",
+                "Comedy",
+                "Drama",
+                "Fantasy",
+                "Historical",
+                "Horror",
+                "Musical",
+                "Noir",
+                "Romance",
+                "Science fiction",
+                "Thriller",
+                "Western"
+              ]
+            }
+          },
+          "example": {
+            "filmName": "Absolute cinema",
+            "duration": 300,
+            "dateStart": "2024-06-25",
+            "dateEnd": "2024-06-26",
+            "director": "Absolute director",
+            "actor": "Absolute actors",
+            "subtitle": true,
+            "dubbing": false,
+            "language": "English",
+            "poster": "./poster.jpeg",
+            "trailer": "./trailer.mp4",
+            "format": "2D",
+            "ageRate": "PG",
+            "category": "Animated"
+          }
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "filmDto": {
+          "required": [
+            "id",
+            "poster",
+            "ageRating",
+            "format",
+            "title",
+            "trailerLink",
+            "category",
+            "nation",
+            "subtitle",
+            "duration"
+          ],
+          "type": "object",
+          "properties": {
+            "info": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "poster": {
+                  "type": "string"
+                },
+                "ageRating": {
+                  "type": "string"
+                },
+                "format": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "trailerLink": {
+                  "type": "string"
+                },
+                "category": {
+                  "type": "string"
+                },
+                "nation": {
+                  "type": "string"
+                },
+                "subtitle": {
+                  "type": "string"
+                },
+                "duration": {
+                  "type": "integer"
+                }
+              }
+            },
+            "showTimes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "dateStart": {
+                    "type": "string"
+                  },
+                  "shows": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "timeStart": {
+                          "type": "string"
+                        },
+                        "screenId": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "example": {
+            "info": {
+              "id": 1,
+              "poster": "./poster.img",
+              "ageRating": "PG-13",
+              "format": "2D",
+              "title": "Movie Name",
+              "trailerLink": "./trailer.mp4",
+              "category": "Drama",
+              "nation": "Vietnam",
+              "subtitle": "VN",
+              "duration": 127
+            },
+            "showTimes": [
+              {
+                "dateStart": "2024-07-01",
+                "shows": [
+                  {
+                    "id": 1,
+                    "timeStart": "18:00:00",
+                    "screenId": 1
+                  }
+                ]
+              },
+              {
+                "dateStart": "2024-07-02",
+                "shows": [
+                  {
+                    "id": 2,
+                    "timeStart": "19:00:00",
+                    "screenId": 2
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "ticketWithoutId": {
+          "type": "object",
+          "required": [
+            "showId",
+            "seatData",
+            "clientName",
+            "email",
+            "phone",
+            "price"
+          ],
+          "properties": {
+            "userId": {
+              "type": "integer",
+              "description": "The id of user"
+            },
+            "showId": {
+              "type": "integer",
+              "description": "The id of show"
+            },
+            "seatId": {
+              "type": "integer",
+              "description": "The id of seat"
+            },
+            "seatData": {
+              "type": "string",
+              "description": "The name of seat"
+            },
+            "voucherId": {
+              "type": "integer",
+              "description": "The id of voucher"
+            },
+            "clientName": {
+              "type": "string",
+              "description": "Name of client"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email of client"
+            },
+            "phone": {
+              "type": "string",
+              "description": "Phone number of client"
+            },
+            "price": {
+              "type": "integer",
+              "description": "Price of ticket"
+            }
+          },
+          "example": {
+            "userId": 1,
+            "showId": 1,
+            "seatId": 1,
+            "seatData": "[{\"rowName\":\"A\",\"colId\":1,\"name\":\"A2\",\"status\":\"true\"},{\"rowName\":\"B\",\"colId\":1,\"name\":\"B2\",\"status\":\"true\"},{\"rowName\":\"C\",\"colId\":1,\"name\":\"C2\",\"status\":\"true\"}]",
+            "voucherId": 1,
+            "clientName": "Nobody",
+            "email": "clientEmail@gmail.com",
+            "phone": "0123456789",
+            "price": 100000
+          }
+        },
+        "ticket": {
+          "allOf": [
+            {
+              "type": "object",
+              "required": ["id"],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The auto-generated id of ticket"
+                }
+              },
+              "example": {
+                "id": 1
+              }
+            },
+            {
+              "$ref": "#/components/schemas/ticketWithoutId"
+            }
+          ]
+        },
+        "voucherWithoutId": {
+          "type": "object",
+          "required": ["type", "condition", "value", "dateStart", "dateEnd"],
+          "properties": {
+            "type": {
+              "type": "integer",
+              "description": "The type of voucher present by number",
+              "enum": [1, 2, 3]
+            },
+            "condition": {
+              "type": "string",
+              "description": "The condition to apply the voucher"
+            },
+            "value": {
+              "type": "integer",
+              "description": "The value of voucher"
+            },
+            "dateStart": {
+              "type": "string",
+              "description": "The start day of voucher"
+            },
+            "dateEnd": {
+              "type": "string",
+              "description": "The end day of voucher"
+            }
+          },
+          "example": {
+            "type": ""
+          }
+        },
+        "voucher": {
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The auto-generated id of voucher"
+                }
+              }
+            },
+            {
+              "$ref": "#/components/schemas/voucherWithoutId"
+            }
+          ]
+        },
+        "cinemaWithProvinceCity": {
+          "type": "object",
+          "required": ["name", "address", "provinceCityId"],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of cinema"
+            },
+            "address": {
+              "type": "string",
+              "description": "Address of cinema"
+            },
+            "provinceCity": {
+              "type": "object",
+              "description": "Name of province/city",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "example": {
+            "name": "CGV",
+            "address": "123 Nguyen Ba Hoc",
+            "provinceCity": {
+              "id": 1,
+              "name": "Da Nang"
+            }
+          }
+        },
+        "showFilmDetailDto": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cinemaId": {
+                "type": "integer",
+                "example": 1
+              },
+              "cinemaName": {
+                "type": "string",
+                "example": "CGV"
+              },
+              "cinemaAddress": {
+                "type": "string",
+                "example": "123 Hung Vuong"
+              },
+              "shows": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "showId": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "date": {
+                      "type": "string",
+                      "example": "2024-06-12"
+                    },
+                    "time": {
+                      "type": "string",
+                      "example": "18:00:00"
+                    },
+                    "screenName": {
+                      "type": "string",
+                      "example": "Screen 2"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "seatWithHold": {
+          "type": "object",
+          "properties": {
+            "rowName": {
+              "type": "string"
+            },
+            "colId": {
+              "type": "integer"
+            },
+            "onHold": {
+              "type": "string"
+            }
+          },
+          "example": {
+            "rowName": "A",
+            "colId": 1,
+            "onHold": "2024-07-04T14:50:51+07:00"
+          }
+        },
+        "seatWithStatus": {
+          "type": "object",
+          "properties": {
+            "rowName": {
+              "type": "string"
+            },
+            "colId": {
+              "type": "integer"
+            },
+            "status": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "example": {
+            "rowName": "A",
+            "colId": 1,
+            "status": true
+          }
+        },
+        "seatMatrix": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "rowName": {
+                    "type": "string",
+                    "example": "A"
+                  },
+                  "rowSeat": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "price": {
+                          "type": "integer",
+                          "example": 100000
+                        },
+                        "isSeat": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "A01"
+                        },
+                        "isOff": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "isSold": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "onHold": {
+                          "type": "string",
+                          "example": "2024-07-04T14:50:51+07:00"
+                        },
+                        "colId": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "seatId": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ticketWithPaymentStatus": {
+          "required": ["isPaid"],
+          "allOf": [
+            {
+              "required": ["id"],
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                }
+              },
+              "example": {
+                "id": 1
+              }
+            },
+            {
+              "$ref": "#/components/schemas/ticketWithoutId"
+            },
+            {
+              "required": ["isPaid"],
+              "type": "object",
+              "properties": {
+                "isPaid": {
+                  "type": "boolean"
+                }
+              },
+              "example": {
+                "isPaid": true
+              }
+            }
+          ]
+        },
+        "filmDetail": {
+          "type": "object",
+          "required": ["dateList", "provinceList"],
+          "properties": {
+            "info": {
+              "$ref": "#/components/schemas/film"
+            },
+            "dateList": {
+              "type": "array",
+              "description": "List of date that film have show",
+              "items": {
+                "type": "string"
+              },
+              "example": ["2024-07-01", "2024-07-02"]
+            },
+            "provinceList": {
+              "type": "array",
+              "description": "List of province/city have the film",
+              "items": {
+                "$ref": "#/components/schemas/provinceCity"
+              },
+              "example": [
+                {
+                  "id": 1,
+                  "name": "Da Nang"
+                },
+                {
+                  "id": 2,
+                  "name": "Ha Noi"
+                }
+              ]
+            }
+          }
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "boolean"
+            }
+          },
+          "example": {
+            "status": true
+          }
+        },
+        "showOfCinema": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cinema"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "screens": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/screenOfCinema"
+                  }
+                }
+              }
+            }
+          ],
+          "example": {
+            "id": 1,
+            "name": "CGV",
+            "address": "123 Nguyen Ba Hoc",
+            "provinceCityId": 1,
+            "screens": [
+              {
+                "id": 1,
+                "name": "Screen 1",
+                "status": true,
+                "shows": [
+                  {
+                    "id": 1,
+                    "filmId": 1,
+                    "timeStart": "18:00:00",
+                    "price": 1000000,
+                    "status": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "screenOfCinema": {
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Screen 1"
+                },
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "example": {
+                "id": 1,
+                "name": "Screen 1",
+                "status": true
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "shows": {
+                  "$ref": "#/components/schemas/listShow"
+                }
+              }
+            }
+          ]
+        },
+        "listShow": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "filmId": {
+                "type": "integer"
+              },
+              "timeStart": {
+                "type": "string"
+              },
+              "price": {
+                "type": "integer"
+              },
+              "status": {
+                "type": "boolean"
+              }
+            },
+            "example": {
+                "id": 1,
+                "filmId": 1,
+                "timeStart": "18:00:00",
+                "price": 1000000,
+                "status": true
+            }
+          }
+        },
+        "listCinemaWithScreen": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cinemaWithProvinceCity"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "screens": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "size": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "cinemaWithScreen": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cinemaWithProvinceCity"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "screens": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "size": {
+                        "type": "string"
+                      },
+                      "seatMatrix": {
+                        "$ref": "#/components/schemas/seatMatrix"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "showByScreen": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/screen"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "screen": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "shows": {
+                      "$ref": "#/components/schemas/listShow"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "showForUser": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/show"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "filmName": {
+                  "type": "string",
+                  "example": "Bo gia"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "seatMatrix": {
+                  "$ref": "#/components/schemas/seatMatrix"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "responses": {
+        "FilmDetailResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["dateList", "provinceList"],
+                "properties": {
+                  "info": {
+                    "$ref": "#/components/schemas/film"
+                  },
+                  "dateList": {
+                    "type": "array",
+                    "description": "List of date that film have show",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["2024-07-01", "2024-07-02"]
+                  },
+                  "provinceList": {
+                    "type": "array",
+                    "description": "List of province/city have the film",
+                    "items": {
+                      "$ref": "#/components/schemas/provinceCity"
+                    },
+                    "example": [
+                      {
+                        "id": 1,
+                        "name": "Da Nang"
+                      },
+                      {
+                        "id": 2,
+                        "name": "Ha Noi"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ListFilmResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/filmDto"
+                    }
+                  },
+                  {
+                    "$ref": "#/components/schemas/film"
+                  },
+                  {
+                    "$ref": "#/components/schemas/filmDetail"
+                  }
+                ]
+              },
+              "examples": {
+                "List all film": {
+                  "value": [{
+                    "id": 1,
+                    "filmName": "Absolute cinema",
+                    "duration": 300,
+                    "dateStart": "2024-06-25",
+                    "dateEnd": "2024-06-26",
+                    "director": "Absolute director",
+                    "actor": "Absolute actors",
+                    "subtitle": true,
+                    "dubbing": false,
+                    "language": "English",
+                    "poster": "./poster.jpeg",
+                    "trailer": "./trailer.mp4",
+                    "format": "2D",
+                    "ageRate": "PG",
+                    "category": "Animated"
+                  }]
+                },
+                "List film by cinema Id": {
+                  "value": [
+                    {
+                      "info": {
+                        "id": 1,
+                        "poster": "./poster.img",
+                        "ageRating": "PG-13",
+                        "format": "2D",
+                        "title": "Movie Name",
+                        "trailerLink": "./trailer.mp4",
+                        "category": "Drama",
+                        "nation": "Vietnam",
+                        "subtitle": "VN",
+                        "duration": 127
+                      },
+                      "showTimes": [
+                        {
+                          "dateStart": "2024-07-01",
+                          "shows": [
+                            {
+                              "id": 1,
+                              "timeStart": "18:00:00",
+                              "screenId": 1
+                            }
+                          ]
+                        },
+                        {
+                          "dateStart": "2024-07-02",
+                          "shows": [
+                            {
+                              "id": 2,
+                              "timeStart": "19:00:00",
+                              "screenId": 2
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "List film by id": {
+                  "value": {
+                    "info": {
+                      "id": 1,
+                      "filmName": "Absolute cinema",
+                      "duration": 300,
+                      "dateStart": "2024-06-25",
+                      "dateEnd": "2024-06-26",
+                      "director": "Absolute director",
+                      "actor": "Absolute actors",
+                      "subtitle": true,
+                      "dubbing": false,
+                      "language": "English",
+                      "poster": "./poster.jpeg",
+                      "trailer": "./trailer.mp4",
+                      "format": "2D",
+                      "ageRate": "PG",
+                      "category": "Animated"
+                    },
+                    "dateList": [
+                      "2024-07-01",
+                      "2024-07-02"
+                    ],
+                    "provinceList": [
+                      {
+                        "id": 1,
+                        "name": "Da Nang"
+                      },
+                      {
+                        "id": 2,
+                        "name": "Ha Noi"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "CinemaResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/cinemaWithProvinceCity"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/cinemaWithProvinceCity"
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "List cinema": {
+                  "value": [
+                    {
+                      "name": "CGV",
+                      "address": "123 Nguyen Ba Hoc",
+                      "provinceCity": {
+                        "id": 1,
+                        "name": "Da Nang"
+                      }
+                    }
+                  ]
+                },
+                "Cinema": {
+                  "value": {
+                    "name": "CGV",
+                    "address": "123 Nguyen Ba Hoc",
+                    "provinceCity": {
+                      "id": 1,
+                      "name": "Da Nang"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ListCinemaResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/cinemaWithProvinceCity"
+                    }
+                  },
+                  {
+                    "$ref": "#/components/schemas/cinema"
+                  }
+                ]
+              },
+              "examples": {
+                "List cinema": {
+                  "value": [
+                    {
+                      "name": "CGV",
+                      "address": "123 Nguyen Ba Hoc",
+                      "provinceCity": "Da Nang"
+                    }
+                  ]
+                },
+                "Cinema info": {
+                  "value": {
+                    "id": 1,
+                    "name": "CGV",
+                    "address": "123 Nguyen Ba Hoc",
+                    "provinceCityId": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ScreenResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/screen"
+              }
+            }
+          }
+        },
+        "ListScreenResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/screen"
+                }
+              }
+            }
+          }
+        },
+        "ShowResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/showForUser"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/showForUser"
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Show": {
+                  "value": {
+                    "id": 1,
+                    "filmId": 1,
+                    "dateStart": "2024-08-01",
+                    "timeStart": "18:00:00",
+                    "price": 100000,
+                    "filmName": "Bo gia",
+                    "seatMatrix": {
+                      "data": [
+                        {
+                          "rowName": "A",
+                          "rowSeat": [
+                            {
+                              "price": 100000,
+                              "isSeat": true,
+                              "name": "A01",
+                              "isOff": false,
+                              "isSold": false,
+                              "onHold": "2024-07-04T14:50:51+07:00",
+                              "colId": 1,
+                              "seatId": 1
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "List of Show": {
+                  "value": [
+                    {
+                      "id": 1,
+                      "filmId": 1,
+                      "dateStart": "2024-08-01",
+                      "timeStart": "18:00:00",
+                      "price": 100000,
+                      "filmName": "Bo gia",
+                      "seatMatrix": {
+                        "data": [
+                          {
+                            "rowName": "A",
+                            "rowSeat": [
+                              {
+                                "price": 100000,
+                                "isSeat": true,
+                                "name": "A01",
+                                "isOff": false,
+                                "isSold": false,
+                                "onHold": "2024-07-04T14:50:51+07:00",
+                                "colId": 1,
+                                "seatId": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "ListShowResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/show"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "filmName": {
+                          "type": "string",
+                          "example": "Bo gia"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "seatMatrix": {
+                          "$ref": "#/components/schemas/seatMatrix"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "404-NotFound": {
+          "description": "Not Found",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/error"
+              },
+              "example": {
+                "status": 404,
+                "message": "Not Found"
+              }
+            }
+          }
+        },
+        "400-BadRequest": {
+          "description": "Bad Request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/error"
+              },
+              "example": {
+                "status": 400,
+                "message": "Bad Request"
+              }
+            }
+          }
+        },
+        "500-ServerError": {
+          "description": "Internal Server Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/error"
+              },
+              "example": {
+                "status": 500,
+                "message": "Internal Server Error"
+              }
+            }
+          }
+        },
+        "ProvinceResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/provinceCityWithCinema"
+                }
+              }
+            }
+          }
+        },
+        "TicketResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ticketWithPaymentStatus"
+              }
+            }
+          }
+        },
+        "ListTicketResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ticketWithPaymentStatus"
+                    }
+                  },
+                  {
+                    "$ref": "#/components/schemas/ticket"
+                  }
+                ]
+              },
+              "examples": {
+                "List ticket": {
+                  "value": [
+                    {
+                      "id": 1,
+                      "userId": 1,
+                      "showId": 1,
+                      "seatId": 1,
+                      "seatName": "A1",
+                      "voucherId": 1,
+                      "clientName": "Nobody",
+                      "email": "clientEmail@gmail.com",
+                      "phone": "0123456789",
+                      "price": 100000,
+                      "isPaid": true
+                    }
+                  ]
+                },
+                "Ticket": {
+                  "value": {
+                    "id": 1,
+                    "userId": 1,
+                    "showId": 1,
+                    "seatId": 1,
+                    "seatName": "A1",
+                    "voucherId": 1,
+                    "clientName": "Nobody",
+                    "email": "clientEmail@gmail.com",
+                    "phone": "0123456789",
+                    "price": 100000,
+                    "isPaid": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ListVoucherResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/voucher"
+                }
+              }
+            }
+          }
+        },
+        "FilmResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/filmDto"
+              }
+            }
+          }
+        },
+        "FilmAdminRespont": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/film"
+              }
+            }
+          }
+        },
+        "ListFilmAdminRespont": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/film"
+                    } 
+                  },
+                  {
+                    "$ref": "#/components/schemas/film"
+                  }
+                ]
+              },
+              "examples": {
+                "List film": {
+                  "value": [
+                    {
+                      "id": 1,
+                      "filmName": "Absolute cinema",
+                      "duration": 300,
+                      "dateStart": "2024-06-25",
+                      "dateEnd": "2024-06-26",
+                      "director": "Absolute director",
+                      "actor": "Absolute actors",
+                      "subtitle": true,
+                      "dubbing": false,
+                      "language": "English",
+                      "poster": "./poster.jpeg",
+                      "trailer": "./trailer.mp4",
+                      "format": "2D",
+                      "ageRate": "PG",
+                      "category": "Animated"
+                    }
+                  ]
+                },
+                "Film": {
+                  "value": {
+                    "id": 1,
+                    "filmName": "Absolute cinema",
+                    "duration": 300,
+                    "dateStart": "2024-06-25",
+                    "dateEnd": "2024-06-26",
+                    "director": "Absolute director",
+                    "actor": "Absolute actors",
+                    "subtitle": true,
+                    "dubbing": false,
+                    "language": "English",
+                    "poster": "./poster.jpeg",
+                    "trailer": "./trailer.mp4",
+                    "format": "2D",
+                    "ageRate": "PG",
+                    "category": "Animated"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ShowFilmDetailResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/showFilmDetailDto"
+              }
+            }
+          }
+        },
+        "ProvinceAdminResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/provinceCity"
+                }
+              }
+            }
+          }
+        },
+        "LoginSuccess": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "example": "fl38r3j4h38deioj"
+              }
+            }
+          }
+        },
+        "401-Unauthorized": {
+          "description": "Unauthorized",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/error"
+              },
+              "example": {
+                "status": 401,
+                "message": "Unauthorized"
+              }
+            }
+          }
+        },
+        "422-Unprocessable": {
+          "description": "Unprocessable Content",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/error"
+              },
+              "example": {
+                "status": 422,
+                "message": "Unprocessable Content"
+              }
+            }
+          }
+        },
+        "ShowOfCinemaResponse": {
+          "description": "OK",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/show"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/show"
+                    }
+                  },
+                  {
+
+                    "$ref": "#/components/schemas/showOfCinema"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/showByScreen"
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Show": {
+                  "value": {
+                    "id": 1,
+                    "filmId": 1,
+                    "screenId": 1,
+                    "dateStart": "2024-06-25",
+                    "timeStart": "12:00:00",
+                    "price": 300
+                  }
+                },
+                "List Show": {
+                  "value": [
+                    {
+                      "id": 1,
+                      "filmId": 1,
+                      "screenId": 1,
+                      "dateStart": "2024-06-25",
+                      "timeStart": "12:00:00",
+                      "price": 300
+                    }
+                  ]
+                },
+                "Show group by Cinema": {
+                  "value": {
+                    "id": 1,
+                    "name": "CGV",
+                    "address": "123 Nguyen Ba Hoc",
+                    "provinceCityId": 1,
+                    "screens": [
+                      {
+                        "id": 1,
+                        "name": "Screen 1",
+                        "status": true,
+                        "shows": [
+                          {
+                            "id": 1,
+                            "filmId": 1,
+                            "timeStart": "18:00:00",
+                            "price": 1000000,
+                            "status": true
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "Show with screen information": {
+                  
+                }
+              }
+            }
+          }
+        },
+        "CinemaAdminResponse": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/cinemaWithProvinceCity"
+                    }
+                  },
+                  {
+                    "$ref": "#/components/schemas/cinemaWithScreen"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/listCinemaWithScreen"
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Cinema": {
+                  "value": {
+                    "name": "CGV",
+                    "address": "123 Nguyen Ba Hoc",
+                    "provinceCity": {
+                      "id": 1,
+                      "name": "Da Nang"
+                    },
+                    "screens": [
+                      {
+                        "id": 1,
+                        "name": "01",
+                        "cinemaId": 1,
+                        "size": "L",
+                        "seatMatrix": {
+                          "data": [
+                            {
+                              "rowName": "A",
+                              "rowSeat": [
+                                {
+                                  "price": 100000,
+                                  "isSeat": true,
+                                  "name": "A01",
+                                  "isOff": false,
+                                  "isSold": false,
+                                  "onHold": "2024-07-04T14:50:51+07:00",
+                                  "colId": 1,
+                                  "seatId": 1
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "List cinema": {
+                  "value": [
+                    {
+                      "name": "CGV",
+                      "address": "123 Nguyen Ba Hoc",
+                      "provinceCity": {
+                        "id": 1,
+                        "name": "Da Nang"
+                      },
+                      "screens": [
+                        {
+                          "id": 1,
+                          "name": "01",
+                          "cinemaId": 1,
+                          "size": "L"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "Cinema by province id": {
+                  "value": [
+                    {
+                      "name": "CGV",
+                      "address": "123 Nguyen Ba Hoc",
+                      "provinceCity": {
+                        "id": 1,
+                        "name": "Da Nang"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": {
+        "CinemaPath": {
+          "name": "cinemaId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "Cinema's id",
+          "example": 10,
+          "style": "simple",
+          "explode": false
+        },
+        "ScreenPath": {
+          "name": "screenId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "Screen's id",
+          "example": 10,
+          "style": "simple",
+          "explode": false
+        },
+        "ShowPath": {
+          "name": "showId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "Show's id",
+          "example": 10,
+          "style": "simple",
+          "explode": false
+        },
+        "FilmQuery": {
+          "name": "filmId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of film\n\n?filmId=10",
+          "example": 10,
+          "style": "form",
+          "explode": false
+        },
+        "FilmQueryReq": {
+          "name": "filmId",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of film\n\n?filmId=10",
+          "example": 10,
+          "style": "form",
+          "explode": false
+        },
+        "ScreenQuery": {
+          "name": "screenId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of screen\n\n?screenId=10",
+          "example": 10,
+          "style": "form",
+          "explode": false
+        },
+        "DateTime": {
+          "name": "dateTime",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string"
+          },
+          "description": "The date time\n\n?dateTime=2024-01-01 00:00:00",
+          "example": "2024-01-01 00:00:00",
+          "style": "form"
+        },
+        "Date": {
+          "name": "date",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string"
+          },
+          "description": "The date\n\n?date=\"2024-07-02\"",
+          "example": "2024-07-02"
+        },
+        "DateReq": {
+          "name": "date",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "The date\n\n?date=\"2024-07-02\"",
+          "example": "2024-07-02"
+        },
+        "CinemaQuery": {
+          "name": "cinemaId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of cinema\n\n?cinemaId=10",
+          "example": 10
+        },
+        "FilmPath": {
+          "name": "filmId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of film"
+        },
+        "TicketPath": {
+          "name": "ticketId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of ticket"
+        },
+        "VoucherPath": {
+          "name": "voucherId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of voucher"
+        },
+        "ProvinceQuery": {
+          "name": "provinceCityId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of province city\n\n?provinceId=1",
+          "example": 1
+        },
+        "ProvinceQueryReq": {
+          "name": "provinceCityId",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "The id of province city\n\n?provinceId=1",
+          "example": 1
+        },
+        "UserIdQuery": {
+          "name": "userId",
+          "in": "query",
+          "required": false,
+          "description": "The id of user\n\n?userId=1",
+          "schema": {
+            "type": "integer"
+          },
+          "example": 1
+        },
+        "id": {
+          "name": "id",
+          "in": "query",
+          "description": "Id query",
+          "schema": {
+            "type": "integer"
+          },
+          "example": 1
+        },
+        "ProvincePath": {
+          "name": "provinceCityId",
+          "in": "path",
+          "required": true,
+          "description": "The id of province/city",
+          "schema": {
+            "type": "integer"
+          },
+          "example": 1
+        },
+        "showQuery": {
+          "name": "showId",
+          "in": "query",
+          "required": false,
+          "description": "",
+          "schema": {
+            "type": "integer"
+          },
+          "example": 1
+        },
+        "DateStart": {
+          "name": "dateStart",
+          "in": "query",
+          "required": false,
+          "description": "",
+          "schema": {
+            "type": "string"
+          },
+          "example": "2024-07-13"
+        },
+        "DateEnd": {
+          "name": "dateEnd",
+          "in": "query",
+          "required": false,
+          "description": "",
+          "schema": {
+            "type": "string"
+          },
+          "example": "2025-07-14"
+        }
+      },
+      "requestBodies": {
+        "cinemaWithoutIdBody": {
+          "description": "Cinema information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cinemaWithoutId"
+              }
+            }
+          }
+        },
+        "cinemaBody": {
+          "description": "Cinema information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cinema"
+              }
+            }
+          }
+        },
+        "screenBody": {
+          "description": "Screen information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/screen"
+              }
+            }
+          }
+        },
+        "screenWithoutIdBody": {
+          "description": "Screen information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/screenWithoutId"
+              }
+            }
+          }
+        },
+        "showBody": {
+          "description": "Show information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/show"
+              }
+            }
+          }
+        },
+        "showWithoutIdBody": {
+          "description": "Show information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/showWithoutId"
+              }
+            }
+          }
+        },
+        "filmBody": {
+          "description": "Film information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/film"
+              }
+            }
+          }
+        },
+        "filmWithoutIdBody": {
+          "description": "Film information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/filmWithoutId"
+              }
+            }
+          }
+        },
+        "ticketWithoutIdBody": {
+          "description": "Ticket information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ticketWithoutId"
+              }
+            }
+          }
+        },
+        "ticketBody": {
+          "description": "Ticket information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ticket"
+              }
+            }
+          }
+        },
+        "provinceBody": {
+          "description": "Province/City information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/provinceCity"
+              }
+            }
+          }
+        },
+        "provinceWithoutIdBody": {
+          "description": "Province/City information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Da Nang"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "loginBody": {
+          "description": "Login information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userName": {
+                    "type": "string",
+                    "example": "Admin"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "32NguyenBaHoc"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ticketPaymentBody": {
+          "description": "The payment information",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ticketInfo": {
+                    "$ref": "#/components/schemas/ticketWithoutId"
+                  },
+                  "paymentInfo": {
+                    "required": [
+                      "amount", "description", "remainTime", "returnUrl"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "type": "integer",
+                        "example": 100000
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Pay for ticket 1"
+                      },
+                      "remainTime": {
+                        "type": "integer",
+                        "description": "The remail time in minute",
+                        "example": 300
+                      },
+                      "returnUrl": {
+                        "type": "string",
+                        "example": "/ticket/success"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "seatWithHoldBody": {
+          "description": "Information to update holding time for seats",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "showId": {
+                    "type": "integer",
+                    "example": 1
+                  }, 
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/seatWithHold"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "seatWithStatusBody": {
+          "description": "Information to update holding time for seats",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "showId": {
+                    "type": "integer",
+                    "example": 1
+                  }, 
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/seatWithStatus"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "paths": {
+      "/cinema": {
+        "get": {
+          "tags": [
+            "Cinema"
+          ],
+          "description": "Get cinema information from database",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/id"
+            },
+            {
+              "name": "provinceCityId",
+              "in": "query",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false,
+              "description": "Province/city id to get list cinema by province/city\n\n?provinceCityId=10",
+              "example": "10",
+              "style": "form",
+              "explode": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/CinemaResponse"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/screen": {
+        "get": {
+          "description": "Get list screens from database",
+          "tags": ["Screen"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/id"
+            },
+            {
+              "$ref": "#/components/parameters/CinemaQuery"
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ListScreenResponse"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/screen/{screenId}": {
+        "get": {
+          "description": "Get screen information by screen id",
+          "tags": ["Screen"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/ScreenPath"
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ScreenResponse"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/show": {
+        "get": {
+          "description": "Get show information",
+          "tags": ["Show"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/id"
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ShowResponse"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/film": {
+        "get": {
+          "description": "Get list of film",
+          "tags": ["Film"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/CinemaQuery"
+            },
+            {
+              "$ref": "#/components/parameters/id"
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ListFilmResponse"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/provinceCity": {
+        "get": {
+          "description": "Get list province with list cinema",
+          "tags": ["Province/City"],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ProvinceResponse"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/film/upComing": {
+        "get": {
+          "description": "Get list films are up coming",
+          "tags": ["Film"],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ListFilmResponse"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/film/onCasting": {
+        "get": {
+          "description": "Get list films are on casting",
+          "tags": ["Film"],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ListFilmResponse"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/ticket": {
+        "post": {
+          "description": "Add a ticket into database",
+          "tags": ["Ticket"],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/ticketWithoutIdBody"
+          },
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/show/filmDetail": {
+        "get": {
+          "description": "Get list of cinemas include list show of this film",
+          "tags": ["Show"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/FilmQueryReq"
+            }, 
+            {
+              "$ref": "#/components/parameters/DateReq"
+            },
+            {
+              "$ref": "#/components/parameters/ProvinceQueryReq"
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ShowFilmDetailResponse"
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/film": {
+        "get": {
+          "description": "Get film as admin",
+          "tags": ["Admin", "Film"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/id"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ListFilmAdminRespont"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "post": {
+          "description": "Add film to database",
+          "tags": ["Film"],
+          "parameters": [],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/filmWithoutIdBody"
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "put": {
+          "description": "Update film information",
+          "tags": ["Film"],
+          "parameters": [],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/filmBody"
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/cinema": {
+        "post": {
+          "description": "Add cinema into database",
+          "tags": ["Cinema", "Admin"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/cinemaWithoutIdBody"
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            }, 
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "put": {
+          "description": "Update cinema information ",
+          "tags": ["Cinema", "Admin"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/cinemaBody"
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "get": {
+          "description": "Get cinema information for admin",
+          "tags": ["Cinema", "Admin"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/id"
+            },
+            {
+              "$ref": "#/components/parameters/ProvinceQuery"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/CinemaAdminResponse"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/cinema/{cinemaId}": {
+        "delete": {
+          "description": "Delete cinema from database",
+          "tags": ["Cinema", "Admin"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/CinemaPath"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        } 
+      },
+      "/admin/provinceCity": {
+        "get": {
+          "description": "Get list province as admin",
+          "tags": ["Admin", "Province/City"],
+          "parameters": [],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ProvinceAdminResponse"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "post": {
+          "description": "Add new province/city",
+          "tags": ["Admin", "Province/City"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/provinceWithoutIdBody"
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "put": {
+          "description": "Update province/city information",
+          "tags": ["Admin", "Province/City"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/provinceBody"
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/ticket/payment": {
+        "post": {
+          "description": "Pay the ticket",
+          "tags": ["Ticket"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/ticketPaymentBody"
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "vnp_Url": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "vnp_Url":"https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
+                  }
+                }
+              }
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/ticket/successPayment/{ticketId}": {
+        "put": {
+          "description": "Change attribute isPay of ticket",
+          "tags": ["Ticket"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/TicketPath"
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/TicketResponse"
+            },
+            "404": { 
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/seatMatrix/setOnHold": {
+        "put": {
+          "description": "Set holding time of seats",
+          "tags": ["Seat Matrix"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/seatWithHoldBody"
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            }, 
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/seatMatrix/setAvailabiliby": {
+        "put": {
+          "description": "Set seats is on or off",
+          "tags": ["Seat Matrix"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/seatWithStatusBody"
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            }, 
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/seatMatrix/setIsSold": {
+        "put": {
+          "description": "Set seats is sold or not",
+          "tags": ["Seat Matrix"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/seatWithStatusBody"
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            }, 
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/show": {
+        "post": {
+          "description": "Add new show into database",
+          "tags": ["Show", "Admin"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/showWithoutIdBody"
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "put": {
+          "description": "Update show information",
+          "tags": ["Show", "Admin"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/showBody"
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            }, 
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "get": {
+          "description": "Get show information for admin",
+          "tags": ["Admin", "Show"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/showQuery"
+            },
+            {
+              "$ref": "#/components/parameters/CinemaQuery"
+            },
+            {
+              "$ref": "#/components/parameters/FilmQuery"
+            },
+            {
+              "$ref": "#/components/parameters/ScreenQuery"
+            },
+            {
+              "$ref": "#/components/parameters/DateStart"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ShowOfCinemaResponse"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/screen": {
+        "post": {
+          "description": "Add cinema into database",
+          "tags": ["Screen", "Admin"],
+          "parameters": [],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "cinemaId": {
+                      "type": "integer"
+                    },
+                    "size": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "name": "01",
+                  "cinemaId": 1,
+                  "size": "L"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        },
+        "put": {
+          "description": "Update screen information",
+          "tags": ["Screen", "Admin"],
+          "parameters": [],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "cinemaId": {
+                      "type": "integer"
+                    },
+                    "size": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "name": "01",
+                  "cinemaId": 1,
+                  "size": "L"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/user/login": {
+        "post": {
+          "description": "Login for user",
+          "tags": ["User"],
+          "parameters": [],
+          "requestBody": {
+            "$ref": "#/components/requestBodies/loginBody"
+          },
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/LoginSuccess"
+            },
+            "400": {
+              "$ref": "#/components/responses/400-BadRequest"
+            },
+            "422": {
+              "$ref": "#/components/responses/422-Unprocessable"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/film/{filmId}": {
+        "delete": {
+          "description": "Delete film",
+          "tags": ["Film", "Admin"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/FilmPath"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/provinceCity/{provinceCityId}": {
+        "delete": {
+          "description": "Delete province/city",
+          "tags": ["Admin", "Province/City"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/ProvincePath"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/screen/{screenId}": {
+        "delete": {
+          "description": "Delete screen",
+          "tags": ["Admin", "Screen"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/ScreenPath"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/show/{showId}": {
+        "delete": {
+          "description": "Delete show",
+          "tags": ["Show", "Admin"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/ShowPath"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      },
+      "/admin/ticket": {
+        "get": {
+          "description": "Get list ticket from database",
+          "tags": ["Ticket"],
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/UserIdQuery"
+            },
+            {
+              "$ref": "#/components/parameters/DateStart"
+            },
+            {
+              "$ref": "#/components/parameters/DateEnd"
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "$ref": "#/components/responses/ListTicketResponse"
+            },
+            "401": {
+              "$ref": "#/components/responses/401-Unauthorized"
+            },
+            "404": {
+              "$ref": "#/components/responses/404-NotFound"
+            }, 
+            "500": {
+              "$ref": "#/components/responses/500-ServerError"
+            }
+          }
+        }
+      }
+    }
+}
