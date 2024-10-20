@@ -1,0 +1,3 @@
+npx eslint .
+npx prettier . --write
+//npm test
